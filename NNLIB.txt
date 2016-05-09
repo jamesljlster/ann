@@ -1,0 +1,1 @@
+./Debug/main.c.o ./Debug/NN.c.o ./Debug/Alloc2DArray.c.o ./Debug/NNLIB_TrainProc.c.o ./Debug/NNTraining.c.o ./Debug/NNLIB_MathCalc.c.o ./Debug/NNLIB_IibFunc.c.o ./Debug/NNLIB_IO.c.o ./Debug/NNLIB_LearnFunc.c.o ./Debug/ActiveFunc.c.o ./Debug/MathProc.c.o   
