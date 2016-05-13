@@ -45,7 +45,7 @@ enum CMD_ACTION
     CMD_UNKNOWN
 };
 
-#define DEBUG
+//#define DEBUG
 
 int CMD_ReadDataSet(CMD_FUNC_ARGLIST);
 int CMD_CreateNN(CMD_FUNC_ARGLIST);
@@ -58,7 +58,7 @@ int CMD_Exit(CMD_FUNC_ARGLIST);
 int CMD_ShowCMDL(CMD_FUNC_ARGLIST);
 
 int SelectCMDCase(const char* inputBuf, const char* cmdStr[]);
-int GetFilePath(char* filePath, const char* comBuf);
+int GetFilePath(char* pathBuf, const char* comBuf, const char* inputMsg);
 
 int NNLIB_Prediction(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput);
 
@@ -108,18 +108,6 @@ int main(int argc, char* argv[])
         scanf(" %512[^\n]s]", inputBuf);
         //fflush(stdin);
         
-//        i = 0;
-//        strcpy(comBuf, inputBuf);
-//        while(comBuf[i] != ':' && comBuf[i] != '\0')
-//        {
-//            comBuf[i] = toupper(comBuf[i]);
-//            i++;
-//        }
-//        
-//        #ifdef DEBUG
-//        printf("Processed Command Line: %s\n", comBuf);
-//        #endif
-        
         // Select Case
         iResult = SelectCMDCase(inputBuf, cmdStr);
         if(iResult == CMD_UNKNOWN)
@@ -136,49 +124,6 @@ int main(int argc, char* argv[])
             strcpy(comBuf, inputBuf);
             cmdFunc[iResult](&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
         }
-        
-//        if(!strncmp(CMD_EXIT_STR, comBuf, strlen(CMD_EXIT_STR)))
-//        {
-//            exitProgram = 1;
-//        }
-//        else if(!strncmp(CMD_READ_DATASET_STR, comBuf, strlen(CMD_READ_DATASET_STR)))
-//        {
-//            CMD_ReadDataSet(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else if(!strncmp(CMD_CREATE_NN_STR, comBuf, strlen(CMD_CREATE_NN_STR)))
-//        {
-//            CMD_CreateNN(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else if(!strncmp(CMD_IMPORT_STR, comBuf, strlen(CMD_IMPORT_STR)))
-//        {
-//            CMD_Import(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else if(!strncmp(CMD_EXPORT_STR, comBuf, strlen(CMD_EXPORT_STR)))
-//        {
-//            CMD_Export(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else if(!strncmp(CMD_S_LEARNING_STR, comBuf, strlen(CMD_S_LEARNING_STR)))
-//        {
-//            CMD_SLearning(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else if(!strncmp(CMD_PREDICTION_STR, comBuf, strlen(CMD_PREDICTION_STR)))
-//        {
-//            CMD_Prediction(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else if(!strncmp(CMD_MANUAL_TEST_STR, comBuf, strlen(CMD_MANUAL_TEST_STR)))
-//        {
-//            CMD_ManualTest(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else if(comBuf[0] == '?')
-//        {
-//            CMD_ShowCMDL(&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
-//        }
-//        else
-//        {
-//            printf("Unknown Command Line: %s\n", inputBuf);
-//            continue;
-//        }
-
     }
     
     if(nnCreateState == 1)
@@ -339,6 +284,7 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
 {
     int i, j;
     int correctCount;
+    int saveState;
     
     double calcTmp;
     
@@ -368,7 +314,7 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
     }
     
     // Get File Path
-    GetFilePath(pathBuf, comBuf);
+    saveState = GetFilePath(pathBuf, comBuf, NULL);
     
     // Memory Allocation
     nnOutput = (double**)Alloc2DArray(traDataPtr->dataAmount, nStructPtr->outputNodeCount, sizeof(double));
@@ -410,12 +356,15 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
     printf("Prediction Success Rate: %5.2lf %%\n", calcTmp);
     
     // Save Info to File
-    tmpFile = fopen(pathBuf, "w");
-    if(tmpFile != NULL)
+    if(saveState == 0)
     {
-        fprintf(tmpFile, "Prediction Result: %lf", calcTmp);
-        
-        fclose(tmpFile);
+        tmpFile = fopen(pathBuf, "w");
+        if(tmpFile != NULL)
+        {
+            fprintf(tmpFile, "Prediction Result: %lf", calcTmp);
+            
+            fclose(tmpFile);
+        }
     }
     
     // Cleanup
@@ -433,8 +382,10 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     int csvLineIndex;
     int iterCount;
     int procTotal;
-    int dataPerAdjust;
+    int dataPerAdjust = -1;
     int stopLearning = 0;
+    
+    char pathBuf[COM_BUFFER_LEN] = {0};
     
     double learningRate;
     double calcTmp;
@@ -468,21 +419,43 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
         return -1;
     }
     
+    // Get Buffer Info
+    sscanf(comBuf, "%*[^-] - %d - %d - %lf : %*s", &dataPerAdjust, &iterCount, &learningRate);
+    
     // Determine Data Amounts per Once Adjust
-    printf("Total %d data, assign Data per Adjusting: ", traDataPtr->dataAmount);
-    scanf(" %d", &dataPerAdjust);
-    //fflush(stdin);
+    if(dataPerAdjust <= 0)
+    {
+        printf("Total %d data, assign Data per Adjusting: ", traDataPtr->dataAmount);
+        scanf(" %d", &dataPerAdjust);
+        //fflush(stdin);
+    }
     
     // Assign Iteration Count
-    printf("Assign Iteration Count: ");
-    scanf(" %d", &iterCount);
-    //fflush(stdin);
+    if(iterCount <= 0)
+    {
+        printf("Assign Iteration Count: ");
+        scanf(" %d", &iterCount);
+        //fflush(stdin);
+    }
     
     // Assign Learning Rate
-    printf("Assign Learning Rate: ");
-    scanf(" %lf", &learningRate);
-    //fflush(stdin);
+    if(learningRate <= 0)
+    {
+        printf("Assign Learning Rate: ");
+        scanf(" %lf", &learningRate);
+        //fflush(stdin);
+    }
     nStructPtr->learningRate = learningRate;
+    
+    // Get File Path
+    GetFilePath(pathBuf, comBuf, "Error Log Path: ");
+    
+    #ifdef DEBUG
+    printf("dataPerAdjust: %d\n", dataPerAdjust);
+    printf("iterCount: %d\n", iterCount);
+    printf("learningRate: %lf\n", learningRate);
+    printf("Error Log Path: %s\n", pathBuf);
+    #endif
     
     // Total Process Data
     procTotal = iterCount * traDataPtr->dataAmount;
@@ -641,7 +614,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     
     printf("Time Cost: %lf\n", calcTmp);
     
-    tmpFile = fopen("./errOut.csv", "w");
+    tmpFile = fopen(pathBuf, "w");
     if(tmpFile != NULL && stopLearning == 0)
     {
         // Process Error Log
@@ -681,7 +654,7 @@ int CMD_Export(CMD_FUNC_ARGLIST)
     char pathBuf[COM_BUFFER_LEN] = {0};
     
     // Get File Path
-    GetFilePath(pathBuf, comBuf);
+    GetFilePath(pathBuf, comBuf, "File Path: ");
     
     #ifdef DEBUG
     printf("File Path: %s\n", pathBuf);
@@ -718,7 +691,7 @@ int CMD_Import(CMD_FUNC_ARGLIST)
     }
     
     // Get File Path
-    GetFilePath(pathBuf, comBuf);
+    GetFilePath(pathBuf, comBuf, "File Path: ");
     
     #ifdef DEBUG
     printf("File Path: %s\n", pathBuf);
@@ -820,7 +793,7 @@ int CMD_ReadDataSet(CMD_FUNC_ARGLIST)
     }
     
     // Get File Path
-    GetFilePath(pathBuf, comBuf);
+    GetFilePath(pathBuf, comBuf, "Dataset Path: ");
     
     #ifdef DEBUG
     printf("File Path: %s\n", pathBuf);
@@ -841,7 +814,7 @@ int CMD_ReadDataSet(CMD_FUNC_ARGLIST)
     return 0;
 }
 
-int GetFilePath(char* pathBuf, const char* comBuf)
+int GetFilePath(char* pathBuf, const char* comBuf, const char* inputMsg)
 {
     int i;
     
@@ -855,7 +828,12 @@ int GetFilePath(char* pathBuf, const char* comBuf)
     // Checking
     if(comBuf[i] != ':')
     {
-        printf("Input file path: ");
+        if(inputMsg == NULL)
+        {
+            return -1;
+        }
+        
+        printf("%s", inputMsg);
         scanf(" %512[^\n]s]", pathBuf);
         //fflush(stdin);
     }

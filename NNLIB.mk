@@ -5,16 +5,16 @@
 ## Debug
 ProjectName            :=NNLIB
 ConfigurationName      :=Debug
-WorkspacePath          := "D:\CodeProject\CodeLite"
-ProjectPath            := "D:\CodeProject\CodeLite\NNLIB"
+WorkspacePath          :=D:/CodeProject/CodeLite
+ProjectPath            :=D:/CodeProject/CodeLite/NNLIB
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=James
-Date                   :=07/05/2016
-CodeLitePath           :="C:\Program Files\CodeLite"
+Date                   :=13/05/2016
+CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/g++.exe
 SharedObjectLinkerName :=D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/g++.exe -shared -fPIC
 ObjectSuffix           :=.o
