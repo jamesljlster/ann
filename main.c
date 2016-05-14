@@ -11,7 +11,7 @@
 #include "Alloc2DArray.h"
 #include "MathProc.h"
 
-#define COM_BUFFER_LEN  512
+#define CMD_BUFFER_LEN  512
 
 #define CMD_EXIT_STR            "Exit"
 #define CMD_READ_DATASET_STR    "ReadDataSet"
@@ -45,7 +45,7 @@ enum CMD_ACTION
     CMD_UNKNOWN
 };
 
-//#define DEBUG
+#define DEBUG
 
 int CMD_ReadDataSet(CMD_FUNC_ARGLIST);
 int CMD_CreateNN(CMD_FUNC_ARGLIST);
@@ -59,6 +59,7 @@ int CMD_ShowCMDL(CMD_FUNC_ARGLIST);
 
 int SelectCMDCase(const char* inputBuf, const char* cmdStr[]);
 int GetFilePath(char* pathBuf, const char* comBuf, const char* inputMsg);
+int FindDash(char* buffer, int startIndex, int lenLimit);
 
 int NNLIB_Prediction(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput);
 
@@ -69,8 +70,8 @@ int main(int argc, char* argv[])
     int trCreateState = 0;
     int exitProgram = 0;
     
-    char inputBuf[COM_BUFFER_LEN] = {0};
-    char comBuf[COM_BUFFER_LEN] = {0};
+    char inputBuf[CMD_BUFFER_LEN] = {0};
+    char comBuf[CMD_BUFFER_LEN] = {0};
     
     struct NN_STRUCT nnData;
     struct TRAIN_DATA trainData;
@@ -148,8 +149,8 @@ int SelectCMDCase(const char* inputBuf, const char* cmdStr[])
     int i, j;
     int caseSelected = CMD_UNKNOWN;
     
-    char procBuffer[COM_BUFFER_LEN] = {0};
-    char comBuf[COM_BUFFER_LEN] = {0};
+    char procBuffer[CMD_BUFFER_LEN] = {0};
+    char comBuf[CMD_BUFFER_LEN] = {0};
     
     strcpy(procBuffer, inputBuf);
     i = 0;
@@ -291,7 +292,7 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
     double** nnOutput;
     double** nnTarget;
     
-    char pathBuf[COM_BUFFER_LEN] = {0};
+    char pathBuf[CMD_BUFFER_LEN] = {0};
     
     FILE* tmpFile = NULL;
     
@@ -385,7 +386,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     int dataPerAdjust = -1;
     int stopLearning = 0;
     
-    char pathBuf[COM_BUFFER_LEN] = {0};
+    char pathBuf[CMD_BUFFER_LEN] = {0};
     
     double learningRate;
     double calcTmp;
@@ -545,22 +546,22 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
         if(dataFed == dataPerAdjust)
         {
             // Find dError
-            #ifdef DEBUG
-            printf("Error: ");
-            #endif
+//            #ifdef DEBUG
+//            printf("Error: ");
+//            #endif
             
             for(j = 0; j < nStructPtr->outputNodeCount; j++)
             {
                 errAvg[j] = MLIB_FindMSE_Derivative(nnTarget[j], nnOutput[j], dataFed);
                 
-                #ifdef DEBUG
-                printf("%lf, ", errAvg[j]);
-                #endif
+//                #ifdef DEBUG
+//                printf("%lf, ", errAvg[j]);
+//                #endif
             }
             
-            #ifdef DEBUG
-            printf("\n");
-            #endif
+//            #ifdef DEBUG
+//            printf("\n");
+//            #endif
             
             // Back-Propagation
             NNLIB_BackPropagation_Gradient(nStructPtr, learningRate, errAvg);
@@ -597,7 +598,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
             errLog[csvLineIndex++] = calcTmp / (double)nStructPtr->outputNodeCount;
         }
         
-        printf("%5.2lf %% \r", (double)i / (double)procTotal * 100.0);
+        printf(" [ %5.2lf %% ] \r", (double)i / (double)procTotal * 100.0);
         
         if(kbhit())
         {
@@ -651,7 +652,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
 int CMD_Export(CMD_FUNC_ARGLIST)
 {
     int iResult;
-    char pathBuf[COM_BUFFER_LEN] = {0};
+    char pathBuf[CMD_BUFFER_LEN] = {0};
     
     // Get File Path
     GetFilePath(pathBuf, comBuf, "File Path: ");
@@ -681,7 +682,7 @@ int CMD_Export(CMD_FUNC_ARGLIST)
 int CMD_Import(CMD_FUNC_ARGLIST)
 {
     int iResult;
-    char pathBuf[COM_BUFFER_LEN] = {0};
+    char pathBuf[CMD_BUFFER_LEN] = {0};
     
     // Checking
     if(*nnStatePtr == 1)
@@ -712,9 +713,44 @@ int CMD_Import(CMD_FUNC_ARGLIST)
     return 0;
 }
 
+int FindDash(char* buffer, int startIndex, int lenLimit)
+{
+    int i;
+    
+    if(startIndex >= 0)
+    {
+        i = startIndex;
+    }
+    else
+    {
+        return -1;
+    }
+    
+    while(buffer[i] != '-')
+    {
+        if(buffer[i] == '\0')
+        {
+            return -1;
+        }
+        else
+        {
+            i++;
+        }
+        
+        if(i >= lenLimit)
+        {
+            return -1;
+        }
+    }
+    
+    return i;
+}
+
 int CMD_CreateNN(CMD_FUNC_ARGLIST)
 {
     int i, iResult;
+    int tmpConvert;
+    int bufProcIndex = 0;;
     
     // Checking
     if(*nnStatePtr == 1)
@@ -731,18 +767,72 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
     }
     else
     {
-        printf("Assign Input Nodes: ");
-        scanf(" %d", &nStructPtr->inputNodeCount);
-        //fflush(stdin);
+        // Get Input Nodes
+        tmpConvert = 0;
+        bufProcIndex = FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+        if(bufProcIndex > 0)
+        {
+            bufProcIndex++;
+            if(comBuf[bufProcIndex] != '\0')
+            {
+                tmpConvert = atoi(&comBuf[bufProcIndex]);
+            }
+        }
         
-        printf("Assign Output Nodes: ");
-        scanf(" %d", &nStructPtr->outputNodeCount);
-        //fflush(stdin);
+        if(tmpConvert > 0)
+        {
+            nStructPtr->inputNodeCount = tmpConvert;
+        }
+        else
+        {
+            printf("Assign Input Nodes: ");
+            scanf(" %d", &nStructPtr->inputNodeCount);
+        }
+        
+        // Get Output Nodes
+        tmpConvert = 0;
+        bufProcIndex = FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+        if(bufProcIndex > 0)
+        {
+            bufProcIndex++;
+            if(comBuf[bufProcIndex] != '\0')
+            {
+                tmpConvert = atoi(&comBuf[bufProcIndex]);
+            }
+        }
+        
+        if(tmpConvert > 0)
+        {
+            nStructPtr->outputNodeCount = tmpConvert;
+        }
+        else
+        {
+            printf("Assign Output Nodes: ");
+            scanf(" %d", &nStructPtr->outputNodeCount);
+        }
     }
     
-    printf("Assign Hidden Layer Amount: ");
-    scanf(" %d", &nStructPtr->layerCount);
-    //fflush(stdin);
+    // Get Hidden Layer Count
+    tmpConvert = 0;
+    bufProcIndex = FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+    if(bufProcIndex > 0)
+    {
+        bufProcIndex++;
+        if(comBuf[bufProcIndex] != '\0')
+        {
+            tmpConvert = atoi(&comBuf[bufProcIndex]);
+        }
+    }
+    
+    if(tmpConvert > 0)
+    {
+        nStructPtr->layerCount = tmpConvert;
+    }
+    else
+    {
+        printf("Assign Hidden Layer Amount: ");
+        scanf(" %d", &nStructPtr->layerCount);
+    }
     
     nStructPtr->nodesEachLayer = (int*)calloc(nStructPtr->layerCount, sizeof(int));
     if(nStructPtr->nodesEachLayer == NULL)
@@ -753,12 +843,41 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
     
     for(i = 0; i < nStructPtr->layerCount; i++)
     {
-        printf("Assign Hidden Layer %d Nodes: ", i);
-        scanf(" %d", &nStructPtr->nodesEachLayer[i]);
-        //fflush(stdin);
+        // Get Hidden Layer Count
+        tmpConvert = 0;
+        bufProcIndex = FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+        if(bufProcIndex > 0)
+        {
+            bufProcIndex++;
+            if(comBuf[bufProcIndex] != '\0')
+            {
+                tmpConvert = atoi(&comBuf[bufProcIndex]);
+            }
+        }
+        
+        if(tmpConvert > 0)
+        {
+            nStructPtr->nodesEachLayer[i] = tmpConvert;
+        }
+        else
+        {
+            printf("Assign Hidden Layer %d Nodes: ", i);
+            scanf(" %d", &nStructPtr->nodesEachLayer[i]);
+        }
     }
     
     nStructPtr->layerCount += 2;
+    
+    #ifdef DEBUG
+    printf("Input Node Count: %d\n", nStructPtr->inputNodeCount);
+    printf("Output Node Count: %d\n", nStructPtr->outputNodeCount);
+    printf("Layer Count: %d\n", nStructPtr->layerCount);
+    
+    for(i = 0; i < nStructPtr->layerCount - 2; i++)
+    {
+        printf("Hidden Layer %d Nodes: %d\n", i, nStructPtr->nodesEachLayer[i]);
+    }
+    #endif
     
     // Create Neural Networks
     iResult = NNLIB_Create(nStructPtr);
@@ -783,7 +902,7 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
 int CMD_ReadDataSet(CMD_FUNC_ARGLIST)
 {
     int iResult;
-    char pathBuf[COM_BUFFER_LEN] = {0};
+    char pathBuf[CMD_BUFFER_LEN] = {0};
     
     // Checking
     if(*traStatePtr == 1)
