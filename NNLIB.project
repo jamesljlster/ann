@@ -40,12 +40,20 @@
     <File Name="NNLIB_LearnFunc.c"/>
     <File Name="ActiveFunc.c"/>
     <File Name="MathProc.c"/>
+    <File Name="CMDL_NNIO.c"/>
+    <File Name="CMDL_StringProc.c"/>
+    <File Name="CMDL_UserInterface.c"/>
+    <File Name="CMDL_Prediction.c"/>
+    <File Name="NNLIB_Prediction.c"/>
+    <File Name="CMDL_CreateNN.c"/>
+    <File Name="CMDL_SLearning.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="header">
     <File Name="NNLIB.h"/>
     <File Name="Alloc2DArray.h"/>
     <File Name="ActiveFunc.h"/>
     <File Name="MathProc.h"/>
+    <File Name="CMDL.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

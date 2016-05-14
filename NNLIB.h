@@ -58,30 +58,38 @@ struct NN_STRUCT
     struct NN_LAYER* nLayerHandle;
 };
 
-int NNLIB_Config(struct NN_STRUCT* nStructPtr, double learningRate, int inputNodeCount, int outputNodeCount, int hiddenLayerCount, ...);
-int NNLIB_Create(struct NN_STRUCT* nStructPtr);
-int NNLIB_Delete(struct NN_STRUCT* nStructPtr);
-int NNLIB_Export(struct NN_STRUCT* nStructPtr, const char* filePath);
-int NNLIB_Import(struct NN_STRUCT* nStructPtr, const char* filePath);
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-int NNLIB_ReadTrainingData(struct TRAIN_DATA* trainDataPtr, const char* dataPath);
-int NNLIB_DeleteTrainingData(struct TRAIN_DATA* trainDataPtr);
+extern int NNLIB_Config(struct NN_STRUCT* nStructPtr, double learningRate, int inputNodeCount, int outputNodeCount, int hiddenLayerCount, ...);
+extern int NNLIB_Create(struct NN_STRUCT* nStructPtr);
+extern int NNLIB_Delete(struct NN_STRUCT* nStructPtr);
+extern int NNLIB_Export(struct NN_STRUCT* nStructPtr, const char* filePath);
+extern int NNLIB_Import(struct NN_STRUCT* nStructPtr, const char* filePath);
 
-int NNLIB_RandWeight(struct NN_STRUCT* nStructPtr);
-int NNLIB_SetActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*activeFunc)(double), ...);
-int NNLIB_SetdActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*dActiveFunc)(double), ...);
+extern int NNLIB_ReadTrainingData(struct TRAIN_DATA* trainDataPtr, const char* dataPath);
+extern int NNLIB_DeleteTrainingData(struct TRAIN_DATA* trainDataPtr);
 
-int NNLIB_ForwardComputation(struct NN_STRUCT* nStructPtr, double* input, double* outputStore);
+extern int NNLIB_RandWeight(struct NN_STRUCT* nStructPtr);
+extern int NNLIB_SetActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*activeFunc)(double), ...);
+extern int NNLIB_SetdActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*dActiveFunc)(double), ...);
 
-int NNLIB_SLearning_Gradient(struct NN_STRUCT* nStructPtr, double* input, double* desireOutput, double* fwCompOut, double* fwCompErr);
-int NNLIB_BackPropagation_Gradient(struct NN_STRUCT* nStructPtr, double learningRate, double* dError);
+extern int NNLIB_ForwardComputation(struct NN_STRUCT* nStructPtr, double* input, double* outputStore);
 
-//int NNLIB_SLearning(struct NN_STRUCT* nStructPtr, double* input, double* desireOutput);
+extern int NNLIB_SLearning_Gradient(struct NN_STRUCT* nStructPtr, double* input, double* desireOutput, double* fwCompOut, double* fwCompErr);
+extern int NNLIB_BackPropagation_Gradient(struct NN_STRUCT* nStructPtr, double learningRate, double* dError);
 
-int NNLIB_GetOutput(struct NN_STRUCT* nStructPtr, double* outputStore);
-int NNLIB_CalcError(struct NN_STRUCT* nStructPtr, double* errList, double* desireOutput);
+extern int NNLIB_Prediction_Hard(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput);
 
-int NNLIB_readConing (struct NN_STRUCT* nStructPtr, char* NNConfig);
-double NNTraining (double* nodeData, double* weight, int dataCount);
+extern int NNLIB_GetOutput(struct NN_STRUCT* nStructPtr, double* outputStore);
+extern int NNLIB_CalcError(struct NN_STRUCT* nStructPtr, double* errList, double* desireOutput);
+
+extern int NNLIB_readConing (struct NN_STRUCT* nStructPtr, char* NNConfig);
+extern double NNTraining (double* nodeData, double* weight, int dataCount);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #endif // NNLIB_H_INCLUDED

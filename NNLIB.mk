@@ -63,7 +63,7 @@ AS       := D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/as.exe
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
 Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/NN.c$(ObjectSuffix) $(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_TrainProc.c$(ObjectSuffix) $(IntermediateDirectory)/NNTraining.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IO.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_LearnFunc.c$(ObjectSuffix) $(IntermediateDirectory)/ActiveFunc.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/MathProc.c$(ObjectSuffix) 
+	$(IntermediateDirectory)/MathProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) 
 
 
 
@@ -181,6 +181,62 @@ $(IntermediateDirectory)/MathProc.c$(DependSuffix): MathProc.c
 
 $(IntermediateDirectory)/MathProc.c$(PreprocessSuffix): MathProc.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/MathProc.c$(PreprocessSuffix) "MathProc.c"
+
+$(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix): CMDL_NNIO.c $(IntermediateDirectory)/CMDL_NNIO.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_NNIO.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_NNIO.c$(DependSuffix): CMDL_NNIO.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_NNIO.c$(DependSuffix) -MM "CMDL_NNIO.c"
+
+$(IntermediateDirectory)/CMDL_NNIO.c$(PreprocessSuffix): CMDL_NNIO.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_NNIO.c$(PreprocessSuffix) "CMDL_NNIO.c"
+
+$(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix): CMDL_StringProc.c $(IntermediateDirectory)/CMDL_StringProc.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_StringProc.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_StringProc.c$(DependSuffix): CMDL_StringProc.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_StringProc.c$(DependSuffix) -MM "CMDL_StringProc.c"
+
+$(IntermediateDirectory)/CMDL_StringProc.c$(PreprocessSuffix): CMDL_StringProc.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_StringProc.c$(PreprocessSuffix) "CMDL_StringProc.c"
+
+$(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix): CMDL_UserInterface.c $(IntermediateDirectory)/CMDL_UserInterface.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_UserInterface.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_UserInterface.c$(DependSuffix): CMDL_UserInterface.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_UserInterface.c$(DependSuffix) -MM "CMDL_UserInterface.c"
+
+$(IntermediateDirectory)/CMDL_UserInterface.c$(PreprocessSuffix): CMDL_UserInterface.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_UserInterface.c$(PreprocessSuffix) "CMDL_UserInterface.c"
+
+$(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix): CMDL_Prediction.c $(IntermediateDirectory)/CMDL_Prediction.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_Prediction.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_Prediction.c$(DependSuffix): CMDL_Prediction.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_Prediction.c$(DependSuffix) -MM "CMDL_Prediction.c"
+
+$(IntermediateDirectory)/CMDL_Prediction.c$(PreprocessSuffix): CMDL_Prediction.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_Prediction.c$(PreprocessSuffix) "CMDL_Prediction.c"
+
+$(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix): NNLIB_Prediction.c $(IntermediateDirectory)/NNLIB_Prediction.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/NNLIB_Prediction.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/NNLIB_Prediction.c$(DependSuffix): NNLIB_Prediction.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) -MF$(IntermediateDirectory)/NNLIB_Prediction.c$(DependSuffix) -MM "NNLIB_Prediction.c"
+
+$(IntermediateDirectory)/NNLIB_Prediction.c$(PreprocessSuffix): NNLIB_Prediction.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NNLIB_Prediction.c$(PreprocessSuffix) "NNLIB_Prediction.c"
+
+$(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix): CMDL_CreateNN.c $(IntermediateDirectory)/CMDL_CreateNN.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_CreateNN.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_CreateNN.c$(DependSuffix): CMDL_CreateNN.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_CreateNN.c$(DependSuffix) -MM "CMDL_CreateNN.c"
+
+$(IntermediateDirectory)/CMDL_CreateNN.c$(PreprocessSuffix): CMDL_CreateNN.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_CreateNN.c$(PreprocessSuffix) "CMDL_CreateNN.c"
+
+$(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix): CMDL_SLearning.c $(IntermediateDirectory)/CMDL_SLearning.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_SLearning.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_SLearning.c$(DependSuffix): CMDL_SLearning.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_SLearning.c$(DependSuffix) -MM "CMDL_SLearning.c"
+
+$(IntermediateDirectory)/CMDL_SLearning.c$(PreprocessSuffix): CMDL_SLearning.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_SLearning.c$(PreprocessSuffix) "CMDL_SLearning.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

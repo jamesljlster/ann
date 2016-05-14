@@ -1,9 +1,5 @@
-Debug/main.c.o: main.c NNLIB.h ActiveFunc.h Alloc2DArray.h MathProc.h
+Debug/main.c.o: main.c NNLIB.h CMDL.h
 
 NNLIB.h:
 
-ActiveFunc.h:
-
-Alloc2DArray.h:
-
-MathProc.h:
+CMDL.h:
