@@ -2,6 +2,40 @@
 
 #include "KEEL_DataProc.h"
 
+//#define DEBUG
+
+#ifdef DEBUG
+#include <stdio.h>
+#endif // DEBUG
+
+int KEEL_Normalize(KEEL_DATA keelData, int targetColumn, double targetMin, double targetMax)
+{
+    int i;
+
+    double dataMin, dataMax;
+
+    // Find Max and Min Value
+    dataMin = keelData->data[targetColumn];
+    dataMax = keelData->data[targetColumn];
+    for(i = 1; i < keelData->dataRows; i++)
+    {
+        if(dataMax < keelData->data[i * keelData->dataCols + targetColumn]) dataMax = keelData->data[i * keelData->dataCols + targetColumn];
+        if(dataMin > keelData->data[i * keelData->dataCols + targetColumn]) dataMin = keelData->data[i * keelData->dataCols + targetColumn];
+    }
+
+    #ifdef DEBUG
+    printf("dataMax = %lf, dataMin = %lf\n", dataMax, dataMin);
+    #endif // DEBUG
+
+    // Normalization
+    for(i = 0; i < keelData->dataRows; i++)
+    {
+        keelData->data[i * keelData->dataCols + targetColumn] = (keelData->data[i * keelData->dataCols + targetColumn] - dataMin) / (dataMax - dataMin) + targetMin;
+    }
+
+    return 0;
+}
+
 int KEEL_Delete(KEEL_DATA keelData)
 {
     int i, j;
