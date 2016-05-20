@@ -61,7 +61,6 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     {
         printf("Total %d data, assign Data per Adjusting: ", traDataPtr->dataAmount);
         scanf(" %d", &dataPerAdjust);
-        //fflush(stdin);
     }
     
     // Assign Iteration Count
@@ -69,7 +68,6 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     {
         printf("Assign Iteration Count: ");
         scanf(" %d", &iterCount);
-        //fflush(stdin);
     }
     
     // Assign Learning Rate
@@ -77,7 +75,6 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     {
         printf("Assign Learning Rate: ");
         scanf(" %lf", &learningRate);
-        //fflush(stdin);
     }
     nStructPtr->learningRate = learningRate;
     

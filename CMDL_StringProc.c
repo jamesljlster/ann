@@ -72,7 +72,6 @@ int CMD_GetFilePath(char* pathBuf, const char* comBuf, const char* inputMsg)
         
         printf("%s", inputMsg);
         scanf(" %512[^\n]s]", pathBuf);
-        //fflush(stdin);
     }
     else
     {

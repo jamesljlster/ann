@@ -88,8 +88,6 @@ int CMD_ManualTest(CMD_FUNC_ARGLIST)
         }
     }
     
-    //fflush(stdin);
-    
     // Cleanup
     free(nnInput);
     free(nnOutput);

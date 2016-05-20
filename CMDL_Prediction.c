@@ -78,7 +78,7 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
     }
     
     calcTmp = ((double)correctCount / (double)traDataPtr->dataAmount) * 100.0;
-    printf("Prediction Success Rate: %5.2lf %%\n", calcTmp);
+    printf("Prediction Successful Rate: %5.2lf %%\n", calcTmp);
     
     // Save Info to File
     if(saveState == 0)
