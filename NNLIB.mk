@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=James
-Date                   :=14/05/2016
+Date                   :=20/05/2016
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/g++.exe
 SharedObjectLinkerName :=D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/g++.exe -shared -fPIC
@@ -63,7 +63,8 @@ AS       := D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/as.exe
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
 Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/NN.c$(ObjectSuffix) $(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_TrainProc.c$(ObjectSuffix) $(IntermediateDirectory)/NNTraining.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IO.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_LearnFunc.c$(ObjectSuffix) $(IntermediateDirectory)/ActiveFunc.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/MathProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) 
+	$(IntermediateDirectory)/MathProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) 
 
 
 
@@ -237,6 +238,62 @@ $(IntermediateDirectory)/CMDL_SLearning.c$(DependSuffix): CMDL_SLearning.c
 
 $(IntermediateDirectory)/CMDL_SLearning.c$(PreprocessSuffix): CMDL_SLearning.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_SLearning.c$(PreprocessSuffix) "CMDL_SLearning.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix): KEEL_KWProc_Attribute.c $(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/KEEL_KWProc_Attribute.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(DependSuffix): KEEL_KWProc_Attribute.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix) -MF$(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(DependSuffix) -MM "KEEL_KWProc_Attribute.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(PreprocessSuffix): KEEL_KWProc_Attribute.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(PreprocessSuffix) "KEEL_KWProc_Attribute.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix): KEEL_KWProc_Inputs.c $(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/KEEL_KWProc_Inputs.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(DependSuffix): KEEL_KWProc_Inputs.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix) -MF$(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(DependSuffix) -MM "KEEL_KWProc_Inputs.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(PreprocessSuffix): KEEL_KWProc_Inputs.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(PreprocessSuffix) "KEEL_KWProc_Inputs.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix): KEEL_KWProc_Outputs.c $(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/KEEL_KWProc_Outputs.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(DependSuffix): KEEL_KWProc_Outputs.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) -MF$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(DependSuffix) -MM "KEEL_KWProc_Outputs.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(PreprocessSuffix): KEEL_KWProc_Outputs.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(PreprocessSuffix) "KEEL_KWProc_Outputs.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix): KEEL_KWProc_Relation.c $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/KEEL_KWProc_Relation.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/KEEL_KWProc_Relation.c$(DependSuffix): KEEL_KWProc_Relation.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) -MF$(IntermediateDirectory)/KEEL_KWProc_Relation.c$(DependSuffix) -MM "KEEL_KWProc_Relation.c"
+
+$(IntermediateDirectory)/KEEL_KWProc_Relation.c$(PreprocessSuffix): KEEL_KWProc_Relation.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(PreprocessSuffix) "KEEL_KWProc_Relation.c"
+
+$(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix): KEEL_LibFunc.c $(IntermediateDirectory)/KEEL_LibFunc.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/KEEL_LibFunc.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/KEEL_LibFunc.c$(DependSuffix): KEEL_LibFunc.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) -MF$(IntermediateDirectory)/KEEL_LibFunc.c$(DependSuffix) -MM "KEEL_LibFunc.c"
+
+$(IntermediateDirectory)/KEEL_LibFunc.c$(PreprocessSuffix): KEEL_LibFunc.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_LibFunc.c$(PreprocessSuffix) "KEEL_LibFunc.c"
+
+$(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix): KEEL_ReadDataset.c $(IntermediateDirectory)/KEEL_ReadDataset.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/KEEL_ReadDataset.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/KEEL_ReadDataset.c$(DependSuffix): KEEL_ReadDataset.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) -MF$(IntermediateDirectory)/KEEL_ReadDataset.c$(DependSuffix) -MM "KEEL_ReadDataset.c"
+
+$(IntermediateDirectory)/KEEL_ReadDataset.c$(PreprocessSuffix): KEEL_ReadDataset.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_ReadDataset.c$(PreprocessSuffix) "KEEL_ReadDataset.c"
+
+$(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix): KEEL_StringProc.c $(IntermediateDirectory)/KEEL_StringProc.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/KEEL_StringProc.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/KEEL_StringProc.c$(DependSuffix): KEEL_StringProc.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) -MF$(IntermediateDirectory)/KEEL_StringProc.c$(DependSuffix) -MM "KEEL_StringProc.c"
+
+$(IntermediateDirectory)/KEEL_StringProc.c$(PreprocessSuffix): KEEL_StringProc.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_StringProc.c$(PreprocessSuffix) "KEEL_StringProc.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

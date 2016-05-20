@@ -20,7 +20,8 @@ int main(int argc, char* argv[])
     char comBuf[CMD_BUFFER_LEN] = {0};
     
     struct NN_STRUCT nnData;
-    struct TRAIN_DATA trainData;
+    
+//    struct TRAIN_DATA trainData;
     
     int (*cmdFunc[CMD_UNKNOWN])(CMD_FUNC_ARGLIST);
     

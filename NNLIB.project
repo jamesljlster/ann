@@ -47,6 +47,13 @@
     <File Name="NNLIB_Prediction.c"/>
     <File Name="CMDL_CreateNN.c"/>
     <File Name="CMDL_SLearning.c"/>
+    <File Name="KEEL_KWProc_Attribute.c"/>
+    <File Name="KEEL_KWProc_Inputs.c"/>
+    <File Name="KEEL_KWProc_Outputs.c"/>
+    <File Name="KEEL_KWProc_Relation.c"/>
+    <File Name="KEEL_LibFunc.c"/>
+    <File Name="KEEL_ReadDataset.c"/>
+    <File Name="KEEL_StringProc.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="header">
     <File Name="NNLIB.h"/>
@@ -54,6 +61,8 @@
     <File Name="ActiveFunc.h"/>
     <File Name="MathProc.h"/>
     <File Name="CMDL.h"/>
+    <File Name="KEEL_DataProc.h"/>
+    <File Name="KEEL_PrivateFunc.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

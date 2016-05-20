@@ -3,6 +3,8 @@
 
 #define CMD_BUFFER_LEN  512
 
+#define USING_KEEL_AUTOREAD
+
 #define CMD_EXIT_STR            "Exit"
 #define CMD_READ_DATASET_STR    "ReadDataSet"
 #define CMD_CREATE_NN_STR       "CreateNN"
