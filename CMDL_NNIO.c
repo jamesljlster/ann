@@ -5,13 +5,12 @@
 
 int CMD_ReadDataSet(CMD_FUNC_ARGLIST)
 {
-    int iResult;
     char pathBuf[CMD_BUFFER_LEN] = {0};
     
     // Checking
     if(*traStatePtr == 1)
     {
-        NNLIB_DeleteTrainingData(traDataPtr);
+        KEEL_Delete(*traDataPtr);
         *traStatePtr = 0;
     }
     
@@ -23,8 +22,8 @@ int CMD_ReadDataSet(CMD_FUNC_ARGLIST)
     #endif
     
     // Read Training Data
-    iResult = NNLIB_ReadTrainingData(traDataPtr, pathBuf);
-    if(iResult != 0)
+    *traDataPtr = KEEL_ReadDataset(pathBuf);
+    if(*traDataPtr == NULL)
     {
         printf("Failed to read training data!\n");
         return -1;

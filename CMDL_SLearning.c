@@ -47,7 +47,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
         printf("No training dataset read!\n");
         return -1;
     }
-    else if(traDataPtr->inputs != nStructPtr->inputNodeCount || traDataPtr->outputs != nStructPtr->outputNodeCount)
+    else if(KEEL_GetInputs(*traDataPtr) != nStructPtr->inputNodeCount || KEEL_GetOutputs(*traDataPtr) != nStructPtr->outputNodeCount)
     {
         printf("Training dataset is not suitable for current neural networks!\n");
         return -1;
@@ -59,7 +59,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     // Determine Data Amounts per Once Adjust
     if(dataPerAdjust <= 0)
     {
-        printf("Total %d data, assign Data per Adjusting: ", traDataPtr->dataAmount);
+        printf("Total %d data, assign Data per Adjusting: ", KEEL_GetDataAmount(*traDataPtr));
         scanf(" %d", &dataPerAdjust);
     }
     
@@ -89,7 +89,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     #endif
     
     // Total Process Data
-    procTotal = iterCount * traDataPtr->dataAmount;
+    procTotal = iterCount * KEEL_GetDataAmount(*traDataPtr);
     
     // Memory Allocation
     nnBuffer = (double**)Alloc2DArray(dataPerAdjust, nStructPtr->outputNodeCount, sizeof(double));
@@ -157,16 +157,16 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     timeHold = clock();
     while(i < procTotal && stopLearning == 0)
     {
-        tmpTraIndex = i % traDataPtr->dataAmount;
+        tmpTraIndex = i % KEEL_GetDataAmount(*traDataPtr);
         i++;
         
         // Forward Compution
-        NNLIB_ForwardComputation(nStructPtr, traDataPtr->trainingData[tmpTraIndex], nnBuffer[dataFed]);
+        NNLIB_ForwardComputation(nStructPtr, KEEL_GetInputList(*traDataPtr, tmpTraIndex), nnBuffer[dataFed]);
       
         // Copy Target and Output
         for(j = 0; j < nStructPtr->outputNodeCount; j++)
         {
-            nnTarget[j][dataFed] = traDataPtr->trainingData[tmpTraIndex][nStructPtr->inputNodeCount + j];
+            nnTarget[j][dataFed] = KEEL_GetOutputList(*traDataPtr, tmpTraIndex)[j];
             nnOutput[j][dataFed] = nnBuffer[dataFed][j];
         }
         
@@ -252,11 +252,11 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
         for(i = 0; i < iterCount; i++)
         {
             savedErrLog[i] = 0;
-            for(j = 0; j < traDataPtr->dataAmount; j++)
+            for(j = 0; j < KEEL_GetDataAmount(*traDataPtr); j++)
             {
                 savedErrLog[i] += errLog[(i + 1) * j / dataPerAdjust];
             }
-            savedErrLog[i] /= (double)traDataPtr->dataAmount;
+            savedErrLog[i] /= (double)KEEL_GetDataAmount(*traDataPtr);
         }
         
         fprintf(tmpFile, "MSE, Time Cost: %lf s\n", calcTmp);

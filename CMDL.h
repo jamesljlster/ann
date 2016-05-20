@@ -30,8 +30,11 @@ enum CMD_ACTION
     CMD_UNKNOWN
 };
 
+#include "NNLIB.h"
+#include "KEEL_DataProc.h"
+
 #define CMD_FUNC_ARGLIST    struct NN_STRUCT* nStructPtr,                   \
-                            struct TRAIN_DATA* traDataPtr,                  \
+                            KEEL_DATA* traDataPtr,                          \
                             char* comBuf,                                   \
                             int* nnStatePtr,                                \
                             int* traStatePtr,                               \

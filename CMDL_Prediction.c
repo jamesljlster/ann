@@ -32,7 +32,7 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
         printf("No training dataset read!\n");
         return -1;
     }
-    else if(traDataPtr->inputs != nStructPtr->inputNodeCount || traDataPtr->outputs != nStructPtr->outputNodeCount)
+    else if(KEEL_GetInputs(*traDataPtr) != nStructPtr->inputNodeCount || KEEL_GetOutputs(*traDataPtr) != nStructPtr->outputNodeCount)
     {
         printf("Training dataset is not suitable for current neural networks!\n");
         return -1;
@@ -42,14 +42,14 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
     saveState = CMD_GetFilePath(pathBuf, comBuf, NULL);
     
     // Memory Allocation
-    nnOutput = (double**)Alloc2DArray(traDataPtr->dataAmount, nStructPtr->outputNodeCount, sizeof(double));
+    nnOutput = (double**)Alloc2DArray(KEEL_GetDataAmount(*traDataPtr), nStructPtr->outputNodeCount, sizeof(double));
     if(nnOutput == NULL)
     {
         printf("Memory Allocation Failed!\n");
         return -1;
     }
     
-    nnTarget = (double**)Alloc2DArray(traDataPtr->dataAmount, nStructPtr->outputNodeCount, sizeof(double));
+    nnTarget = (double**)Alloc2DArray(KEEL_GetDataAmount(*traDataPtr), nStructPtr->outputNodeCount, sizeof(double));
     if(nnTarget == NULL)
     {
         printf("Memory Allocation Failed!\n");
@@ -58,26 +58,27 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
     }
     
     // Iteration
-    for(i = 0; i < traDataPtr->dataAmount; i++)
+    for(i = 0; i < KEEL_GetDataAmount(*traDataPtr); i++)
     {
         // Forward Computation
-        NNLIB_ForwardComputation(nStructPtr, traDataPtr->trainingData[i], nnOutput[i]);
+        NNLIB_ForwardComputation(nStructPtr, KEEL_GetInputList(*traDataPtr, i), nnOutput[i]);
         
         // Copy Target and Output
         for(j = 0; j < nStructPtr->outputNodeCount; j++)
         {
-            nnTarget[i][j] = traDataPtr->trainingData[i][nStructPtr->inputNodeCount + j];
+            nnTarget[i][j] = KEEL_GetOutputList(*traDataPtr, i)[j];
+//            nnTarget[i][j] = traDataPtr->trainingData[i][nStructPtr->inputNodeCount + j];
         }
     }
     
     // Find Prediction Correct Rate
     correctCount = 0;
-    for(i = 0; i < traDataPtr->dataAmount; i++)
+    for(i = 0; i < KEEL_GetDataAmount(*traDataPtr); i++)
     {
         correctCount += NNLIB_Prediction_Hard(nStructPtr, nnOutput[i], nnTarget[i]);
     }
     
-    calcTmp = ((double)correctCount / (double)traDataPtr->dataAmount) * 100.0;
+    calcTmp = ((double)correctCount / (double)KEEL_GetDataAmount(*traDataPtr)) * 100.0;
     printf("Prediction Successful Rate: %5.2lf %%\n", calcTmp);
     
     // Save Info to File

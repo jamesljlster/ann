@@ -19,7 +19,7 @@ int KEEL_KWProc_Relation(KEEL_DATA keelData, char* fileBuffer, const char* keywo
     printf("Processed Buffer: %s\n", procBuffer);
     #endif // DEBUG
 
-    keelData->name = (char*)calloc(strlen(procBuffer + 1), sizeof(char));
+    keelData->name = (char*)calloc(strlen(procBuffer) + 1, sizeof(char));
     if(keelData->name == NULL)
     {
         #ifdef DEBUG

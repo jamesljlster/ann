@@ -21,8 +21,8 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
     // Determine Neural Networks Detail
     if(*traStatePtr == 1)
     {
-        nStructPtr->inputNodeCount = traDataPtr->inputs;
-        nStructPtr->outputNodeCount = traDataPtr->outputs;
+        nStructPtr->inputNodeCount = KEEL_GetInputs(*traDataPtr);
+        nStructPtr->outputNodeCount = KEEL_GetOutputs(*traDataPtr);
     }
     else
     {

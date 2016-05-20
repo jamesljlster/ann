@@ -20,8 +20,7 @@ int main(int argc, char* argv[])
     char comBuf[CMD_BUFFER_LEN] = {0};
     
     struct NN_STRUCT nnData;
-    
-//    struct TRAIN_DATA trainData;
+    KEEL_DATA trainData;
     
     int (*cmdFunc[CMD_UNKNOWN])(CMD_FUNC_ARGLIST);
     
@@ -115,6 +114,7 @@ int main(int argc, char* argv[])
         else
         {
             strcpy(comBuf, inputBuf);
+            
             cmdFunc[iResult](&nnData, &trainData, comBuf, &nnCreateState, &trCreateState, cmdStr);
         }
         
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
     
     if(trCreateState == 1)
     {
-        NNLIB_DeleteTrainingData(&trainData);
+        KEEL_Delete(trainData);
     }
     
     if(scriptFile != NULL)

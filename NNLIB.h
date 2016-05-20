@@ -68,8 +68,8 @@ extern int NNLIB_Delete(struct NN_STRUCT* nStructPtr);
 extern int NNLIB_Export(struct NN_STRUCT* nStructPtr, const char* filePath);
 extern int NNLIB_Import(struct NN_STRUCT* nStructPtr, const char* filePath);
 
-extern int NNLIB_ReadTrainingData(struct TRAIN_DATA* trainDataPtr, const char* dataPath);
-extern int NNLIB_DeleteTrainingData(struct TRAIN_DATA* trainDataPtr);
+//extern int NNLIB_ReadTrainingData(struct TRAIN_DATA* trainDataPtr, const char* dataPath);
+//extern int NNLIB_DeleteTrainingData(struct TRAIN_DATA* trainDataPtr);
 
 extern int NNLIB_RandWeight(struct NN_STRUCT* nStructPtr);
 extern int NNLIB_SetActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*activeFunc)(double), ...);
