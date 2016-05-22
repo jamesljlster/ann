@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
+#include <math.h>
 
 #include "NNLIB.h"
 #include "CMDL.h"
@@ -150,6 +151,8 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
         return -1;
     }
     
+    printf(" [ %5.2lf %% ] \r", 0.0);
+    
     stopLearning = 0;
     dataFed = 0;
     i = 0;
@@ -228,7 +231,17 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
             errLog[csvLineIndex++] = calcTmp / (double)nStructPtr->outputNodeCount;
         }
         
-        printf(" [ %5.2lf %% ] \r", (double)i / (double)procTotal * 100.0);
+        if(procTotal > 10000)
+        {
+            if((i % (procTotal / 10000)) == 0)
+            {
+                printf(" [ %5.2lf %% ] \r", (double)i / (double)procTotal * 100.0);
+            }
+        }
+        else
+        {
+            printf(" [ %5.2lf %% ] \r", (double)i / (double)procTotal * 100.0);
+        }
         
         if(kbhit())
         {
