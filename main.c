@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
         if(strlen(inputBuf) == 0)
         {
             printf("\nNNLIB> ");
-            scanf(" %512[^\n]s]", inputBuf);
+            scanf(" %512[^\n]s", inputBuf);
         }
         
         // Select Case
