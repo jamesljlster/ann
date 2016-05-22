@@ -130,14 +130,11 @@ int KEEL_KWProc_Attribute(KEEL_DATA keelData, char* fileBuffer, const char* keyw
 
     if(procIndex != -1)
     {
-        strcpy(procBuffer, &fileBuffer[procIndex]);
-
-        memmove(procBuffer, &procBuffer[1], strlen(procBuffer));
+        strcpy(procBuffer, &fileBuffer[procIndex + 1]);
         procBuffer[strlen(procBuffer) - 1] = '\0';
 
         #ifdef DEBUG
         printf("Processed Member Buffer: %s\n", procBuffer);
-        printf("\n");
         #endif // DEBUG
 
         // Process Member
@@ -199,6 +196,10 @@ int KEEL_KWProc_Attribute(KEEL_DATA keelData, char* fileBuffer, const char* keyw
                 procIndex++;
             }
         }
+        
+        #ifdef DEBUG
+        printf("\n");
+        #endif
     }
 
     return 0;

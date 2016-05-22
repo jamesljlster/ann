@@ -76,7 +76,8 @@ KEEL_DATA KEEL_ReadDataset(const char* dataPath)
         #ifdef DEBUG
         printf("Failed to open %s\n", dataPath);
         #endif // DEBUG
-
+        
+        free(keelData);
         return NULL;
     }
 
@@ -98,6 +99,11 @@ KEEL_DATA KEEL_ReadDataset(const char* dataPath)
                 kwDetect = i;
                 break;
             }
+        }
+        
+        if(kwDetect == -1)
+        {
+            return NULL;
         }
 
         #ifdef DEBUG
@@ -151,7 +157,6 @@ KEEL_DATA KEEL_ReadDataset(const char* dataPath)
             #endif // DEBUG
 
             free(keelData->data);
-            fclose(fileRead);
         }
         else
         {
@@ -166,7 +171,7 @@ KEEL_DATA KEEL_ReadDataset(const char* dataPath)
         }
 
         // Scan Outputs
-        fscanf(fileRead, " %s\n", procBuffer);
+        fscanf(fileRead, " %511s\n", procBuffer);
 
         if(keelData->attrList[keelData->outputAttrIndex].attrType == NULL)
         {
