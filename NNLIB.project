@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="NNLIB" InternalType="Console">
   <Plugins>
-    <Plugin Name="CppCheck"/>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
     </Plugin>
+    <Plugin Name="CppCheck"/>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
   "name": "Debug",
@@ -55,6 +55,8 @@
     <File Name="KEEL_LibFunc.c"/>
     <File Name="KEEL_ReadDataset.c"/>
     <File Name="KEEL_StringProc.c"/>
+    <File Name="CMDL_GetOutput.c"/>
+    <File Name="CMDL_FindError.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="header">
     <File Name="NNLIB.h"/>

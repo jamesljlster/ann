@@ -37,6 +37,8 @@ int main(int argc, char* argv[])
     cmdFunc[CMD_S_LEARNING] = CMD_SLearning;
     cmdFunc[CMD_PREDICTION] = CMD_Prediction;
     cmdFunc[CMD_MANUAL_TEST] = CMD_ManualTest;
+    cmdFunc[CMD_GET_OUTPUT] = CMD_GetOutput;
+    cmdFunc[CMD_FIND_ERR] = CMD_FindError;
     
     cmdStr[CMD_EXIT] = CMD_EXIT_STR;
     cmdStr[CMD_SHOW_CMDL] = CMD_SHOW_CMDL_STR;
@@ -47,6 +49,8 @@ int main(int argc, char* argv[])
     cmdStr[CMD_S_LEARNING] = CMD_S_LEARNING_STR;
     cmdStr[CMD_PREDICTION] = CMD_PREDICTION_STR;
     cmdStr[CMD_MANUAL_TEST] = CMD_MANUAL_TEST_STR;
+    cmdStr[CMD_GET_OUTPUT] = CMD_GET_OUTPUT_STR;
+    cmdStr[CMD_FIND_ERR] = CMD_FIND_ERR_STR;
 
     srand(time(NULL));
     

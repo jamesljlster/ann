@@ -8,6 +8,54 @@
 #include <stdio.h>
 #endif // DEBUG
 
+int KEEL_Denormalize(KEEL_DATA keelData, int targetColumn)
+{
+    int i;
+
+    struct KEEL_ATTRIBUTE* attrRef = NULL;
+
+    double dataMin, dataMax;
+    double targetMin, targetMax;
+
+    // Reference to Target Attribute
+    attrRef = &keelData->attrList[targetColumn];
+
+    // Checking
+    if(attrRef->attrType == NULL)
+    {
+        return -1;
+    }
+
+    // Find Max and Min Value
+    targetMin = atof(attrRef->member[0]);
+    targetMax = atof(attrRef->member[1]);
+
+    #ifdef DEBUG
+    printf("targetMax = %lf, targetMin = %lf\n", targetMax, targetMin);
+    #endif // DEBUG
+
+    // Find Max and Min Value
+    dataMin = keelData->data[targetColumn];
+    dataMax = keelData->data[targetColumn];
+    for(i = 1; i < keelData->dataRows; i++)
+    {
+        if(dataMax < keelData->data[i * keelData->dataCols + targetColumn]) dataMax = keelData->data[i * keelData->dataCols + targetColumn];
+        if(dataMin > keelData->data[i * keelData->dataCols + targetColumn]) dataMin = keelData->data[i * keelData->dataCols + targetColumn];
+    }
+
+    #ifdef DEBUG
+    printf("dataMax = %lf, dataMin = %lf\n", dataMax, dataMin);
+    #endif // DEBUG
+
+    // Denormalization
+    for(i = 0; i < keelData->dataRows; i++)
+    {
+        keelData->data[i * keelData->dataCols + targetColumn] = ((keelData->data[i * keelData->dataCols + targetColumn] - dataMin) / (dataMax - dataMin)) * (targetMax - targetMin) + targetMin;
+    }
+
+    return 0;
+}
+
 int KEEL_Normalize(KEEL_DATA keelData, int targetColumn, double targetMin, double targetMax)
 {
     int i;
@@ -30,7 +78,7 @@ int KEEL_Normalize(KEEL_DATA keelData, int targetColumn, double targetMin, doubl
     // Normalization
     for(i = 0; i < keelData->dataRows; i++)
     {
-        keelData->data[i * keelData->dataCols + targetColumn] = (keelData->data[i * keelData->dataCols + targetColumn] - dataMin) / (dataMax - dataMin) + targetMin;
+        keelData->data[i * keelData->dataCols + targetColumn] = ((keelData->data[i * keelData->dataCols + targetColumn] - dataMin) / (dataMax - dataMin)) * (targetMax - targetMin) + targetMin;
     }
 
     return 0;

@@ -13,6 +13,8 @@
 #define CMD_S_LEARNING_STR      "SLearning"
 #define CMD_PREDICTION_STR      "Prediction"
 #define CMD_MANUAL_TEST_STR     "ManualTest"
+#define CMD_GET_OUTPUT_STR      "GetOutput"
+#define CMD_FIND_ERR_STR        "FindError"
 #define CMD_SHOW_CMDL_STR       "?"
 
 enum CMD_ACTION
@@ -24,6 +26,8 @@ enum CMD_ACTION
     CMD_S_LEARNING,
     CMD_PREDICTION,
     CMD_MANUAL_TEST,
+    CMD_GET_OUTPUT,
+    CMD_FIND_ERR,
     CMD_EXIT,
     CMD_SHOW_CMDL,
     
@@ -51,6 +55,8 @@ extern int CMD_Export(CMD_FUNC_ARGLIST);
 extern int CMD_SLearning(CMD_FUNC_ARGLIST);
 extern int CMD_Prediction(CMD_FUNC_ARGLIST);
 extern int CMD_ManualTest(CMD_FUNC_ARGLIST);
+extern int CMD_GetOutput(CMD_FUNC_ARGLIST);
+extern int CMD_FindError(CMD_FUNC_ARGLIST);
 extern int CMD_ShowCMDL(CMD_FUNC_ARGLIST);
 
 extern int CMD_SelectCase(const char* inputBuf, const char* cmdStr[]);

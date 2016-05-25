@@ -4,6 +4,33 @@
 #include "NNLIB.h"
 #include "Alloc2DArray.h"
 
+int NNLIB_Prediction_Soft(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput)
+{
+    int i, iResult;
+    
+    int predTopIndex;
+    int desiTopIndex;
+    
+    predTopIndex = 0;
+    desiTopIndex = 0;
+    for(i = 1; i < nStructPtr->outputNodeCount; i++)
+    {
+        if(prediction[predTopIndex] < prediction[i]) predTopIndex = i;
+        if(desireOutput[desiTopIndex] < desireOutput[i]) desiTopIndex = i;
+    }
+    
+    if(predTopIndex == desiTopIndex)
+    {
+        iResult = 1;
+    }
+    else
+    {
+        iResult = 0;
+    }
+    
+    return iResult;
+}
+
 int NNLIB_Prediction_Hard(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput)
 {
     int i, iResult;

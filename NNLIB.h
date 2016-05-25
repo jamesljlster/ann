@@ -81,6 +81,7 @@ extern int NNLIB_SLearning_Gradient(struct NN_STRUCT* nStructPtr, double* input,
 extern int NNLIB_BackPropagation_Gradient(struct NN_STRUCT* nStructPtr, double learningRate, double* dError);
 
 extern int NNLIB_Prediction_Hard(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput);
+extern int NNLIB_Prediction_Soft(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput);
 
 extern int NNLIB_GetOutput(struct NN_STRUCT* nStructPtr, double* outputStore);
 extern int NNLIB_CalcError(struct NN_STRUCT* nStructPtr, double* errList, double* desireOutput);

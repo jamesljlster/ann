@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=James
-Date                   :=22/05/2016
+Date                   :=25/05/2016
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/g++.exe
 SharedObjectLinkerName :=D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/g++.exe -shared -fPIC
@@ -64,7 +64,7 @@ AS       := D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/as.exe
 CodeLiteDir:=C:\Program Files\CodeLite
 Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/NN.c$(ObjectSuffix) $(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_TrainProc.c$(ObjectSuffix) $(IntermediateDirectory)/NNTraining.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IO.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_LearnFunc.c$(ObjectSuffix) $(IntermediateDirectory)/ActiveFunc.c$(ObjectSuffix) \
 	$(IntermediateDirectory)/MathProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) 
+	$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix) 
 
 
 
@@ -294,6 +294,22 @@ $(IntermediateDirectory)/KEEL_StringProc.c$(DependSuffix): KEEL_StringProc.c
 
 $(IntermediateDirectory)/KEEL_StringProc.c$(PreprocessSuffix): KEEL_StringProc.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/KEEL_StringProc.c$(PreprocessSuffix) "KEEL_StringProc.c"
+
+$(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix): CMDL_GetOutput.c $(IntermediateDirectory)/CMDL_GetOutput.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_GetOutput.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_GetOutput.c$(DependSuffix): CMDL_GetOutput.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_GetOutput.c$(DependSuffix) -MM "CMDL_GetOutput.c"
+
+$(IntermediateDirectory)/CMDL_GetOutput.c$(PreprocessSuffix): CMDL_GetOutput.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_GetOutput.c$(PreprocessSuffix) "CMDL_GetOutput.c"
+
+$(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix): CMDL_FindError.c $(IntermediateDirectory)/CMDL_FindError.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_FindError.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_FindError.c$(DependSuffix): CMDL_FindError.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_FindError.c$(DependSuffix) -MM "CMDL_FindError.c"
+
+$(IntermediateDirectory)/CMDL_FindError.c$(PreprocessSuffix): CMDL_FindError.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_FindError.c$(PreprocessSuffix) "CMDL_FindError.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

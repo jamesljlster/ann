@@ -75,7 +75,8 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
     correctCount = 0;
     for(i = 0; i < KEEL_GetDataAmount(*traDataPtr); i++)
     {
-        correctCount += NNLIB_Prediction_Hard(nStructPtr, nnOutput[i], nnTarget[i]);
+//        correctCount += NNLIB_Prediction_Hard(nStructPtr, nnOutput[i], nnTarget[i]);
+        correctCount += NNLIB_Prediction_Soft(nStructPtr, nnOutput[i], nnTarget[i]);
     }
     
     calcTmp = ((double)correctCount / (double)KEEL_GetDataAmount(*traDataPtr)) * 100.0;
@@ -87,7 +88,7 @@ int CMD_Prediction(CMD_FUNC_ARGLIST)
         tmpFile = fopen(pathBuf, "w");
         if(tmpFile != NULL)
         {
-            fprintf(tmpFile, "Prediction Result: %lf", calcTmp);
+            fprintf(tmpFile, "Prediction Result: %lf %%", calcTmp);
             
             fclose(tmpFile);
         }
