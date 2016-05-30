@@ -95,6 +95,7 @@ int CMD_GetOutput(CMD_FUNC_ARGLIST)
     }
     
     // Write File
+    fprintf(tmpFile, "# ");
     for(i = 0; i < nStructPtr->outputNodeCount; i++)
     {
         fprintf(tmpFile, "RealOutput-%d, DesireOutput-%d", i, i);
