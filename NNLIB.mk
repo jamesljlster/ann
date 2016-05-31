@@ -62,9 +62,9 @@ AS       := D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/NN.c$(ObjectSuffix) $(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_TrainProc.c$(ObjectSuffix) $(IntermediateDirectory)/NNTraining.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IO.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_LearnFunc.c$(ObjectSuffix) $(IntermediateDirectory)/ActiveFunc.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/MathProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_TrainProc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IO.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_LearnFunc.c$(ObjectSuffix) $(IntermediateDirectory)/ActiveFunc.c$(ObjectSuffix) $(IntermediateDirectory)/MathProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix) 
 
 
 
@@ -103,14 +103,6 @@ $(IntermediateDirectory)/main.c$(DependSuffix): main.c
 $(IntermediateDirectory)/main.c$(PreprocessSuffix): main.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.c$(PreprocessSuffix) "main.c"
 
-$(IntermediateDirectory)/NN.c$(ObjectSuffix): NN.c $(IntermediateDirectory)/NN.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/NN.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NN.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/NN.c$(DependSuffix): NN.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/NN.c$(ObjectSuffix) -MF$(IntermediateDirectory)/NN.c$(DependSuffix) -MM "NN.c"
-
-$(IntermediateDirectory)/NN.c$(PreprocessSuffix): NN.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NN.c$(PreprocessSuffix) "NN.c"
-
 $(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix): Alloc2DArray.c $(IntermediateDirectory)/Alloc2DArray.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/Alloc2DArray.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/Alloc2DArray.c$(DependSuffix): Alloc2DArray.c
@@ -126,14 +118,6 @@ $(IntermediateDirectory)/NNLIB_TrainProc.c$(DependSuffix): NNLIB_TrainProc.c
 
 $(IntermediateDirectory)/NNLIB_TrainProc.c$(PreprocessSuffix): NNLIB_TrainProc.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NNLIB_TrainProc.c$(PreprocessSuffix) "NNLIB_TrainProc.c"
-
-$(IntermediateDirectory)/NNTraining.c$(ObjectSuffix): NNTraining.c $(IntermediateDirectory)/NNTraining.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/NNTraining.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NNTraining.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/NNTraining.c$(DependSuffix): NNTraining.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/NNTraining.c$(ObjectSuffix) -MF$(IntermediateDirectory)/NNTraining.c$(DependSuffix) -MM "NNTraining.c"
-
-$(IntermediateDirectory)/NNTraining.c$(PreprocessSuffix): NNTraining.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NNTraining.c$(PreprocessSuffix) "NNTraining.c"
 
 $(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix): NNLIB_MathCalc.c $(IntermediateDirectory)/NNLIB_MathCalc.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/NNLIB_MathCalc.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix) $(IncludePath)

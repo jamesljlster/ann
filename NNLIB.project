@@ -31,10 +31,8 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="main.c" ExcludeProjConfig=""/>
-    <File Name="NN.c"/>
     <File Name="Alloc2DArray.c"/>
     <File Name="NNLIB_TrainProc.c"/>
-    <File Name="NNTraining.c"/>
     <File Name="NNLIB_MathCalc.c"/>
     <File Name="NNLIB_IibFunc.c"/>
     <File Name="NNLIB_IO.c"/>

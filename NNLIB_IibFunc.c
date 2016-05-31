@@ -48,6 +48,30 @@ int NNLIB_GetOutput(struct NN_STRUCT* nStructPtr, double* outputStore)
     return 0;
 }
 
+int NNLIB_SetActiveFunc_Buffer(struct NN_STRUCT* nStructPtr, double (*activeFunc[])(double))
+{
+    int i;
+    
+    for(i = 1; i < nStructPtr->layerCount; i++)
+    {
+        nStructPtr->nLayerHandle[i].activeFunc = activeFunc[i - 1];
+    }
+    
+    return 0;
+}
+
+int NNLIB_SetdActiveFunc_Buffer(struct NN_STRUCT* nStructPtr, double (*dActiveFunc[])(double))
+{
+    int i;
+    
+    for(i = 1; i < nStructPtr->layerCount; i++)
+    {
+        nStructPtr->nLayerHandle[i].dActiveFunc = dActiveFunc[i - 1];
+    }
+    
+    return 0;
+}
+
 int NNLIB_SetdActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*dActiveFunc)(double), ...)
 {
     int i;
