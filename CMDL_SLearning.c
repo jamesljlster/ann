@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <conio.h>
 #include <math.h>
@@ -11,7 +12,7 @@
 
 int CMD_SLearning(CMD_FUNC_ARGLIST)
 {
-    int i, j, k;
+    int i, j;
     int tmpTraIndex;
     int dataFed;
     int iterCount;
@@ -20,20 +21,16 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     int stopLearning = 0;
     
     int errLogIndex;
-    int queueLength;
-    int queueFront;
-    int queueBack;
     
     char pathBuf[CMD_BUFFER_LEN] = {0};
     
     double learningRate;
     double calcTmp;
+    double iterErr;
     
-    double* errAvg = NULL;
+    double* adjustErr = NULL;
     double* savedErrLog = NULL;
-    double** nnBuffer = NULL;
-    double** nnTarget = NULL;
-    double** nnOutput = NULL;
+    double* nnBuffer = NULL;
     
     clock_t timeHold;
     
@@ -95,48 +92,19 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     // Total Process Data
     procTotal = iterCount * KEEL_GetDataAmount(*traDataPtr);
     
-    // Determine Queue Length
-    if(KEEL_GetDataAmount(*traDataPtr) % dataPerAdjust == 0)
-    {
-        queueLength = KEEL_GetDataAmount(*traDataPtr);
-    }
-    else
-    {
-        queueLength = (KEEL_GetDataAmount(*traDataPtr) / dataPerAdjust + 1) * dataPerAdjust;
-    }
-    
     // Memory Allocation
-    nnBuffer = (double**)Alloc2DArray(dataPerAdjust, nStructPtr->outputNodeCount, sizeof(double));
+    nnBuffer = (double*)calloc(nStructPtr->outputNodeCount, sizeof(double));
     if(nnBuffer == NULL)
     {
         printf("Memory Allocation Failed!\n");
         return -1;
     }
     
-    nnTarget = (double**)Alloc2DArray(nStructPtr->outputNodeCount, queueLength, sizeof(double));
-    if(nnTarget == NULL)
+    adjustErr = (double*)calloc(nStructPtr->outputNodeCount, sizeof(double));
+    if(adjustErr == NULL)
     {
         printf("Memory Allocation Failed!\n");
         free(nnBuffer);
-        return -1;
-    }
-    
-    nnOutput = (double**)Alloc2DArray(nStructPtr->outputNodeCount, queueLength, sizeof(double));
-    if(nnOutput == NULL)
-    {
-        printf("Memory Allocation Failed!\n");
-        free(nnBuffer);
-        free(nnTarget);
-        return -1;
-    }
-    
-    errAvg = (double*)calloc(nStructPtr->outputNodeCount, sizeof(double));
-    if(errAvg == NULL)
-    {
-        printf("Memory Allocation Failed!\n");
-        free(nnBuffer);
-        free(nnTarget);
-        free(nnOutput);
         return -1;
     }
     
@@ -145,9 +113,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     {
         printf("Memory Allocation Failed!\n");
         free(nnBuffer);
-        free(nnTarget);
-        free(nnOutput);
-        free(errAvg);
+        free(adjustErr);
         return -1;
     }
     
@@ -157,83 +123,62 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     dataFed = 0;
     i = 0;
     timeHold = clock();
-    queueFront = 0;
-    queueBack = 0;
     errLogIndex = 0;
+    iterErr = 0;
+    memset((void*)adjustErr, 0, nStructPtr->outputNodeCount * sizeof(double));
     while(i < procTotal && stopLearning == 0)
     {
         tmpTraIndex = i % KEEL_GetDataAmount(*traDataPtr);
         i++;
         
         // Forward Compution
-        NNLIB_ForwardComputation(nStructPtr, KEEL_GetInputList(*traDataPtr, tmpTraIndex), nnBuffer[dataFed]);
-      
-        // Copy Target and Output
+        NNLIB_ForwardComputation(nStructPtr, KEEL_GetInputList(*traDataPtr, tmpTraIndex), nnBuffer);
+        
+        // Calcualte Error
         for(j = 0; j < nStructPtr->outputNodeCount; j++)
         {
-            nnTarget[j][queueBack] = KEEL_GetOutputList(*traDataPtr, tmpTraIndex)[j];
-            nnOutput[j][queueBack] = nnBuffer[dataFed][j];
+            calcTmp = KEEL_GetOutputList(*traDataPtr, tmpTraIndex)[j];
+            
+            adjustErr[j] += MLIB_FindMSE_Derivative(&calcTmp, &nnBuffer[j], 1);
+            iterErr += MLIB_FindMSE(&calcTmp, &nnBuffer[j], 1);
         }
-        queueBack++;
+      
         dataFed++;
         
         // If processed data reach dataPerAdjust
         if(dataFed == dataPerAdjust)
         {
+            // Average dError
             for(j = 0; j < nStructPtr->outputNodeCount; j++)
             {
-                errAvg[j] = MLIB_FindMSE_Derivative(&nnTarget[j][queueBack - dataPerAdjust], &nnOutput[j][queueBack - dataPerAdjust], dataPerAdjust);
+                adjustErr[j] /= (double)dataPerAdjust;
             }
             
             // Back-Propagation
-            NNLIB_BackPropagation_Gradient(nStructPtr, learningRate, errAvg);
+            NNLIB_BackPropagation_Gradient(nStructPtr, learningRate, adjustErr);
+            
+            // Clear Error Array
+            memset((void*)adjustErr, 0, nStructPtr->outputNodeCount * sizeof(double));
             
             dataFed = 0;
         }
         else if(i == procTotal)
         {
-            // Find dError
+            // Average dError
             for(j = 0; j < nStructPtr->outputNodeCount; j++)
             {
-                errAvg[j] = MLIB_FindMSE_Derivative(&nnTarget[j][queueBack - dataFed], &nnOutput[j][queueBack - dataFed], dataFed);
+                adjustErr[j] /= (double)dataPerAdjust;
             }
             
             // Back-Propagation
-            NNLIB_BackPropagation_Gradient(nStructPtr, learningRate, errAvg);
+            NNLIB_BackPropagation_Gradient(nStructPtr, learningRate, adjustErr);
         }
         
         // Calculate Iterational Error
-        if(queueBack - queueFront >= KEEL_GetDataAmount(*traDataPtr))
+        if(i % KEEL_GetDataAmount(*traDataPtr) == 0)
         {
-            calcTmp = 0;
-            for(j = 0; j < nStructPtr->outputNodeCount; j++)
-            {
-                calcTmp += MLIB_FindMSE(&nnTarget[j][queueFront], &nnOutput[j][queueFront], KEEL_GetDataAmount(*traDataPtr));
-            }
-            savedErrLog[errLogIndex++] = calcTmp / (double)nStructPtr->outputNodeCount;
-        }
-        
-        // Determine queueFront and Move queue
-        if(queueBack == queueLength)
-        {
-            if(queueBack - queueFront == queueLength)
-            {
-                queueFront = 0;
-                queueBack = 0;
-            }
-            else
-            {
-                // Move Data
-                for(j = 0; j < nStructPtr->outputNodeCount; j++)
-                {
-                    for(k = 0; k < queueBack - queueFront; k++)
-                    {
-                        nnTarget[j][k] = nnTarget[j][k + queueLength];
-                        nnOutput[j][k] = nnOutput[j][k + queueLength];
-                    }
-                }
-                queueFront = queueBack - queueFront - KEEL_GetDataAmount(*traDataPtr);
-            }
+            savedErrLog[errLogIndex++] = iterErr / (double)(KEEL_GetDataAmount(*traDataPtr) * nStructPtr->outputNodeCount);
+            iterErr = 0;
         }
         
         if(procTotal > 10000)
@@ -266,17 +211,6 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     tmpFile = fopen(pathBuf, "w");
     if(tmpFile != NULL && stopLearning == 0)
     {
-        // Process Error Log
-//        for(i = 0; i < iterCount; i++)
-//        {
-//            savedErrLog[i] = 0;
-//            for(j = 0; j < nStructPtr->outputNodeCount; j++)
-//            {
-//                savedErrLog[i] += MLIB_FindMSE(&nnTarget[j][i * KEEL_GetDataAmount(*traDataPtr)], &nnOutput[j][i * KEEL_GetDataAmount(*traDataPtr)], KEEL_GetDataAmount(*traDataPtr));
-//            }
-//            savedErrLog[i] /= (double)nStructPtr->outputNodeCount;
-//        }
-        
         fprintf(tmpFile, "# ");
         fprintf(tmpFile, "MSE, Time Cost: %lf s\n", calcTmp);
         
@@ -289,9 +223,8 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     }
     
     // Cleanup
+    free(adjustErr);
     free(nnBuffer);
-    free(nnTarget);
-    free(nnOutput);
     free(savedErrLog);
     
     return 0;
