@@ -23,6 +23,13 @@ int NNLIB_Config(struct NN_STRUCT* nStructPtr, double learningRate, int inputNod
         return -1;
     }
     
+    // Memory Allocation: Activation Function List
+    nStructPtr->aFuncIndexList = (int*)calloc(hiddenLayerCount + 1, sizeof(int));
+    if(nStructPtr->aFuncIndexList == NULL)
+    {
+        return -1;
+    }
+    
     // Save node count of each hidden layer
     va_start(argList, hiddenLayerCount);
     for(i=0; i<hiddenLayerCount; i++)

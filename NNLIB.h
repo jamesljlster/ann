@@ -54,6 +54,7 @@ struct NN_STRUCT
     int layerCount;
 
     int* nodesEachLayer;
+    int* aFuncIndexList;
     
     struct NN_LAYER* nLayerHandle;
 };
