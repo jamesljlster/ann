@@ -39,6 +39,9 @@ enum CMD_ACTION
 #include "NNLIB.h"
 #include "KEEL_DataProc.h"
 
+#define CMD_NUM_SIGN    '-'
+#define CMD_SET_SIGN    '$'
+
 #define CMD_FUNC_ARGLIST    struct NN_STRUCT* nStructPtr,                   \
                             KEEL_DATA* traDataPtr,                          \
                             char* comBuf,                                   \
@@ -64,7 +67,7 @@ extern int CMD_SetActiveFunc(CMD_FUNC_ARGLIST);
 
 extern int CMD_SelectCase(const char* inputBuf, const char* cmdStr[]);
 extern int CMD_GetFilePath(char* pathBuf, const char* comBuf, const char* inputMsg);
-extern int CMD_FindDash(char* buffer, int startIndex, int lenLimit);
+extern int CMD_FindChar(char* buffer, int startIndex, int targetChar, int lenLimit);
 
 #ifdef __cplusplus
 }

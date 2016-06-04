@@ -90,7 +90,7 @@ int CMD_GetFilePath(char* pathBuf, const char* comBuf, const char* inputMsg)
     return 0;
 }
 
-int CMD_FindDash(char* buffer, int startIndex, int lenLimit)
+int CMD_FindChar(char* buffer, int startIndex, int targetChar, int lenLimit)
 {
     int i;
     
@@ -103,7 +103,7 @@ int CMD_FindDash(char* buffer, int startIndex, int lenLimit)
         return -1;
     }
     
-    while(buffer[i] != '-')
+    while(buffer[i] != targetChar)
     {
         if(buffer[i] == '\0')
         {

@@ -32,7 +32,7 @@ int CMD_SetActiveFunc(CMD_FUNC_ARGLIST)
     for(i = 0; i < nStructPtr->layerCount - 1; i++)
     {
         tmpConvert = 0;
-        bufProcIndex = CMD_FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+        bufProcIndex = CMD_FindChar(comBuf, bufProcIndex, CMD_NUM_SIGN, CMD_BUFFER_LEN);
         if(bufProcIndex > 0)
         {
             bufProcIndex++;

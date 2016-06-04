@@ -28,7 +28,7 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
     {
         // Get Input Nodes
         tmpConvert = 0;
-        bufProcIndex = CMD_FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+        bufProcIndex = CMD_FindChar(comBuf, bufProcIndex, CMD_NUM_SIGN, CMD_BUFFER_LEN);
         if(bufProcIndex > 0)
         {
             bufProcIndex++;
@@ -50,7 +50,7 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
         
         // Get Output Nodes
         tmpConvert = 0;
-        bufProcIndex = CMD_FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+        bufProcIndex = CMD_FindChar(comBuf, bufProcIndex, CMD_NUM_SIGN, CMD_BUFFER_LEN);
         if(bufProcIndex > 0)
         {
             bufProcIndex++;
@@ -73,7 +73,7 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
     
     // Get Hidden Layer Count
     tmpConvert = 0;
-    bufProcIndex = CMD_FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+    bufProcIndex = CMD_FindChar(comBuf, bufProcIndex, CMD_NUM_SIGN, CMD_BUFFER_LEN);
     if(bufProcIndex > 0)
     {
         bufProcIndex++;
@@ -117,7 +117,7 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
     {
         // Get Hidden Layer Count
         tmpConvert = 0;
-        bufProcIndex = CMD_FindDash(comBuf, bufProcIndex, CMD_BUFFER_LEN);
+        bufProcIndex = CMD_FindChar(comBuf, bufProcIndex, CMD_NUM_SIGN, CMD_BUFFER_LEN);
         if(bufProcIndex > 0)
         {
             bufProcIndex++;
