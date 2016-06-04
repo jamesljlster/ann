@@ -57,6 +57,7 @@
     <File Name="CMDL_FindError.c"/>
     <File Name="NNLIB_aFuncProc.c"/>
     <File Name="CMDL_SetActiveFunc.c"/>
+    <File Name="CMDL_NormalizeData.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="header">
     <File Name="NNLIB.h"/>

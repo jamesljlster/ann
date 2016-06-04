@@ -64,7 +64,7 @@ AS       := D:/Compiler/MinGW64/GCC5.3.0/mingw64/bin/as.exe
 CodeLiteDir:=C:\Program Files\CodeLite
 Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/Alloc2DArray.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_TrainProc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_MathCalc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_IO.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_LearnFunc.c$(ObjectSuffix) $(IntermediateDirectory)/ActiveFunc.c$(ObjectSuffix) $(IntermediateDirectory)/MathProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NNIO.c$(ObjectSuffix) \
 	$(IntermediateDirectory)/CMDL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_UserInterface.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_Prediction.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_CreateNN.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SLearning.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Attribute.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Inputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Outputs.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_KWProc_Relation.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_aFuncProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SetActiveFunc.c$(ObjectSuffix) 
+	$(IntermediateDirectory)/KEEL_LibFunc.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_ReadDataset.c$(ObjectSuffix) $(IntermediateDirectory)/KEEL_StringProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_GetOutput.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_FindError.c$(ObjectSuffix) $(IntermediateDirectory)/NNLIB_aFuncProc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_SetActiveFunc.c$(ObjectSuffix) $(IntermediateDirectory)/CMDL_NormalizeData.c$(ObjectSuffix) 
 
 
 
@@ -310,6 +310,14 @@ $(IntermediateDirectory)/CMDL_SetActiveFunc.c$(DependSuffix): CMDL_SetActiveFunc
 
 $(IntermediateDirectory)/CMDL_SetActiveFunc.c$(PreprocessSuffix): CMDL_SetActiveFunc.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_SetActiveFunc.c$(PreprocessSuffix) "CMDL_SetActiveFunc.c"
+
+$(IntermediateDirectory)/CMDL_NormalizeData.c$(ObjectSuffix): CMDL_NormalizeData.c $(IntermediateDirectory)/CMDL_NormalizeData.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/CodeProject/CodeLite/NNLIB/CMDL_NormalizeData.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CMDL_NormalizeData.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/CMDL_NormalizeData.c$(DependSuffix): CMDL_NormalizeData.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CMDL_NormalizeData.c$(ObjectSuffix) -MF$(IntermediateDirectory)/CMDL_NormalizeData.c$(DependSuffix) -MM "CMDL_NormalizeData.c"
+
+$(IntermediateDirectory)/CMDL_NormalizeData.c$(PreprocessSuffix): CMDL_NormalizeData.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CMDL_NormalizeData.c$(PreprocessSuffix) "CMDL_NormalizeData.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

@@ -5,7 +5,7 @@
 
 int CMD_ReadDataSet(CMD_FUNC_ARGLIST)
 {
-    int i;
+//    int i;
     
     char pathBuf[CMD_BUFFER_LEN] = {0};
     
@@ -41,15 +41,15 @@ int CMD_ReadDataSet(CMD_FUNC_ARGLIST)
 //        KEEL_Normalize(*traDataPtr, i, -1, 1);
 //    }
 
-    if(KEEL_GetOutputs(*traDataPtr) == 1)
-    {
-        KEEL_Normalize(*traDataPtr, KEEL_GetInputs(*traDataPtr), 0, 1);
-        
-        for(i = 0; i < KEEL_GetInputs(*traDataPtr); i++)
-        {
-            KEEL_Normalize(*traDataPtr, i, -1, 1);
-        }
-    }
+//    if(KEEL_GetOutputs(*traDataPtr) == 1)
+//    {
+//        KEEL_Normalize(*traDataPtr, KEEL_GetInputs(*traDataPtr), 0, 1);
+//        
+//        for(i = 0; i < KEEL_GetInputs(*traDataPtr); i++)
+//        {
+//            KEEL_Normalize(*traDataPtr, i, -1, 1);
+//        }
+//    }
     
     return 0;
 }

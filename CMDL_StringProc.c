@@ -5,6 +5,29 @@
 #include "NNLIB.h"
 #include "CMDL.h"
 
+int CMD_StrcmpUpper(const char* str1, const char* str2)
+{
+    int i;
+    int result;
+    int cmpLen;
+    
+    // Determine Compare Length
+    cmpLen = (strlen(str1) > strlen(str2)) ? strlen(str2) : strlen(str1);
+    
+    // Comparing
+    result = 0;
+    for(i = 0; i < cmpLen; i++)
+    {
+        if(toupper(str1[i]) != toupper(str2[i]))
+        {
+            result = -1;
+            break;
+        }
+    }
+    
+    return result;
+}
+
 int CMD_SelectCase(const char* inputBuf, const char* cmdStr[])
 {
     int i, j;
