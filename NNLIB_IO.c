@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "NNLIB.h"
 #include "ActiveFunc.h"
@@ -21,6 +22,9 @@ int NNLIB_Import(struct NN_STRUCT* nStructPtr, const char* filePath)
     {
         return -1;
     }
+    
+    // Zero Memory
+    memset((void*)nStructPtr, 0, sizeof(struct NN_STRUCT));
     
     // Import Neural Network Details
     fscanf(fileRead, "LearningRate: %lf\n", &nStructPtr->learningRate);
@@ -51,6 +55,31 @@ int NNLIB_Import(struct NN_STRUCT* nStructPtr, const char* filePath)
             {
                 fscanf(fileRead, ", ");
             }
+        }
+    }
+    
+    // Memory Allocation: Activation Function List
+    nStructPtr->aFuncIndexList = (int*)calloc(nStructPtr->layerCount - 1, sizeof(int));
+    if(nStructPtr->aFuncIndexList == NULL)
+    {
+        if(nStructPtr->nodesEachLayer != NULL) free(nStructPtr->nodesEachLayer);
+        
+        fclose(fileRead);
+        return -1;
+    }
+    
+    fscanf(fileRead, "ActiveFuncList: ");
+    for(i = 0; i < nStructPtr->layerCount - 1; i++)
+    {
+        fscanf(fileRead, " %d", &nStructPtr->aFuncIndexList[i]);
+        
+        if(i == nStructPtr->layerCount - 2)
+        {
+            fscanf(fileRead, "\n");
+        }
+        else
+        {
+            fscanf(fileRead, ", ");
         }
     }
     
@@ -117,8 +146,8 @@ int NNLIB_Import(struct NN_STRUCT* nStructPtr, const char* filePath)
     fclose(fileRead);
     
     // Set Activation Function
-    NNLIB_SetActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, activeFunc_Sigmoidal);
-    NNLIB_SetdActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, dActiveFunc_Sigmoidal);
+    NNLIB_SetActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, AFUNC_Sigmoidal);
+    NNLIB_SetdActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, AFUNC_Sigmoidal_Derivative);
     
     return 0;
 }
@@ -143,12 +172,31 @@ int NNLIB_Export(struct NN_STRUCT* nStructPtr, const char* filePath)
     fprintf(fileWrite, "Input: %d\n", nStructPtr->inputNodeCount);
     fprintf(fileWrite, "Output: %d\n", nStructPtr->outputNodeCount);
     fprintf(fileWrite, "LayerCount: %d\n", nStructPtr->layerCount);
-    fprintf(fileWrite, "HiddenNodes: ");
-    for(i = 0; i < nStructPtr->layerCount - 2; i++)
+    
+    if(nStructPtr->layerCount > 2)
     {
-        fprintf(fileWrite, "%d", nStructPtr->nodesEachLayer[i]);
+        fprintf(fileWrite, "HiddenNodes: ");
+        for(i = 0; i < nStructPtr->layerCount - 2; i++)
+        {
+            fprintf(fileWrite, "%d", nStructPtr->nodesEachLayer[i]);
+            
+            if(i == nStructPtr->layerCount - 3)
+            {
+                fprintf(fileWrite, "\n");
+            }
+            else
+            {
+                fprintf(fileWrite, ", ");
+            }
+        }
+    }
+    
+    fprintf(fileWrite, "ActiveFuncList: ");
+    for(i = 0; i < nStructPtr->layerCount - 1; i++)
+    {
+        fprintf(fileWrite, "%d", nStructPtr->aFuncIndexList[i]);
         
-        if(i == nStructPtr->layerCount - 3)
+        if(i == nStructPtr->layerCount - 2)
         {
             fprintf(fileWrite, "\n");
         }

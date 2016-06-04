@@ -55,6 +55,8 @@
     <File Name="KEEL_StringProc.c"/>
     <File Name="CMDL_GetOutput.c"/>
     <File Name="CMDL_FindError.c"/>
+    <File Name="NNLIB_aFuncProc.c"/>
+    <File Name="CMDL_SetActiveFunc.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="header">
     <File Name="NNLIB.h"/>

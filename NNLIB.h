@@ -77,8 +77,8 @@ extern int NNLIB_RandWeight(struct NN_STRUCT* nStructPtr);
 extern int NNLIB_SetActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*activeFunc)(double), ...);
 extern int NNLIB_SetdActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*dActiveFunc)(double), ...);
 
-extern int NNLIB_SetActiveFunc_Buffer(struct NN_STRUCT* nStructPtr, double (*activeFunc[])(double));
-extern int NNLIB_SetdActiveFunc_Buffer(struct NN_STRUCT* nStructPtr, double (*dActiveFunc[])(double));
+extern int NNLIB_SetActiveFunc_Index(struct NN_STRUCT* nStructPtr, int* activeFuncList);
+extern int NNLIB_SetdActiveFunc_Index(struct NN_STRUCT* nStructPtr, int* dActiveFuncList);
 
 extern int NNLIB_ForwardComputation(struct NN_STRUCT* nStructPtr, double* input, double* outputStore);
 

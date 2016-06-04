@@ -1,1 +1,3 @@
-Debug/ActiveFunc.c.o: ActiveFunc.c
+Debug/ActiveFunc.c.o: ActiveFunc.c ActiveFunc.h
+
+ActiveFunc.h:

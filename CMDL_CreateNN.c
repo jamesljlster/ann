@@ -93,10 +93,23 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
         scanf(" %d", &nStructPtr->layerCount);
     }
     
-    nStructPtr->nodesEachLayer = (int*)calloc(nStructPtr->layerCount, sizeof(int));
-    if(nStructPtr->nodesEachLayer == NULL)
+    // Memory Allocation: Node count of each hidden layer
+    if(nStructPtr->layerCount > 0)
     {
-        printf("Memory Allocation Failed!\n");
+        nStructPtr->nodesEachLayer = (int*)calloc(nStructPtr->layerCount, sizeof(int));
+        if(nStructPtr->nodesEachLayer == NULL)
+        {
+            printf("Memory Allocation Failed!\n");
+            return -1;
+        }
+    }
+    
+    // Memory Allocation: Activation Function List
+    nStructPtr->aFuncIndexList = (int*)calloc(nStructPtr->layerCount + 1, sizeof(int));
+    if(nStructPtr->aFuncIndexList == NULL)
+    {
+        if(nStructPtr->nodesEachLayer != NULL) free(nStructPtr->nodesEachLayer);
+        
         return -1;
     }
     
@@ -147,8 +160,8 @@ int CMD_CreateNN(CMD_FUNC_ARGLIST)
     }
     
     // Assign Activation Function
-    NNLIB_SetActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, activeFunc_Sigmoidal);
-    NNLIB_SetdActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, dActiveFunc_Sigmoidal);
+    NNLIB_SetActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, AFUNC_Sigmoidal);
+    NNLIB_SetdActiveFunc(nStructPtr, NNLIB_ASSIGN_SAME_ACTFUNC, AFUNC_Sigmoidal_Derivative);
     
     // Rand Weights
     NNLIB_RandWeight(nStructPtr);

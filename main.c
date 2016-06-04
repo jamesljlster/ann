@@ -39,6 +39,7 @@ int main(int argc, char* argv[])
     cmdFunc[CMD_MANUAL_TEST] = CMD_ManualTest;
     cmdFunc[CMD_GET_OUTPUT] = CMD_GetOutput;
     cmdFunc[CMD_FIND_ERR] = CMD_FindError;
+    cmdFunc[CMD_SET_ACTIVEFUNC] = CMD_SetActiveFunc;
     
     cmdStr[CMD_EXIT] = CMD_EXIT_STR;
     cmdStr[CMD_SHOW_CMDL] = CMD_SHOW_CMDL_STR;
@@ -51,6 +52,7 @@ int main(int argc, char* argv[])
     cmdStr[CMD_MANUAL_TEST] = CMD_MANUAL_TEST_STR;
     cmdStr[CMD_GET_OUTPUT] = CMD_GET_OUTPUT_STR;
     cmdStr[CMD_FIND_ERR] = CMD_FIND_ERR_STR;
+    cmdStr[CMD_SET_ACTIVEFUNC] = CMD_SET_ACTIVEFUNC_STR;
 
     srand(time(NULL));
     

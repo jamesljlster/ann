@@ -15,6 +15,7 @@
 #define CMD_MANUAL_TEST_STR     "ManualTest"
 #define CMD_GET_OUTPUT_STR      "GetOutput"
 #define CMD_FIND_ERR_STR        "FindError"
+#define CMD_SET_ACTIVEFUNC_STR  "SetActiveFunc"
 #define CMD_SHOW_CMDL_STR       "?"
 
 enum CMD_ACTION
@@ -28,6 +29,7 @@ enum CMD_ACTION
     CMD_MANUAL_TEST,
     CMD_GET_OUTPUT,
     CMD_FIND_ERR,
+    CMD_SET_ACTIVEFUNC,
     CMD_EXIT,
     CMD_SHOW_CMDL,
     
@@ -58,6 +60,7 @@ extern int CMD_ManualTest(CMD_FUNC_ARGLIST);
 extern int CMD_GetOutput(CMD_FUNC_ARGLIST);
 extern int CMD_FindError(CMD_FUNC_ARGLIST);
 extern int CMD_ShowCMDL(CMD_FUNC_ARGLIST);
+extern int CMD_SetActiveFunc(CMD_FUNC_ARGLIST);
 
 extern int CMD_SelectCase(const char* inputBuf, const char* cmdStr[]);
 extern int CMD_GetFilePath(char* pathBuf, const char* comBuf, const char* inputMsg);

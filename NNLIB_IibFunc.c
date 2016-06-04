@@ -55,86 +55,6 @@ int NNLIB_GetOutput(struct NN_STRUCT* nStructPtr, double* outputStore)
     return 0;
 }
 
-int NNLIB_SetActiveFunc_Buffer(struct NN_STRUCT* nStructPtr, double (*activeFunc[])(double))
-{
-    int i;
-    
-    for(i = 1; i < nStructPtr->layerCount; i++)
-    {
-        nStructPtr->nLayerHandle[i].activeFunc = activeFunc[i - 1];
-    }
-    
-    return 0;
-}
-
-int NNLIB_SetdActiveFunc_Buffer(struct NN_STRUCT* nStructPtr, double (*dActiveFunc[])(double))
-{
-    int i;
-    
-    for(i = 1; i < nStructPtr->layerCount; i++)
-    {
-        nStructPtr->nLayerHandle[i].dActiveFunc = dActiveFunc[i - 1];
-    }
-    
-    return 0;
-}
-
-int NNLIB_SetdActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*dActiveFunc)(double), ...)
-{
-    int i;
-    
-    va_list argList;
-    
-    if(assignAction == NNLIB_MANUALLY_ASSIGN)
-    {
-        nStructPtr->nLayerHandle[1].dActiveFunc = dActiveFunc;
-        
-        va_start(argList, dActiveFunc);
-        for(i=2; i<nStructPtr->layerCount; i++)
-        {
-            nStructPtr->nLayerHandle[i].dActiveFunc = va_arg(argList, double (*)(double));
-        }
-        va_end(argList);
-    }
-    else
-    {
-        for(i=1; i<nStructPtr->layerCount; i++)
-        {
-            nStructPtr->nLayerHandle[i].dActiveFunc = dActiveFunc;
-        }
-    }
-    
-    return 0;
-}
-
-int NNLIB_SetActiveFunc(struct NN_STRUCT* nStructPtr, int assignAction, double (*activeFunc)(double), ...)
-{
-    int i;
-    
-    va_list argList;
-    
-    if(assignAction == NNLIB_MANUALLY_ASSIGN)
-    {
-        nStructPtr->nLayerHandle[1].activeFunc = activeFunc;
-        
-        va_start(argList, activeFunc);
-        for(i=2; i<nStructPtr->layerCount; i++)
-        {
-            nStructPtr->nLayerHandle[i].activeFunc = va_arg(argList, double (*)(double));
-        }
-        va_end(argList);
-    }
-    else
-    {
-        for(i=1; i<nStructPtr->layerCount; i++)
-        {
-            nStructPtr->nLayerHandle[i].activeFunc = activeFunc;
-        }
-    }
-    
-    return 0;
-}
-
 int NNLIB_RandWeight(struct NN_STRUCT* nStructPtr)
 {
     int i, j, k;
@@ -166,7 +86,6 @@ int NNLIB_Delete(struct NN_STRUCT* nStructPtr)
     {
         for(j=0; j<nLayerRef[i].nodeCount; j++)
         {
-            //free(nLayerRef[i].nodeList[j].input);
             free(nLayerRef[i].nodeList[j].weight);
         }
         
@@ -175,6 +94,7 @@ int NNLIB_Delete(struct NN_STRUCT* nStructPtr)
     
     free(nStructPtr->nLayerHandle);
     free(nStructPtr->nodesEachLayer);
+    free(nStructPtr->aFuncIndexList);
     
     return 0;
 }
@@ -241,7 +161,6 @@ int NNLIB_Create(struct NN_STRUCT* nStructPtr)
             {
                 nLayerRef[i].nodeList[j].nodeType = INPUT_NODE;
 
-                //nLayerRef[i].nodeList[j].input = NULL;
                 nLayerRef[i].nodeList[j].weight = NULL;
             }
             else
@@ -254,12 +173,6 @@ int NNLIB_Create(struct NN_STRUCT* nStructPtr)
                 {
                     nLayerRef[i].nodeList[j].nodeType = HIDDEN_NODE;
                 }
-
-                /*nLayerRef[i].nodeList[j].input = (double*)calloc(nLayerRef[i-1].nodeCount, sizeof(double));
-                if(nLayerRef[i].nodeList[j].input == NULL)
-                {
-                    return -1;
-                }*/
 
                 nLayerRef[i].nodeList[j].weight = (double*)calloc(nLayerRef[i-1].nodeCount, sizeof(double));
                 if(nLayerRef[i].nodeList[j].weight == NULL)
