@@ -44,12 +44,19 @@ int CMD_SetActiveFunc(CMD_FUNC_ARGLIST)
         
         if(tmpConvert > 0)
         {
+            printf("Assign Layer %d - %d Activation Function: %d\n", i + 1, nStructPtr->layerCount - 1, tmpConvert);
             nStructPtr->aFuncIndexList[i] = tmpConvert - 1;
         }
         else
         {
-            printf("Assign Layer %d Activation Function: ", i + 1);
-            scanf(" %d", &nStructPtr->aFuncIndexList[i]);
+            tmpConvert = 0;
+            while(tmpConvert == 0 || tmpConvert > AFUNC_RESERVED)
+            {
+                printf("Assign Layer %d - %d Activation Function: ", i + 1, nStructPtr->layerCount - 1);
+                scanf(" %d", &tmpConvert);
+            }
+            
+            nStructPtr->aFuncIndexList[i] = tmpConvert - 1;
         }
     }
     
