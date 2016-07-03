@@ -30,3 +30,7 @@
 
 # Debug files
 *.dSYM/
+
+# Ignored Project File
+*.mk
+Debug
