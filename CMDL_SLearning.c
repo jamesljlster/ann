@@ -27,6 +27,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     double learningRate;
     double calcTmp;
     double iterErr;
+    double errHold = -1;
     
     double* adjustErr = NULL;
     double* savedErrLog = NULL;
@@ -177,7 +178,8 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
         // Calculate Iterational Error
         if(i % KEEL_GetDataAmount(*traDataPtr) == 0)
         {
-            savedErrLog[errLogIndex++] = iterErr / (double)(KEEL_GetDataAmount(*traDataPtr) * nStructPtr->outputNodeCount);
+            errHold = iterErr / (double)(KEEL_GetDataAmount(*traDataPtr) * nStructPtr->outputNodeCount);
+            savedErrLog[errLogIndex++] = errHold;
             iterErr = 0;
         }
         
@@ -185,12 +187,12 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
         {
             if((i % (procTotal / 10000)) == 0)
             {
-                printf(" [ %5.2lf %% ] \r", (double)i / (double)procTotal * 100.0);
+                printf(" [ %5.2lf %% ] MSE: %lf \r", (double)i / (double)procTotal * 100.0, errHold);
             }
         }
         else
         {
-            printf(" [ %5.2lf %% ] \r", (double)i / (double)procTotal * 100.0);
+            printf(" [ %5.2lf %% ] MSE: %lf \r", (double)i / (double)procTotal * 100.0, errHold);
         }
         
         if(kbhit())
@@ -206,7 +208,7 @@ int CMD_SLearning(CMD_FUNC_ARGLIST)
     timeHold = clock() - timeHold;
     calcTmp = (double)timeHold / (double)CLOCKS_PER_SEC;
     
-    printf("Time Cost: %lf\n", calcTmp);
+    printf("\nTime Cost: %lf\n", calcTmp);
     
     tmpFile = fopen(pathBuf, "w");
     if(tmpFile != NULL && stopLearning == 0)

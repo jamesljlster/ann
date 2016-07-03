@@ -78,7 +78,7 @@ int CMD_FindError(CMD_FUNC_ARGLIST)
         calcTmp = 0;
         for(j = 0; j < nStructPtr->outputNodeCount; j++)
         {
-            calcTmp += fabs(nnTarget[i][j] - nnOutput[i][j]);
+            calcTmp += fabs(nnTarget[i][j] - nnOutput[i][j]) / nnTarget[i][j];
         }
         calcTmp /= (double)nStructPtr->outputNodeCount;
         
@@ -86,7 +86,7 @@ int CMD_FindError(CMD_FUNC_ARGLIST)
     }
     avgError /= (double)KEEL_GetDataAmount(*traDataPtr);
     
-    printf("Average Error: %lf\n", avgError);
+    printf("Average Error: %lf %%\n", avgError);
     
     // Save Info to File
     if(saveState == 0)
@@ -94,7 +94,7 @@ int CMD_FindError(CMD_FUNC_ARGLIST)
         tmpFile = fopen(pathBuf, "w");
         if(tmpFile != NULL)
         {
-            fprintf(tmpFile, "Average Error: %lf", avgError);
+            fprintf(tmpFile, "Average Error: %lf %%", avgError);
             
             fclose(tmpFile);
         }
