@@ -7,10 +7,12 @@ set(BUILD_TEST OFF CACHE BOOL "Enable building test")
 # Set project
 project(nnlib C)
 
+# Include directories
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 # Add subdirectory
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 if(${BUILD_TEST})
-	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 endif()

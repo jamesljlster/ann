@@ -14,17 +14,6 @@ enum NNLIB_ACTFUNC_SETTING
     NNLIB_MANUALLY_ASSIGN
 };
 
-struct TRAIN_DATA
-{
-    int inputs;
-    int outputs;
-    
-    int dataAmount;
-    int cols;
-    
-    double** trainingData;
-};
-
 struct NN_NODE
 {
     int nodeType;
@@ -68,9 +57,6 @@ extern int NNLIB_Create(struct NN_STRUCT* nStructPtr);
 extern int NNLIB_Delete(struct NN_STRUCT* nStructPtr);
 extern int NNLIB_Export(struct NN_STRUCT* nStructPtr, const char* filePath);
 extern int NNLIB_Import(struct NN_STRUCT* nStructPtr, const char* filePath);
-
-extern int NNLIB_ReadTrainingData(struct TRAIN_DATA* trainDataPtr, const char* dataPath);
-extern int NNLIB_DeleteTrainingData(struct TRAIN_DATA* trainDataPtr);
 
 extern int NNLIB_RandWeight(struct NN_STRUCT* nStructPtr);
 

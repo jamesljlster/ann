@@ -2,7 +2,6 @@
 #include <string.h>
 
 #include "NNLIB.h"
-#include "Alloc2DArray.h"
 
 int NNLIB_Prediction_Soft(struct NN_STRUCT* nStructPtr, double* prediction, double* desireOutput)
 {

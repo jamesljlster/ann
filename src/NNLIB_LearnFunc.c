@@ -1,7 +1,6 @@
 #include <stdlib.h>
 
 #include "NNLIB.h"
-#include "Alloc2DArray.h"
 
 #define ADJUST_THRESHOLD
 
