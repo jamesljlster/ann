@@ -29,7 +29,7 @@ void ann_delete_layer(struct ANN_LAYER* layerPtr)
 	{
 		for(i = 0; i < layerPtr->nodeCount; i++)
 		{
-			ann_delete_node(&layerPtr->modeList[i]);
+			ann_delete_node(&layerPtr->nodeList[i]);
 		}
 		free(layerPtr->nodeList);
 	}

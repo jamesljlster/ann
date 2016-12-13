@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include <ann.h>
+#include <ann_file_proc.h>
 #include <ann_private.h>
 
 #include "debug.h"
@@ -27,7 +28,7 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	}
 
 	// Parse file struct to neural network
-	iResult = ann_parse_fstruct(&tmpAnn, &fStruct);
+//	iResult = ann_parse_fstruct(&annTmp, &fStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;

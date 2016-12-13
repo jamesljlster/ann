@@ -15,14 +15,14 @@ struct ANN_LAYER
     double (*activeFunc)(double);
     double (*dActiveFunc)(double);
 
-    struct NN_NODE* nodeList;
+    struct ANN_NODE* nodeList;
     int nodeCount;
 };
 
 struct ANN_STRUCT
 {
     int layerCount;
-    struct NN_LAYER* layerList;
+    struct ANN_LAYER* layerList;
 };
 
 #ifdef __cplusplus
@@ -31,7 +31,7 @@ extern "C" {
 
 void ann_delete_node(struct ANN_NODE* nodePtr);
 void ann_delete_layer(struct ANN_LAYER* layerPtr);
-void ann_delete_struct(struct ANN_LAYER* structPtr);
+void ann_delete_struct(struct ANN_STRUCT* structPtr);
 
 #ifdef __cplusplus
 }
