@@ -5,6 +5,21 @@
 
 #include "debug.h"
 
+void ann_config_delete(ann_config_t config)
+{
+	struct ANN_CONFIG_STRUCT* cfgPtr = config;
+	
+	log("enter");
+
+	if(config != NULL)
+	{
+		ann_delete_config_struct(cfgPtr);
+		free(config);
+	}
+
+	log("exit");
+}
+
 void ann_delete_config_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	log("enter");

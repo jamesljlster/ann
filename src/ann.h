@@ -34,8 +34,9 @@ void ann_delete(ann_t ann);
 int ann_config_create(ann_config_t* configPtr, int inputs, int outputs);
 int ann_config_import(ann_config_t* configPtr, const char* filePath);
 int ann_config_export(ann_config_t config, const char* filePath);
-int ann_config_delete(ann_config_t config);
 int ann_config_add_hidden_layer(ann_config_t config, int nodes);
+
+void ann_config_delete(ann_config_t config);
 void ann_config_print(ann_config_t config);
 
 int ann_forward_computation(ann_t ann);
