@@ -9,6 +9,15 @@ enum ANN_RETUEN_VALUE
 	ANN_SYNTAX_ERROR	= -3
 };
 
+enum ANN_TRANSFER_FUNC
+{
+	ANN_SIGMOID,
+	ANN_MODIFIED_SIGMOID,
+	ANN_HYPERBOLIC_TANGENT,
+	ANN_GAUSSIAN,
+	ANN_MODIFIED_GAUSSIAN
+};
+
 typedef void* ann_t;
 typedef void* ann_config_t;
 

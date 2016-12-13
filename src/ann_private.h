@@ -25,6 +25,15 @@ struct ANN_STRUCT
     struct ANN_LAYER* layerList;
 };
 
+struct ANN_CONFIG_STRUCT
+{
+	int inputs;
+	int outputs;
+	int layers;	
+	int aFuncIndex;
+	int* nodeList;
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
