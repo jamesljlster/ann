@@ -20,7 +20,7 @@ int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	ann_config_zeromem(&cfgTmp);
 
 	// Get Topology
-	fbPtr = ann_find_fblock(fsPtr, ann_file_header[ANN_HEADER_TOPOLOGY]);
+	fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_TOPOLOGY);
 	if(fbPtr == NULL)
 	{
 		retValue = ANN_INFO_NOT_FOUND;
