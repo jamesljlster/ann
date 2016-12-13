@@ -42,13 +42,16 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 
 void ann_fstruct_zeromem(struct ANN_FILE_STRUCT* fStructPtr);
 void ann_fstruct_delete(struct ANN_FILE_STRUCT* fStructPtr);
+void ann_fstruct_print(struct ANN_FILE_STRUCT* fStructPtr);
 int ann_fstruct_append(struct ANN_FILE_STRUCT* dst, struct ANN_FILE_BLOCK* src);
 
 void ann_fblock_zeromem(struct ANN_FILE_BLOCK* fBlockPtr);
 void ann_fblock_delete(struct ANN_FILE_BLOCK* fBlockPtr);
+void ann_fblock_print(struct ANN_FILE_BLOCK* fBlockPtr);
 int ann_fblock_append(struct ANN_FILE_BLOCK* dst, char** srcPtr);
 
 char ann_get_char(FILE* fileRead, int readAction);
+int ann_is_sigchar(char ch);
 
 int ann_str_append(struct ANN_STR* strPtr, char ch);
 void ann_str_delete(struct ANN_STR* strPtr);
