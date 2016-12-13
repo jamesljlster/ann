@@ -43,7 +43,7 @@ struct ANN_STRUCT
 extern "C" {
 #endif
 
-void ann_delete_config_struct(struct ANN_CONFIG_STRUCT* cfgPtr);
+void ann_config_delete_struct(struct ANN_CONFIG_STRUCT* cfgPtr);
 
 void ann_delete_node(struct ANN_NODE* nodePtr);
 void ann_delete_layer(struct ANN_LAYER* layerPtr);

@@ -13,14 +13,14 @@ void ann_config_delete(ann_config_t config)
 
 	if(config != NULL)
 	{
-		ann_delete_config_struct(cfgPtr);
+		ann_config_delete_struct(cfgPtr);
 		free(config);
 	}
 
 	log("exit");
 }
 
-void ann_delete_config_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
+void ann_config_delete_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	log("enter");
 
@@ -77,7 +77,7 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 		free(structPtr->layerList);
 	}
 	
-	ann_delete_config_struct(&structPtr->config);
+	ann_config_delete_struct(&structPtr->config);
 
 	log("exit");
 }
