@@ -7,7 +7,7 @@
 
 #include "debug.h"
 
-const char* const ann_file_header[] = {
+char* ann_file_header[] = {
 	"Application",
 	"Topology",
 	"Training information",

@@ -44,7 +44,7 @@ struct ANN_STR
 	char* str;
 };
 
-extern const char* const ann_file_header[];
+extern char* ann_file_header[];
 
 #ifdef __cplusplus
 extern "C" {
