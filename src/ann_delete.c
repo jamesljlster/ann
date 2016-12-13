@@ -5,6 +5,16 @@
 
 #include "debug.h"
 
+void ann_delete_config_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
+{
+	log("enter");
+
+	if(cfgPtr->nodeList != NULL)
+		free(cfgPtr->nodeList);
+
+	log("exit");
+}
+
 void ann_delete_node(struct ANN_NODE* nodePtr)
 {
 	int i;
@@ -51,6 +61,8 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 		}
 		free(structPtr->layerList);
 	}
+	
+	ann_delete_config_struct(&structPtr->config);
 
 	log("exit");
 }
