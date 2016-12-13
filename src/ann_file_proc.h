@@ -14,16 +14,6 @@ enum READ_CHAR_TYPE
 	READ_SIG		// Read signaficant character
 };
 
-enum ANN_FILE_HEADER_LIST
-{
-	ANN_HEADER_APPLICATION,
-	ANN_HEADER_TOTOLOGY,
-	ANN_HEADER_TRAINING_INFO,
-	ANN_HEADER_TOTAL_NODE,
-	ANN_THRESHOLD_VALUE,
-	ANN_WEIGHT_FACTOR
-};
-
 struct ANN_FILE_BLOCK
 {
 	char* header;
@@ -43,8 +33,6 @@ struct ANN_STR
 	int size;
 	char* str;
 };
-
-extern char* ann_file_header[];
 
 #ifdef __cplusplus
 extern "C" {

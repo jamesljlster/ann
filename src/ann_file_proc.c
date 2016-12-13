@@ -4,17 +4,9 @@
 
 #include "ann.h"
 #include "ann_file_proc.h"
+#include "ann_file_header.h"
 
 #include "debug.h"
-
-char* ann_file_header[] = {
-	"Application",
-	"Topology",
-	"Training information",
-	"Total node",
-	"Threshold value",
-	"Weight factor"
-};
 
 struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int headerID)
 {

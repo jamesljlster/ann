@@ -1,6 +1,8 @@
 #ifndef __ANN_PRIVATE_H__
 #define __ANN_PRIVATE_H__
 
+#include "ann_file_proc.h"
+
 struct ANN_NODE
 {
 	double* weight;
@@ -42,6 +44,10 @@ struct ANN_STRUCT
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr);
+
+void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr);
 
 void ann_config_delete_struct(struct ANN_CONFIG_STRUCT* cfgPtr);
 

@@ -2,6 +2,7 @@
 
 #include <ann.h>
 #include <ann_file_proc.h>
+#include <ann_file_header.h>
 
 int main(int argc, char* argv[])
 {
