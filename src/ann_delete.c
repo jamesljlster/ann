@@ -45,7 +45,7 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 
 	if(structPtr->layerList != NULL)
 	{
-		for(i = 0; i < structPtr->layerCount; i++)
+		for(i = 0; i < structPtr->config.layers; i++)
 		{
 			ann_delete_layer(&structPtr->layerList[i]);
 		}

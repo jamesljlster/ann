@@ -19,19 +19,24 @@ struct ANN_LAYER
     int nodeCount;
 };
 
-struct ANN_STRUCT
-{
-    int layerCount;
-    struct ANN_LAYER* layerList;
-};
-
 struct ANN_CONFIG_STRUCT
 {
 	int inputs;
 	int outputs;
 	int layers;	
-	int aFuncIndex;
+	int transferFuncIndex;
+	
+	double learningRate;
+	double mementumCoef;
+
 	int* nodeList;
+};
+
+struct ANN_STRUCT
+{
+    struct ANN_LAYER* layerList;
+
+	struct ANN_CONFIG_STRUCT config;
 };
 
 #ifdef __cplusplus
