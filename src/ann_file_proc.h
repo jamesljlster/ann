@@ -14,6 +14,16 @@ enum READ_CHAR_TYPE
 	READ_SIG		// Read signaficant character
 };
 
+enum ANN_FILE_HEADER_LIST
+{
+	ANN_HEADER_APPLICATION,
+	ANN_HEADER_TOTOLOGY,
+	ANN_HEADER_TRAINING_INFO,
+	ANN_HEADER_TOTAL_NODE,
+	ANN_THRESHOLD_VALUE,
+	ANN_WEIGHT_FACTOR
+};
+
 struct ANN_FILE_BLOCK
 {
 	char* header;
@@ -34,9 +44,13 @@ struct ANN_STR
 	char* str;
 };
 
+extern const char* const ann_file_header[];
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int headerID);
 
 int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath);
 
@@ -53,6 +67,7 @@ int ann_fblock_append(struct ANN_FILE_BLOCK* dst, char** srcPtr);
 char ann_get_char(FILE* fileRead, int readAction);
 int ann_is_sigchar(char ch);
 
+int ann_strcmp(char* src1, char* src2);
 int ann_str_append(struct ANN_STR* strPtr, char ch);
 void ann_str_delete(struct ANN_STR* strPtr);
 void ann_str_zeromem(struct ANN_STR* strPtr);

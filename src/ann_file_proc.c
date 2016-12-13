@@ -1,10 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "ann.h"
 #include "ann_file_proc.h"
 
 #include "debug.h"
+
+const char* const ann_file_header[] = {
+	"Application",
+	"Topology",
+	"Training information",
+	"Total node",
+	"Threshold value",
+	"Weight factor"
+};
+
+struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int headerID)
+{
+	int i;
+	struct ANN_FILE_BLOCK* fptr = NULL;
+	
+	for(i = 0; i < fStructPtr->blockCount; i++)
+	{
+		if(ann_strcmp(fStructPtr->blockList[i].header, ann_file_header[headerID]) == 0)
+		{
+			fptr = &fStructPtr->blockList[i];
+			break;
+		}
+	}
+	
+	return fptr;
+}
+
+int ann_strcmp(char* src1, char* src2)
+{
+	int cmpLen;
+	int srcLen;
+	int retValue = 0;
+
+	cmpLen = strlen(src1);
+	srcLen = strlen(src2);
+	if(cmpLen != srcLen)
+	{
+		retValue = -1;
+	}
+	else
+	{
+		retValue = strncmp(src1, src2, cmpLen);
+	}
+
+	return retValue;
+}
 
 int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 {

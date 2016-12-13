@@ -10,6 +10,7 @@ int ann_import(ann_t* annPtr, const char* filePath)
 {
 	int iResult;
 	int retValue = ANN_NO_ERROR;
+
 	struct ANN_FILE_STRUCT fStruct;
 
 	ann_t annTmp = NULL;
