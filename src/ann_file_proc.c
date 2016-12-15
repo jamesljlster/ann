@@ -8,11 +8,105 @@
 
 #include "debug.h"
 
+int ann_str_extract(char*** strListPtr, int* strCountPtr, char* src, char sepCh)
+{
+	int procIndex;
+	int finish;
+	int iResult;
+	int retValue = ANN_NO_ERROR;
+	
+	char** strList = NULL;
+	int strCount = 0;
+
+	void* allocTmp = NULL;
+
+	struct ANN_STR tmpStr;
+	
+	log("enter");
+
+	// Zero memory
+	ann_str_zeromem(&tmpStr);
+
+	// Assign values
+	*strListPtr = strList;
+	*strCountPtr = strCount;
+
+	procIndex = 0;
+	finish = 0;
+	while(finish == 0)
+	{
+		if(src[procIndex] == sepCh || src[procIndex] == '\0')
+		{
+			if(tmpStr.str != NULL)
+			{
+				allocTmp = realloc(strList, sizeof(char**) * (strCount + 1));
+				if(allocTmp == NULL)
+				{
+					retValue = ANN_NO_ERROR;
+					goto ERR;
+				}
+				else
+				{
+					strList = allocTmp;
+					strCount += 1;
+					allocTmp = NULL;
+				}
+
+				strList[strCount - 1] = tmpStr.str;
+				tmpStr.str = NULL;
+				tmpStr.size = 1;
+
+				if(src[procIndex] == '\0')
+				{
+					finish = 1;
+				}
+			}
+		}
+		else
+		{
+			iResult = ann_str_append(&tmpStr, src[procIndex]);
+			if(iResult != ANN_NO_ERROR)
+			{
+				retValue = iResult;
+				goto ERR;
+			}
+		}
+
+		procIndex++;
+	}
+
+	// Assign values
+	*strListPtr = strList;
+	*strCountPtr = strCount;
+	
+	goto RET;
+
+ERR:	
+	if(strList != NULL)
+	{
+		for(procIndex = 0; procIndex < strCount; procIndex++)
+		{
+			if(strList[procIndex] != NULL)
+				free(strList[procIndex]);
+		}
+		free(strList);
+	}
+
+RET:
+	ann_str_delete(&tmpStr);
+
+	log("exit");
+
+	return retValue;
+}
+
 struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int headerID)
 {
 	int i;
 	struct ANN_FILE_BLOCK* fptr = NULL;
 	
+	log("enter");
+
 	for(i = 0; i < fStructPtr->blockCount; i++)
 	{
 		if(ann_strcmp(fStructPtr->blockList[i].header, ann_file_header[headerID]) == 0)
@@ -22,6 +116,8 @@ struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int h
 		}
 	}
 	
+	log("exit");
+
 	return fptr;
 }
 
@@ -30,6 +126,8 @@ int ann_strcmp(char* src1, char* src2)
 	int cmpLen;
 	int srcLen;
 	int retValue = 0;
+
+	log("enter");
 
 	cmpLen = strlen(src1);
 	srcLen = strlen(src2);
@@ -41,6 +139,8 @@ int ann_strcmp(char* src1, char* src2)
 	{
 		retValue = strncmp(src1, src2, cmpLen);
 	}
+
+	log("exit");
 
 	return retValue;
 }

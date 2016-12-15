@@ -56,6 +56,7 @@ char ann_get_char(FILE* fileRead, int readAction);
 int ann_is_sigchar(char ch);
 
 int ann_strcmp(char* src1, char* src2);
+int ann_str_extract(char*** strListPtr, int* strCountPtr, char* src, char sepCh);
 int ann_str_append(struct ANN_STR* strPtr, char ch);
 void ann_str_delete(struct ANN_STR* strPtr);
 void ann_str_zeromem(struct ANN_STR* strPtr);
