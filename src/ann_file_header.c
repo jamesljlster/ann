@@ -69,6 +69,8 @@ int ann_get_training_content_id(char* src)
 	int iResult;
 	int retValue = ANN_INFO_NOT_FOUND;
 	int i;
+	
+	log("enter");
 
 	for(i = 0; i < ANN_HEADER_TRAINING_INFO_LIST_COUNT; i++)
 	{
@@ -79,6 +81,8 @@ int ann_get_training_content_id(char* src)
 			break;
 		}
 	}
+
+	log("exit");
 
 	return retValue;
 }
