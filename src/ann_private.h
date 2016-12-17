@@ -29,7 +29,7 @@ struct ANN_CONFIG_STRUCT
 	int transferFuncIndex;
 	
 	double learningRate;
-	double mementumCoef;
+	double momentumCoef;
 
 	int* nodeList;
 };

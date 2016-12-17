@@ -3,6 +3,8 @@
 #include "ann.h"
 #include "ann_builtin_math.h"
 
+#include "debug.h"
+
 double (*ann_transfer_list[])(double) = {
 	ann_sigmoid,
 	ann_modified_sigmoid,
@@ -26,6 +28,29 @@ char* ann_transfer_func_name[] = {
 	"Gaussian",
 	"Mod. Gaussian"
 };
+
+int ann_get_transfer_func_id(char* str)
+{
+	int i;
+	int iResult;
+	int retValue = ANN_INFO_NOT_FOUND;
+
+	log("enter");
+
+	for(i = 0; i < 5; i++)
+	{
+		iResult = ann_strcmp(str, ann_transfer_func_name[i]);
+		if(iResult == ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			break;
+		}
+	}
+
+	log("exit");
+
+	return retValue;
+}
 
 double ann_sigmoid(double x)
 {

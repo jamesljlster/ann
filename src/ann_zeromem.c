@@ -12,7 +12,7 @@ void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr)
 	cfgPtr->transferFuncIndex = 0;
 	
 	cfgPtr->learningRate = 0;
-	cfgPtr->mementumCoef = 0;
+	cfgPtr->momentumCoef = 0;
 
 	cfgPtr->nodeList = NULL;
 }
