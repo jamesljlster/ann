@@ -7,6 +7,13 @@
 
 #include "debug.h"
 
+void ann_config_print(ann_config_t config)
+{
+	struct ANN_CONFIG_STRUCT* cfgRef = (struct ANN_CONFIG_STRUCT*)config;
+
+	ann_config_print_struct(cfgRef);
+}
+
 void ann_config_print_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	int i;
