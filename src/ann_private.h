@@ -45,6 +45,9 @@ struct ANN_STRUCT
 extern "C" {
 #endif
 
+void ann_set_weight(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, int nodeIndex, double value);
+void ann_set_threshold(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value);
+
 int ann_allocate_network(struct ANN_STRUCT* sptr);
 
 int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr);
