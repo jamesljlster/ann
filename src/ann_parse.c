@@ -86,7 +86,7 @@ int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	}
 
 	// Parse Total node
-	iResult = ann_parse_total_node(&cfgTmp, fbPtr);
+	iResult = ann_config_parse_total_node(&cfgTmp, fbPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = ANN_NO_ERROR;
@@ -115,10 +115,8 @@ int ann_config_parse_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 	
 	int tmpIndex;
 	int tmpValue;
-	int tmpLayers;
 
 	int* nodeList = NULL;
-	int* chkList = NULL;
 	void* allocTmp = NULL;
 
 	char** strList = NULL;
@@ -127,6 +125,12 @@ int ann_config_parse_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 	log("enter");
 
 	// Checking
+	if(cfgPtr->layers <= 0)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto RET;
+	}
+
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_TOTAL_NODE]);
 	if(iResult != ANN_NO_ERROR)
 	{
@@ -134,63 +138,11 @@ int ann_config_parse_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 		goto RET;
 	}
 
-	// Set initial layers
-	tmpLayers = 2;
-
-	for(i = 1; i < fbPtr->strCount; i++)
+	nodeList = calloc(cfgPtr->layers, sizeof(int));
+	if(nodeList == NULL)
 	{
-		// Extract string
-		iResult = ann_str_extract(&strList, &strCount, fbPtr->strList[i], '=');
-		if(iResult != ANN_NO_ERROR)
-		{
-			retValue = iResult;
-			goto RET;
-		}
-
-		// Checking
-		if(strCount != 2)
-		{
-			retValue = ANN_SYNTAX_ERROR;
-			goto RET;
-		}
-		
-		// Parsing
-		tmpIndex = strtol(strList[0], NULL, 0);
-		if(errno == ERANGE)
-		{
-			retValue = ANN_SYNTAX_ERROR;
-			goto RET;
-		}
-
-		if(tmpIndex > tmpLayers - 1)
-		{
-			tmpLayers = tmpIndex + 1;
-
-			allocTmp = realloc(nodeList, sizeof(int) * tmpLayers);
-			if(allocTmp == NULL)
-			{
-				retValue = ANN_MEM_FAILED;
-				goto RET;
-			}
-			else
-			{
-				nodeList = allocTmp;
-				allocTmp = NULL;
-			}
-		}
-
-		// Cleanup
-		for(i = 0; i < strCount; i++)
-		{
-			free(strList[i]);
-		}
-		free(strList);
-		strList = NULL;
-	}
-
-	for(i = 0; i < tmpLayers; i++)
-	{
-		nodeList[i] = -1;
+		retValue = ANN_MEM_FAILED;
+		goto RET;
 	}
 
 	for(i = 1; i < fbPtr->strCount; i++)
@@ -229,21 +181,21 @@ int ann_config_parse_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 		nodeList[i] = tmpValue;
 		
 		// Cleanup
-		for(i = 0; i < strCount; i++)
+		for(j = 0; j < strCount; j++)
 		{
-			free(strList[i]);
+			free(strList[j]);
 		}
 		free(strList);
 		strList = NULL;
 	}
 
 	nodeList[0] = cfgPtr->inputs;
-	nodeList[tmpLayers - 1] = cfgPtr->outputs;
+	nodeList[cfgPtr->layers - 1] = cfgPtr->outputs;
 
 	// Checking
-	for(i = 0; i < tmpLayers; i++)
+	for(i = 0; i < cfgPtr->layers; i++)
 	{
-		if(nodeList[0] <= 0)
+		if(nodeList[i] <= 0)
 		{
 			retValue = ANN_SYNTAX_ERROR;
 			goto RET;
@@ -251,7 +203,6 @@ int ann_config_parse_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 	}
 
 	// Assign values
-	cfgPtr->layers = tmpLayers;
 	cfgPtr->nodeList = nodeList;
 	
 	nodeList = NULL;
@@ -317,7 +268,7 @@ int ann_config_parse_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_
 		}
 
 		// Parsing
-		strID = ann_get_topology_content_id(strList[0]);
+		strID = ann_get_training_content_id(strList[0]);
 		if(strID < 0)
 		{
 			retValue = strID;
@@ -358,9 +309,9 @@ int ann_config_parse_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_
 		}
 
 		// Cleanup
-		for(i = 0; i < strCount; i++)
+		for(j = 0; j < strCount; j++)
 		{
-			free(strList[i]);
+			free(strList[j]);
 		}
 		free(strList);
 		strList = NULL;
@@ -423,6 +374,7 @@ int ann_config_parse_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_
 		strID = ann_get_topology_content_id(strList[0]);
 		if(strID < 0)
 		{
+			log("Get topology content id with %s failed!", strList[0]);
 			retValue = strID;
 			goto RET;
 		}
@@ -482,14 +434,15 @@ int ann_config_parse_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_
 				break;
 
 			default:
+				log("Invalid ID: %d", strID);
 				retValue = ANN_SYNTAX_ERROR;
 				goto RET;
 		}
 
 		// Cleanup
-		for(i = 0; i < strCount; i++)
+		for(j = 0; j < strCount; j++)
 		{
-			free(strList[i]);
+			free(strList[j]);
 		}
 		free(strList);
 		strList = NULL;
