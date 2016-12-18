@@ -12,6 +12,7 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	int retValue = ANN_NO_ERROR;
 
 	struct ANN_STRUCT* annRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
 	struct ANN_FILE_STRUCT fStruct;
 
 	ann_t annTmp = NULL;
@@ -39,16 +40,30 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	else
 	{
 		annRef = annTmp;
+		cfgRef = &annRef->config;
 		ann_zeromem(annRef);
 	}
 
-	// Parse file struct to neural network
-//	iResult = ann_parse_fstruct(&annTmp, &fStruct);
+	// Parse config
+	iResult = ann_parse_config(cfgRef, &fStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
 		goto ERR;
 	}
+
+	// Parse network
+	iResult = ann_parse_network(annRef, &fStruct);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
+	}
+
+	// Assign value
+	*annPtr = annTmp;
+
+	goto RET;
 
 ERR:
 	ann_delete(annTmp);
