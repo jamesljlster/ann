@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	struct ANN_STRUCT annStruct;
 	struct ANN_FILE_STRUCT fStruct;
 
-	ann_zero_struct(&annStruct);
+	ann_zeromem(&annStruct);
 	
 	// Checking
 	if(argc <= 1)

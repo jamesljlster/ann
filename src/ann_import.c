@@ -11,6 +11,7 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	int iResult;
 	int retValue = ANN_NO_ERROR;
 
+	struct ANN_STRUCT* annRef;
 	struct ANN_FILE_STRUCT fStruct;
 
 	ann_t annTmp = NULL;
@@ -26,6 +27,19 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	{
 		retValue = iResult;
 		goto RET;
+	}
+
+	// Memory allocation
+	annTmp = malloc(sizeof(struct ANN_STRUCT));
+	if(annTmp == NULL)
+	{
+		retValue = ANN_MEM_FAILED;
+		goto RET;
+	}
+	else
+	{
+		annRef = annTmp;
+		ann_zeromem(annRef);
 	}
 
 	// Parse file struct to neural network

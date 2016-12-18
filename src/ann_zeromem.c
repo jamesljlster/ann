@@ -4,7 +4,7 @@
 
 #include "debug.h"
 
-void ann_zero_struct(struct ANN_STRUCT* asPtr)
+void ann_zeromem(struct ANN_STRUCT* asPtr)
 {
 	asPtr->layerList = NULL;
 	ann_config_zeromem(&asPtr->config);

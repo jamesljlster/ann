@@ -55,7 +55,7 @@ void ann_fprint_config(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr);
 void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr);
 
-void ann_zero_struct(struct ANN_STRUCT* asPtr);
+void ann_zeromem(struct ANN_STRUCT* asPtr);
 void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_config_print_struct(struct ANN_CONFIG_STRUCT* cfgPtr);
 
