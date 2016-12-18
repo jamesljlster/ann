@@ -81,7 +81,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 	}
 
 	// Parsing
-	iResult = ann_config_parse(cfgRef, &fStruct);
+	iResult = ann_parse_config(cfgRef, &fStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;

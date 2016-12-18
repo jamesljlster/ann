@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	iResult = ann_config_parse(&cfgTmp, &fStruct);
+	iResult = ann_parse_config(&cfgTmp, &fStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
 		printf("ann_config_parse() failed with error: %d\n", iResult);

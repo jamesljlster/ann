@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <assert.h>
 #include <errno.h>
 
 #include "ann.h"
@@ -8,11 +9,107 @@
 
 #include "debug.h"
 
-int ann_config_parse_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
-int ann_config_parse_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
-int ann_config_parse_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
+int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
+int ann_parse_config_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
+int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
+int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
+int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
 
-int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr)
+int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
+{
+	int iResult;
+	int retValue = ANN_NO_ERROR;
+	struct ANN_STRUCT tmpStruct;
+	struct ANN_FILE_BLOCK* fbPtr = NULL;
+
+	log("enter");
+
+	// Checking
+	tmpStruct = *asPtr;
+	assert(tmpStruct.layerList == NULL);
+	assert(tmpStruct.config.inputs > 0);
+	assert(tmpStruct.config.outputs > 0);
+	assert(tmpStruct.config.layers >= 2);
+	assert(tmpStruct.config.transferFuncIndex >= 0 && tmpStruct.config.transferFuncIndex < 5);
+	assert(tmpStruct.config.nodeList != NULL);
+
+	// Allocate network
+	iResult = ann_allocate_network(&tmpStruct);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
+	}
+
+	// Get threshold
+	fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_THRESHOLD_VALUE);
+	if(fbPtr == NULL)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto ERR;
+	}
+
+	// Parse threshold
+	iResult = ann_parse_threshold(&tmpStruct, fbPtr);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
+	}
+
+	// Get weight
+	fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_WEIGHT_FACTOR);
+	if(fbPtr == NULL)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto ERR;
+	}
+
+	// Parse weight
+	iResult = ann_parse_weight(&tmpStruct, fbPtr);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
+	}
+
+	// Assign value
+	*asPtr = tmpStruct;
+
+	goto RET;
+
+ERR:
+	ann_delete_struct(&tmpStruct);
+
+RET:
+	log("exit");
+	return retValue;
+}
+
+int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
+{
+	int retValue = ANN_NO_ERROR;
+	
+	log("enter");
+
+
+	log("exit");
+	return retValue;
+}
+
+int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
+{
+	int i;
+	int retValue = ANN_NO_ERROR;
+	
+	log("enter");
+
+
+	log("exit");
+	return retValue;
+}
+
+int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr)
 {
 	int i;
 	int iResult;
@@ -45,7 +142,7 @@ int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	}
 	
 	// Parse Topology
-	iResult = ann_config_parse_topology(&cfgTmp, fbPtr);
+	iResult = ann_parse_config_topology(&cfgTmp, fbPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
@@ -70,7 +167,7 @@ int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	}
 
 	// Parse Training info
-	iResult = ann_config_parse_training_info(&cfgTmp, fbPtr);
+	iResult = ann_parse_config_training_info(&cfgTmp, fbPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
@@ -86,7 +183,7 @@ int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	}
 
 	// Parse Total node
-	iResult = ann_config_parse_total_node(&cfgTmp, fbPtr);
+	iResult = ann_parse_config_total_node(&cfgTmp, fbPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = ANN_NO_ERROR;
@@ -106,7 +203,7 @@ RET:
 	return retValue;
 }
 
-int ann_config_parse_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr)
+int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr)
 {
 	int i, j;
 	int iResult;
@@ -228,7 +325,7 @@ RET:
 	return retValue;
 }
 
-int ann_config_parse_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr)
+int ann_parse_config_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr)
 {
 	int i, j;
 	int iResult;
@@ -332,7 +429,7 @@ RET:
 	return retValue;
 }
 
-int ann_config_parse_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr)
+int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr)
 {
 	int i, j;
 	int iResult;

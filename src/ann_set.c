@@ -22,7 +22,7 @@ void ann_set_weight(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, i
 	layerRef->nodeList[nodeIndex].weight[preNodeIndex] = value;
 }
 
-void ann_set_threshold(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex)
+void ann_set_threshold(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* layerRef;
 	struct ANN_NODE* nodeRef;

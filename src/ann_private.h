@@ -50,7 +50,9 @@ void ann_set_threshold(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, d
 
 int ann_allocate_network(struct ANN_STRUCT* sptr);
 
-int ann_config_parse(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr);
+int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr);
+int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
+int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
 
 void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_config_print_struct(struct ANN_CONFIG_STRUCT* cfgPtr);

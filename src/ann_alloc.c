@@ -2,6 +2,7 @@
 
 #include "ann.h"
 #include "ann_private.h"
+#include "ann_builtin_math.h"
 
 #include "debug.h"
 
@@ -14,7 +15,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	int layers;
 	int* nodeList;
 	
-	void allocTmp = NULL;
+	void* allocTmp = NULL;
 
 	struct ANN_LAYER* tmpLayer = NULL;
 
@@ -59,7 +60,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 				allocTmp = calloc(nodeList[i - 1], sizeof(double));
 				if(allocTmp == NULL)
 				{
-					retValue = NULL;
+					retValue = ANN_MEM_FAILED;
 					goto ERR;
 				}
 				else
