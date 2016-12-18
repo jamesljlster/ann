@@ -14,6 +14,47 @@ void ann_config_print(ann_config_t config)
 	ann_config_print_struct(cfgRef);
 }
 
+void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
+{
+	int i, j, k;
+
+	log("enter");
+
+	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_WEIGHT_FACTOR]);
+	fprintf(fptr, "%s\n", ann_header_weight_factor[0]);
+	for(i = 1; i < asPtr->config.layers; i++)
+	{
+		for(j = 0; j < asPtr->layerList[i].nodeCount; j++)
+		{
+			for(k = 0; k < asPtr->layerList[i - 1].nodeCount; k++)
+			{
+				fprintf(fptr, "%02d-%02d-%02d=%.32lf\n", i, k, j, asPtr->layerList[i].nodeList[j].weight[k]);
+			}
+		}
+	}
+
+	log("exit");
+}
+
+void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
+{
+	int i, j;
+
+	log("enter");
+
+	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_THRESHOLD_VALUE]);
+	fprintf(fptr, "%s\n", ann_header_threshold_value[0]);
+	for(i = 0; i < asPtr->config.layers; i++)
+	{
+		for(j = 0; j < asPtr->layerList[i].nodeCount; j++)
+		{
+			fprintf(fptr, "%02d-%02d=%.32lf\n", i, j, asPtr->layerList[i].nodeList[j].threshold);
+		}	
+	}
+
+	log("exit");
+}
+
 void ann_config_print_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	int i;

@@ -53,6 +53,8 @@ int ann_allocate_network(struct ANN_STRUCT* sptr);
 int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr);
 int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
 
+void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr);
+
 void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_config_print_struct(struct ANN_CONFIG_STRUCT* cfgPtr);
 
