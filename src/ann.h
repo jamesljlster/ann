@@ -44,6 +44,9 @@ void ann_config_print(ann_config_t config);
 
 int ann_forward_computation(ann_t ann);
 
+int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
+int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
+
 #ifdef __cplusplus
 }
 #endif

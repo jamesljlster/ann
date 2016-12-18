@@ -3,7 +3,19 @@
 #include "ann.h"
 #include "ann_private.h"
 
-int ann_set_weight(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, int nodeIndex, double value)
+int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value)
+{
+	struct ANN_STRUCT* annRef = ann;
+	return ann_set_weight_struct(annRef, layerIndex, preNodeIndex, nodeIndex, value);
+}
+
+int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value)
+{
+	struct ANN_STRUCT* annRef = ann;
+	return ann_set_threshold_struct(annRef, layerIndex, nodeIndex, value);
+}
+
+int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* preLayerRef;
 	struct ANN_LAYER* layerRef;
@@ -28,7 +40,7 @@ int ann_set_weight(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, in
 	return ANN_NO_ERROR;
 }
 
-int ann_set_threshold(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value)
+int ann_set_threshold_struct(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* layerRef;
 	struct ANN_NODE* nodeRef;

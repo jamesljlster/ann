@@ -167,7 +167,7 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 		}
 
 		// Set threshold
-		iResult = ann_set_threshold(asPtr, layerIndex - 1, nodeIndex - 1, tmpValue);
+		iResult = ann_set_threshold_struct(asPtr, layerIndex - 1, nodeIndex - 1, tmpValue);
 		if(iResult != ANN_NO_ERROR)
 		{
 			log("set threshold failed with:");
@@ -312,7 +312,7 @@ int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 		}
 
 		// Set weight
-		iResult = ann_set_weight(asPtr, layerIndex - 1, preNodeIndex - 1, nodeIndex - 1, tmpValue);
+		iResult = ann_set_weight_struct(asPtr, layerIndex - 1, preNodeIndex - 1, nodeIndex - 1, tmpValue);
 		if(iResult != ANN_NO_ERROR)
 		{
 			retValue = iResult;
