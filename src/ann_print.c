@@ -7,11 +7,15 @@
 
 #include "debug.h"
 
+void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
+void ann_fprint_training_info(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
+void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
+
 void ann_config_print(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = (struct ANN_CONFIG_STRUCT*)config;
-
-	ann_config_print_struct(cfgRef);
+	
+	ann_fprint_config(stdout, cfgRef);
 }
 
 void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
@@ -57,31 +61,57 @@ void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
 	log("exit");
 }
 
-void ann_config_print_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
+void ann_fprint_config(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 {
-	int i;
-	
 	log("enter");
-
-	printf("[%s]\n", ann_file_header[ANN_HEADER_TOPOLOGY]);
-	printf("%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_INPUTS], cfgPtr->inputs);
-	printf("%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_OUTPUTS], cfgPtr->outputs);
-	printf("%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_LAYERS], cfgPtr->layers);
-	printf("%s=%s\n", ann_header_topology[ANN_HEADER_TOPOLOGY_TRANSFER_FUNC], ann_transfer_func_name[cfgPtr->transferFuncIndex]);
-	printf("\n");
 	
-	printf("[%s]\n", ann_file_header[ANN_HEADER_TRAINING_INFO]);
-	printf("%s= %lf\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_LEARNING_RATE], cfgPtr->learningRate);
-	printf("%s= %lf\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_MOMENTUM_COEF], cfgPtr->momentumCoef);
-	printf("\n");
-
-	printf("[%s]\n", ann_file_header[ANN_HEADER_TOTAL_NODE]);
-	printf("%s\n", ann_header_total_node[0]);
-	for(i = 1; i < cfgPtr->layers - 1; i++)
-	{
-		printf("%02d= %d\n", i + 1, cfgPtr->nodeList[i]);
-	}
-	printf("\n");
+	ann_fprint_topology(fptr, cfgPtr);
+	ann_fprint_training_info(fptr, cfgPtr);
+	ann_fprint_total_node(fptr, cfgPtr);
 
 	log("exit");
 }
+
+void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
+{
+	log("enter");
+
+	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TOPOLOGY]);
+	fprintf(fptr, "%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_INPUTS], cfgPtr->inputs);
+	fprintf(fptr, "%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_OUTPUTS], cfgPtr->outputs);
+	fprintf(fptr, "%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_LAYERS], cfgPtr->layers);
+	fprintf(fptr, "%s=%s\n", ann_header_topology[ANN_HEADER_TOPOLOGY_TRANSFER_FUNC], ann_transfer_func_name[cfgPtr->transferFuncIndex]);
+	fprintf(fptr, "\n");
+
+	log("exit");
+}
+
+void ann_fprint_training_info(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
+{
+	log("enter");
+
+	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TRAINING_INFO]);
+	fprintf(fptr, "%s= %lf\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_LEARNING_RATE], cfgPtr->learningRate);
+	fprintf(fptr, "%s= %lf\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_MOMENTUM_COEF], cfgPtr->momentumCoef);
+	fprintf(fptr, "\n");
+
+	log("exit");
+}
+
+void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
+{
+	int i;
+
+	log("enter");
+
+	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TOTAL_NODE]);
+	fprintf(fptr, "%s\n", ann_header_total_node[0]);
+	for(i = 1; i < cfgPtr->layers - 1; i++)
+	{
+		fprintf(fptr, "%02d= %d\n", i + 1, cfgPtr->nodeList[i]);
+	}
+	fprintf(fptr, "\n");
+
+	log("exit");
+}
+

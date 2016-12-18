@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	ann_config_print_struct(&cfgTmp);
+	ann_fprint_config(stdout, &cfgTmp);
 
 	return 0;
 }
