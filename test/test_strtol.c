@@ -9,7 +9,7 @@ int main()
 	
 	for(i = 0; i < 10; i++)
 	{
-		tmpValue = strtol(str[i], NULL, 0);
+		tmpValue = strtol(str[i], NULL, 10);
 		printf("Decode \"%s\": %d\n", str[i], tmpValue);
 	}
 
