@@ -1,6 +1,7 @@
 #ifndef __ANN_PRIVATE_H__
 #define __ANN_PRIVATE_H__
 
+#include <stdio.h>
 #include "ann_file_proc.h"
 
 struct ANN_NODE
@@ -54,7 +55,9 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
 
 void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr);
+void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr);
 
+void ann_zero_struct(struct ANN_STRUCT* asPtr);
 void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_config_print_struct(struct ANN_CONFIG_STRUCT* cfgPtr);
 

@@ -32,6 +32,7 @@ void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
 			}
 		}
 	}
+	fprintf(fptr, "\n");
 
 	log("exit");
 }
@@ -51,6 +52,7 @@ void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
 			fprintf(fptr, "%02d-%02d=%.32lf\n", i, j, asPtr->layerList[i].nodeList[j].threshold);
 		}	
 	}
+	fprintf(fptr, "\n"); 
 
 	log("exit");
 }

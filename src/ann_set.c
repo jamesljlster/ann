@@ -45,5 +45,7 @@ int ann_set_threshold(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, do
 		return ANN_OUT_OF_RANGE;
 
 	layerRef->nodeList[nodeIndex].threshold = value;
+
+	return ANN_NO_ERROR;
 }
 

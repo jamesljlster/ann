@@ -4,6 +4,12 @@
 
 #include "debug.h"
 
+void ann_zero_struct(struct ANN_STRUCT* asPtr)
+{
+	asPtr->layerList = NULL;
+	ann_config_zeromem(&asPtr->config);
+}
+
 void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	cfgPtr->inputs = 0;

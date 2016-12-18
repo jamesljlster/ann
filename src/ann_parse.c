@@ -167,9 +167,17 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 		}
 
 		// Set threshold
-		iResult = ann_set_threshold(asPtr, layerIndex, nodeIndex, tmpValue);
+		iResult = ann_set_threshold(asPtr, layerIndex - 1, nodeIndex - 1, tmpValue);
 		if(iResult != ANN_NO_ERROR)
 		{
+			log("set threshold failed with:");
+			log("Origin string: %s", fbPtr->strList[i]);
+			log("strList = {%s, %s}", strList[0], strList[1]);
+			log("childStrList = {%s, %s}", childStrList[0], childStrList[1]);
+			log("childStrList[1][0] in int = %d", childStrList[1][0]);
+			log("childStrList[1][1] in int = %d", childStrList[1][1]);
+			log("childStrList[1][2] in int = %d", childStrList[1][2]);
+			log("Decode info: layerIndex = %d, nodeIndex = %d, threshold = %lf", layerIndex, nodeIndex, tmpValue);
 			retValue = iResult;
 			goto RET;
 		}
@@ -304,7 +312,7 @@ int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 		}
 
 		// Set weight
-		iResult = ann_set_weight(asPtr, layerIndex, preNodeIndex, nodeIndex, tmpValue);
+		iResult = ann_set_weight(asPtr, layerIndex - 1, preNodeIndex - 1, nodeIndex - 1, tmpValue);
 		if(iResult != ANN_NO_ERROR)
 		{
 			retValue = iResult;
