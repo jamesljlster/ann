@@ -12,8 +12,8 @@
 int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_config_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
-int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
-int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr);
+int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
+int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
 
 int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 {
@@ -86,25 +86,268 @@ RET:
 	return retValue;
 }
 
-int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
+int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 {
+	int i, j;
+	int iResult;
 	int retValue = ANN_NO_ERROR;
 	
+	int layerIndex;
+	int nodeIndex;
+	double tmpValue;
+
+	char** strList = NULL;
+	int strCount = 0;
+
+	char** childStrList = NULL;
+	int childStrCount = 0;
+	
 	log("enter");
+	
+	// Checking
+	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_THRESHOLD_VALUE]);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto RET;
+	}
 
+	for(i = 1; i < fbPtr->strCount; i++)
+	{
+		// Extract string
+		iResult = ann_str_extract(&strList, &strCount, fbPtr->strList[i], '=');
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
 
+		// Checking
+		if(strCount != 2)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Extract child string
+		iResult = ann_str_extract(&childStrList, &childStrCount, strList[0], '-');
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Checking
+		if(childStrCount != 2)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Parsing
+		layerIndex = strtol(childStrList[0], NULL, 0);
+		if(errno == ERANGE)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		nodeIndex = strtol(childStrList[1], NULL, 0);
+		if(errno == ERANGE)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		tmpValue = strtod(strList[1], NULL);
+		if(errno == ERANGE)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Set threshold
+		iResult = ann_set_threshold(asPtr, layerIndex, nodeIndex, tmpValue);
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Cleanup
+		for(j = 0; j < strCount; j++)
+		{
+			free(strList[j]);
+		}
+		free(strList);
+		strList = NULL;
+
+		for(j = 0; j < childStrCount; j++)
+		{
+			free(childStrList[j]);
+		}
+		free(childStrList);
+		childStrList = NULL;
+	}
+	
+RET:
+	if(strList != NULL)
+	{
+		for(i = 0; i < strCount; i++)
+		{
+			if(strList[i] != NULL)
+				free(strList[i]);
+		}
+		free(strList);
+	}
+
+	if(childStrList != NULL)
+	{
+		for(i = 0; i < childStrCount; i++)
+		{
+			if(childStrList[i] != NULL)
+				free(childStrList[i]);
+		}
+		free(childStrList);
+	}
+	
 	log("exit");
 	return retValue;
 }
 
-int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
+int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 {
-	int i;
+	int i, j;
+	int iResult;
 	int retValue = ANN_NO_ERROR;
 	
+	int layerIndex;
+	int preNodeIndex;
+	int nodeIndex;
+	double tmpValue;
+
+	char** strList = NULL;
+	int strCount = 0;
+
+	char** childStrList = NULL;
+	int childStrCount = 0;
+	
 	log("enter");
+	
+	// Checking
+	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_WEIGHT_FACTOR]);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto RET;
+	}
 
+	for(i = 1; i < fbPtr->strCount; i++)
+	{
+		// Extract string
+		iResult = ann_str_extract(&strList, &strCount, fbPtr->strList[i], '=');
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
 
+		// Checking
+		if(strCount != 2)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Extract child string
+		iResult = ann_str_extract(&childStrList, &childStrCount, strList[0], '-');
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Checking
+		if(childStrCount != 3)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Parsing
+		layerIndex = strtol(childStrList[0], NULL, 0);
+		if(errno == ERANGE)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		preNodeIndex = strtol(childStrList[1], NULL, 0);
+		if(errno == ERANGE)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		nodeIndex = strtol(childStrList[2], NULL, 0);
+		if(errno == ERANGE)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		tmpValue = strtod(strList[1], NULL);
+		if(errno == ERANGE)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Set weight
+		iResult = ann_set_weight(asPtr, layerIndex, preNodeIndex, nodeIndex, tmpValue);
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Cleanup
+		for(j = 0; j < strCount; j++)
+		{
+			free(strList[j]);
+		}
+		free(strList);
+		strList = NULL;
+
+		for(j = 0; j < childStrCount; j++)
+		{
+			free(childStrList[j]);
+		}
+		free(childStrList);
+		childStrList = NULL;
+	}
+	
+RET:
+	if(strList != NULL)
+	{
+		for(i = 0; i < strCount; i++)
+		{
+			if(strList[i] != NULL)
+				free(strList[i]);
+		}
+		free(strList);
+	}
+
+	if(childStrList != NULL)
+	{
+		for(i = 0; i < childStrCount; i++)
+		{
+			if(childStrList[i] != NULL)
+				free(childStrList[i]);
+		}
+		free(childStrList);
+	}
+	
 	log("exit");
 	return retValue;
 }
