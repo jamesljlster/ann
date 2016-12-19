@@ -46,6 +46,8 @@ struct ANN_STRUCT
 extern "C" {
 #endif
 
+int ann_clone_config(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STRUCT* src);
+
 int ann_allocate_network(struct ANN_STRUCT* sptr);
 
 int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr);

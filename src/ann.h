@@ -27,11 +27,12 @@ typedef void* ann_config_t;
 extern "C" {
 #endif
 
-int ann_create_args(ann_t* annPtr, int inputs, int outputs, int hiddenLayers, ...);
+//int ann_create_args(ann_t* annPtr, int inputs, int outputs, int hiddenLayers, ...);
 int ann_create(ann_t* annPtr, ann_config_t config);
 int ann_import(ann_t* annPtr, const char* filePath);
 int ann_export(ann_t ann, const char* filePath);
 void ann_delete(ann_t ann);
+void ann_print(ann_t ann);
 
 //int ann_config_create(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex);
 int ann_config_create(ann_config_t* configPtr);
@@ -42,7 +43,6 @@ int ann_config_set_outputs(ann_config_t config, int outputs);
 int ann_config_set_layers(ann_config_t config, int hiddenLayers);
 int ann_config_set_nodes(ann_config_t config, int hiddenLayerIndex, int nodes);
 int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
-
 void ann_config_delete(ann_config_t config);
 void ann_config_print(ann_config_t config);
 

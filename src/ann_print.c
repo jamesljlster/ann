@@ -18,6 +18,15 @@ void ann_fprint_header(FILE* fptr)
 	fprintf(fptr, "\n");
 }
 
+void ann_print(ann_t ann)
+{
+	struct ANN_STRUCT* annRef = ann;
+
+	ann_fprint_config(stdout, &annRef->config);
+	ann_fprint_threshold(stdout, annRef);
+	ann_fprint_weight(stdout, annRef);
+}
+
 void ann_config_print(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = (struct ANN_CONFIG_STRUCT*)config;
