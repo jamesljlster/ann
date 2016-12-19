@@ -15,7 +15,7 @@ int ann_config_create(ann_config_t* configPtr)
 	
 	ann_config_zeromem(cfgRef);
 
-	configPtr = cfgRef;
+	*configPtr = cfgRef;
 	
 	return ANN_NO_ERROR;
 }
