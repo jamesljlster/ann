@@ -46,7 +46,7 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
 void ann_config_delete(ann_config_t config);
 void ann_config_print(ann_config_t config);
 
-int ann_forward_computation(ann_t ann);
+int ann_forward_computation(ann_t ann, double* input, double* output);
 
 int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
 int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
