@@ -64,7 +64,7 @@ int ann_config_get_transfer_func(ann_config_t config);
 double ann_config_get_learning_rate(ann_config_t config);
 double ann_config_get_momentum_coef(ann_config_t config);
 
-int ann_training_gradient(ann_t, double* input, double* desire, double* output, double* err);
+int ann_training_gradient(ann_t ann, double* input, double* desire, double* output, double* err);
 int ann_forward_computation(ann_t ann, double* input, double* output);
 int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError);
 
