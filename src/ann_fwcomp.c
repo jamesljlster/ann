@@ -17,6 +17,13 @@ int ann_forward_computation(ann_t ann, double* input, double* output)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
+	// Copy inputs
+	for(i = 0; i < cfgRef->inputs; i++)
+	{
+		layerRef[0].nodeList[i].output = input[i];
+	}
+	
+	// Calculation
 	for(i = 1; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
