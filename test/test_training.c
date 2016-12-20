@@ -12,11 +12,12 @@ extern double dataset[];
 
 int main()
 {
-	int i;
+	int i, j;
 	int iResult;
 	int iterCount;
 
 	double err[OUTPUTS];
+	double iterErr[OUTPUTS];
 
 	ann_t ann;
 	ann_config_t cfg;
@@ -61,25 +62,39 @@ int main()
 	iterCount = 0;
 	while(iterCount < ITER_COUNT)
 	{
-		iResult = ann_training_gradient(ann, &dataset[iterCount * (INPUTS + OUTPUTS)], &dataset[iterCount * (INPUTS + OUTPUTS) + INPUTS], NULL, err);
-		if(iResult != ANN_NO_ERROR)
+		for(i = 0; i < OUTPUTS; i++)
+			iterErr[i] = 0;
+
+		for(i = 0; i < DATA_AMOUNT; i++)
 		{
-			printf("ann_training_gradient() failed with error: %d\n");
-			return -1;
+			iResult = ann_training_gradient(ann, &dataset[i * (INPUTS + OUTPUTS)], &dataset[i * (INPUTS + OUTPUTS) + INPUTS], NULL, err);
+			if(iResult != ANN_NO_ERROR)
+			{
+				printf("ann_training_gradient() failed with error: %d\n", iResult);
+				return -1;
+			}
+			
+			for(j = 0; j < OUTPUTS; j++)
+				iterErr[j] += err[j];
 		}
 
-		printf("Iter. %5d error list: ");
+		for(i = 0; i < OUTPUTS; i++)
+			iterErr[i] /= (double)DATA_AMOUNT;
+
+		printf("Iter. %5d error list: ", iterCount);
 		for(i = 0; i < OUTPUTS; i++)
 		{
-			printf("%lf, ", err[i]);
+			printf("%lf, ", iterErr[i]);
 		}
 		printf("\n");
+
+		iterCount++;
 	}
 
 	ann_print(ann);
 
 	ann_delete(ann);
-	ann_config_delete(ann);
+	ann_config_delete(cfg);
 
 	return 0;
 }
