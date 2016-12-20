@@ -33,7 +33,7 @@ int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, dou
 		goto RET;
 	}
 
-	for(i = 0; i < cfgRef->layers; j++)
+	for(i = 0; i < cfgRef->layers; i++)
 	{
 		deltaList[i] = calloc(layerRef[i].nodeCount, sizeof(double));
 		if(deltaList[i] == NULL)
@@ -44,7 +44,7 @@ int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, dou
 	}
 
 	// Process delta list
-	for(i = cfgRef->layers - 1; i  > 0; i--)
+	for(i = cfgRef->layers - 1; i > 0; i--)
 	{
 		if(i == cfgRef->layers - 1)
 		{
