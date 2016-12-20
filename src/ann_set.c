@@ -31,6 +31,11 @@ int ann_config_set_inputs(ann_config_t config, int inputs)
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
 	cfgRef->inputs = inputs;
+	
+	if(cfgRef->nodeList != NULL)
+	{
+		cfgRef->nodeList[0] = inputs;
+	}
 
 	return ANN_NO_ERROR;
 }
@@ -40,6 +45,11 @@ int ann_config_set_outputs(ann_config_t config, int outputs)
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
 	cfgRef->outputs = outputs;
+
+	if(cfgRef->nodeList != NULL)
+	{
+		cfgRef->nodeList[cfgRef->layers - 1] = outputs;
+	}
 
 	return ANN_NO_ERROR;
 }
