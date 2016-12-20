@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Set project
-project(nnlib_test C)
+project(ann_test C)
 
 # Set file list
 file(GLOB PROJECT_SRCS 
@@ -14,7 +14,7 @@ file(GLOB TEST_TXT
 	)
 
 # Set dependences
-set(PROJECT_DEPS nnlib m)
+set(PROJECT_DEPS ann m)
 if(UNIX)
 	find_library(CONIO_LIB conio
 		"/usr/lib"
