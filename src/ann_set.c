@@ -80,7 +80,7 @@ int ann_config_set_nodes(ann_config_t config, int hiddenLayerIndex, int nodes)
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
 	// Checking
-	if(hiddenLayerIndex <= 1 || hiddenLayerIndex >= cfgRef->layers - 1)
+	if(hiddenLayerIndex < 0 || hiddenLayerIndex >= cfgRef->layers - 2)
 		return ANN_OUT_OF_RANGE;
 
 	cfgRef->nodeList[hiddenLayerIndex + 1] = nodes;
