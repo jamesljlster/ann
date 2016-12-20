@@ -25,8 +25,9 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	layers = sptr->config.layers;
 	tfunc = sptr->config.transferFuncIndex;
 	nodeList = sptr->config.nodeList;
-	if(layers <= 0 || nodeList == NULL || tfunc >= 5)
+	if(layers <= 0 || nodeList == NULL || tfunc >= 5 || tfunc < 0)
 	{
+		log("Checking failed");
 		retValue = ANN_INFO_NOT_FOUND;
 		goto RET;
 	}
@@ -35,6 +36,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	tmpLayer = calloc(layers, sizeof(struct ANN_LAYER));
 	if(tmpLayer == NULL)
 	{
+		log("calloc failed with arg: layers = %d", layers);
 		retValue = ANN_MEM_FAILED;
 		goto ERR;
 	}
@@ -48,6 +50,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 		allocTmp = calloc(nodeList[i], sizeof(struct ANN_NODE));
 		if(allocTmp == NULL)
 		{
+			log("calloc failed with arg: nodeList[%d] = %d", i, nodeList[i]);
 			retValue = ANN_MEM_FAILED;
 			goto ERR;
 		}
@@ -57,26 +60,31 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 			for(j = 0; j < nodeList[i]; j++)
 			{
-				allocTmp = calloc(nodeList[i - 1], sizeof(double));
-				if(allocTmp == NULL)
+				if(i > 0)
 				{
-					retValue = ANN_MEM_FAILED;
-					goto ERR;
-				}
-				else
-				{
-					tmpLayer[i].nodeList[j].weight = allocTmp;
-				}
+					allocTmp = calloc(nodeList[i - 1], sizeof(double));
+					if(allocTmp == NULL)
+					{
+						log("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
+						retValue = ANN_MEM_FAILED;
+						goto ERR;
+					}
+					else
+					{
+						tmpLayer[i].nodeList[j].weight = allocTmp;
+					}
 
-				allocTmp = calloc(nodeList[i - 1], sizeof(double));
-				if(allocTmp == NULL)
-				{
-					retValue = ANN_MEM_FAILED;
-					goto ERR;
-				}
-				else
-				{
-					tmpLayer[i].nodeList[j].deltaW = allocTmp;
+					allocTmp = calloc(nodeList[i - 1], sizeof(double));
+					if(allocTmp == NULL)
+					{
+						log("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
+						retValue = ANN_MEM_FAILED;
+						goto ERR;
+					}
+					else
+					{
+						tmpLayer[i].nodeList[j].deltaW = allocTmp;
+					}
 				}
 			}
 		}

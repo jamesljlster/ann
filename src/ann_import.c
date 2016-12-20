@@ -15,8 +15,6 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	struct ANN_CONFIG_STRUCT* cfgRef;
 	struct ANN_FILE_STRUCT fStruct;
 
-	ann_t annTmp = NULL;
-
 	log("enter");
 
 	// Zero memory
@@ -26,28 +24,30 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	iResult = ann_fstruct_create(&fStruct, filePath);
 	if(iResult != ANN_NO_ERROR)
 	{
+		log("ann_fstruct_create() failed");
 		retValue = iResult;
 		goto RET;
 	}
 
 	// Memory allocation
-	annTmp = malloc(sizeof(struct ANN_STRUCT));
-	if(annTmp == NULL)
+	annRef = malloc(sizeof(struct ANN_STRUCT));
+	if(annRef == NULL)
 	{
+		log("malloc() failed");
 		retValue = ANN_MEM_FAILED;
 		goto RET;
 	}
 	else
 	{
-		annRef = annTmp;
-		cfgRef = &annRef->config;
 		ann_zeromem(annRef);
+		cfgRef = &annRef->config;
 	}
 
 	// Parse config
 	iResult = ann_parse_config(cfgRef, &fStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
+		log("ann_parse_config() failed");
 		retValue = iResult;
 		goto ERR;
 	}
@@ -56,17 +56,18 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	iResult = ann_parse_network(annRef, &fStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
+		log("ann_parse_network() failed");
 		retValue = iResult;
 		goto ERR;
 	}
 
 	// Assign value
-	*annPtr = annTmp;
+	*annPtr = annRef;
 
 	goto RET;
 
 ERR:
-	ann_delete(annTmp);
+	ann_delete((ann_t)annRef);
 
 RET:
 	ann_fstruct_delete(&fStruct);

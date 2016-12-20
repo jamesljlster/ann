@@ -38,6 +38,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	iResult = ann_allocate_network(&tmpStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
+		log("ann_allocate_network() failed");
 		retValue = iResult;
 		goto ERR;
 	}
