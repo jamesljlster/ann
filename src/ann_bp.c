@@ -73,7 +73,7 @@ int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, dou
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
 			// Adjust threshold
-			calcTmp = layerRef[i].nodeList[j].threshold - learningRate * deltaList[i][j] + momentumCoef * layerRef[i].nodeList[j].deltaTh;
+			calcTmp = layerRef[i].nodeList[j].threshold + learningRate * deltaList[i][j] + momentumCoef * layerRef[i].nodeList[j].deltaTh;
 			layerRef[i].nodeList[j].deltaTh = calcTmp - layerRef[i].nodeList[j].threshold;
 			layerRef[i].nodeList[j].threshold = calcTmp;
 
