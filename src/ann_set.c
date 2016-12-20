@@ -26,7 +26,7 @@ int ann_config_set_outputs(ann_config_t config, int outputs)
 	return ANN_NO_ERROR;
 }
 
-int ann_config_set_layers(ann_config_t config, int hiddenLayers)
+int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 {
 	int i;
 	int retValue = ANN_NO_ERROR;

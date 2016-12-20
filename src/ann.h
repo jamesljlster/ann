@@ -40,7 +40,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath);
 int ann_config_export(ann_config_t config, const char* filePath);
 int ann_config_set_inputs(ann_config_t config, int inputs);
 int ann_config_set_outputs(ann_config_t config, int outputs);
-int ann_config_set_layers(ann_config_t config, int hiddenLayers);
+int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers);
 int ann_config_set_nodes(ann_config_t config, int hiddenLayerIndex, int nodes);
 int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
 void ann_config_delete(ann_config_t config);
