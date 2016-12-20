@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 
 	for(i = 0; i < outputs; i++)
 	{
-		printf("%d of %d output: %lf\n", i + 1, outputs, output[i]);
+		printf("%d of %d output: %G\n", i + 1, outputs, output[i]);
 	}
 
 	ann_delete(ann);

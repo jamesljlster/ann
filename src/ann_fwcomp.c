@@ -20,7 +20,14 @@ int ann_forward_computation(ann_t ann, double* input, double* output)
 	// Copy inputs
 	for(i = 0; i < cfgRef->inputs; i++)
 	{
-		layerRef[0].nodeList[i].output = input[i];
+		if(layerRef[0].activeFunc == NULL)
+		{
+			layerRef[0].nodeList[i].output = input[i];
+		}
+		else
+		{
+			layerRef[0].nodeList[i].output = layerRef[0].activeFunc(input[i]);
+		}
 	}
 	
 	// Calculation
@@ -36,7 +43,7 @@ int ann_forward_computation(ann_t ann, double* input, double* output)
 			{
 				calcTmp += layerRef[i - 1].nodeList[k].output * layerRef[i].nodeList[j].weight[k];
 			}
-			layerRef[i].nodeList[j].sCalc = calcTmp - layerRef[i].nodeList[j].threshold;
+			layerRef[i].nodeList[j].sCalc = calcTmp + layerRef[i].nodeList[j].threshold;
 			
 			if(layerRef[i].activeFunc == NULL)
 			{
