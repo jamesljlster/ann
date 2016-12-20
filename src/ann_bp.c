@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "ann.h"
 #include "ann_private.h"
 
@@ -5,10 +7,12 @@
 
 int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError)
 {
-	int i, j;
+	int i, j, k;
 	int retValue = ANN_NO_ERROR;
+	
+	double calcTmp;
 
-	double** delteList = NULL;
+	double** deltaList = NULL;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
@@ -44,20 +48,17 @@ int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, dou
 		{
 			for(j = 0; j < layerRef[i].nodeCount; j++)
 			{
-				deltaList[i][j] = dError[j] * layerRef[i].dActiveFunc(layerRef[i].sCalc);
+				deltaList[i][j] = dError[j] * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
 			}
 		}
 		else
 		{
 			for(j = 0; j < layerRef[i].nodeCount; j++)
 			{
-				int k;
-				double calcTmp;
-
 				calcTmp = 0;
 				for(k = 0; k < layerRef[i + 1].nodeCount; k++)
 				{
-					calcTmp += deltaList[i + 1][k] * layerList[i + 1].nodeList[k].weight[j];
+					calcTmp += deltaList[i + 1][k] * layerRef[i + 1].nodeList[k].weight[j];
 				}
 				deltaList[i][j] = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
 			}
@@ -69,6 +70,18 @@ int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, dou
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
+			// Adjust threshold
+			calcTmp = layerRef[i].nodeList[j].threshold - learningRate * deltaList[i][j] + momentumCoef * layerRef[i].nodeList[j].deltaTh;
+			layerRef[i].nodeList[j].deltaTh = calcTmp - layerRef[i].nodeList[j].threshold;
+			layerRef[i].nodeList[j].threshold = calcTmp;
+
+			// Adjust weight
+			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
+			{
+				calcTmp = layerRef[i].nodeList[j].weight[k] + learningRate * deltaList[i][j] * layerRef[i - 1].nodeList[k].output + momentumCoef * layerRef[i].nodeList[j].deltaW[k];
+				layerRef[i].nodeList[j].deltaW[k] = calcTmp - layerRef[i].nodeList[j].weight[k];
+				layerRef[i].nodeList[j].weight[k] = calcTmp;
+			}
 		}
 	}
 
@@ -80,7 +93,7 @@ RET:
 			if(deltaList[i] != NULL)
 				free(deltaList[i]);
 		}
-		free(delteList);
+		free(deltaList);
 	}
 
 	return retValue;
