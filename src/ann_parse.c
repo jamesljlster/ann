@@ -6,6 +6,7 @@
 #include "ann_private.h"
 #include "ann_file_proc.h"
 #include "ann_file_header.h"
+#include "ann_builtin_math.h"
 
 #include "debug.h"
 
