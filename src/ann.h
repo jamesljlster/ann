@@ -34,23 +34,38 @@ int ann_export(ann_t ann, const char* filePath);
 void ann_delete(ann_t ann);
 void ann_print(ann_t ann);
 
+ann_config_t ann_get_config(ann_t ann);
+
+int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
+int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
+double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
+double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
+
 //int ann_config_create(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex);
 int ann_config_create(ann_config_t* configPtr);
 int ann_config_import(ann_config_t* configPtr, const char* filePath);
 int ann_config_export(ann_config_t config, const char* filePath);
+void ann_config_delete(ann_config_t config);
+void ann_config_print(ann_config_t config);
+
 int ann_config_set_inputs(ann_config_t config, int inputs);
 int ann_config_set_outputs(ann_config_t config, int outputs);
 int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers);
 int ann_config_set_nodes(ann_config_t config, int hiddenLayerIndex, int nodes);
 int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
-void ann_config_delete(ann_config_t config);
-void ann_config_print(ann_config_t config);
+int ann_config_set_learning_rate(ann_config_t config, double learningRate);
+int ann_config_set_momentum_coef(ann_config_t config, double momentumCoef);
+
+int ann_config_get_inputs(ann_config_t config);
+int ann_config_get_outputs(ann_config_t config);
+int ann_config_get_hidden_layers(ann_config_t config);
+int ann_config_get_nodes(ann_config_t config, int hiddenLayerIndex);
+int ann_config_get_transfer_func(ann_config_t config);
+double ann_config_get_learningRate(ann_config_t config);
+double ann_config_get_momentumCoef(ann_config_t config);
 
 int ann_forward_computation(ann_t ann, double* input, double* output);
 int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError);
-
-int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
-int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
 
 #ifdef __cplusplus
 }
