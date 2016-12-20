@@ -7,8 +7,11 @@
 struct ANN_NODE
 {
 	double* weight;
+	double* deltaW;
 
 	double threshold;
+	double deltaTh;
+
 	double sCalc;
 	double output;
 };

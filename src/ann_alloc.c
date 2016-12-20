@@ -67,6 +67,17 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 				{
 					tmpLayer[i].nodeList[j].weight = allocTmp;
 				}
+
+				allocTmp = calloc(nodeList[i - 1], sizeof(double));
+				if(allocTmp == NULL)
+				{
+					retValue = ANN_MEM_FAILED;
+					goto ERR;
+				}
+				else
+				{
+					tmpLayer[i].nodeList[j].deltaW = allocTmp;
+				}
 			}
 		}
 	}
