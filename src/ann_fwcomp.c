@@ -43,9 +43,12 @@ int ann_forward_computation(ann_t ann, double* input, double* output)
 	}
 
 	// Get output
-	for(i = 0; i < cfgRef->outputs; i++)
+	if(output != NULL)
 	{
-		output[i] = layerRef[cfgRef->layers - 1].nodeList[i].output;
+		for(i = 0; i < cfgRef->outputs; i++)
+		{
+			output[i] = layerRef[cfgRef->layers - 1].nodeList[i].output;
+		}
 	}
 
 	return ANN_NO_ERROR;

@@ -47,6 +47,7 @@ void ann_config_delete(ann_config_t config);
 void ann_config_print(ann_config_t config);
 
 int ann_forward_computation(ann_t ann, double* input, double* output);
+int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError);
 
 int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
 int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
