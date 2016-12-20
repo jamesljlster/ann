@@ -52,14 +52,14 @@ int ann_config_get_transfer_func(ann_config_t config)
 	return cfgRef->transferFuncIndex;
 }
 
-double ann_config_get_learningRate(ann_config_t config)
+double ann_config_get_learning_rate(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
 	return cfgRef->learningRate;
 }
 
-double ann_config_get_momentumCoef(ann_config_t config)
+double ann_config_get_momentum_coef(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
