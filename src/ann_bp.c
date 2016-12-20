@@ -17,6 +17,8 @@ int ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, dou
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
+	
+	log("enter");
 
 	// Get reference
 	annRef = ann;
@@ -95,6 +97,7 @@ RET:
 		}
 		free(deltaList);
 	}
-
+	
+	log("exit");
 	return retValue;
 }
