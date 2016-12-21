@@ -88,6 +88,9 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 	ann_config_t cfgTmp = NULL;
 
 	log("enter");
+
+	// Zero memory
+	ann_fstruct_zeromem(&fStruct);
 	
 	// Create file struct
 	iResult = ann_fstruct_create(&fStruct, filePath);

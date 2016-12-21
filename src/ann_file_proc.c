@@ -163,6 +163,11 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 
 	log("enter");
 
+	// Zero memory
+	ann_str_zeromem(&tmpStr);
+	ann_fstruct_zeromem(&tmpStruct);
+	ann_fblock_zeromem(&tmpBlock);
+	
 	// Open file
 	fileRead = fopen(filePath, "rb");
 	if(fileRead == NULL)
@@ -171,11 +176,6 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 		goto RET;
 	}
 
-	// Zero memory
-	ann_str_zeromem(&tmpStr);
-	ann_fstruct_zeromem(&tmpStruct);
-	ann_fblock_zeromem(&tmpBlock);
-	
 	// Read file
 	fBlockIndex = -1;
 	while(!feof(fileRead))
