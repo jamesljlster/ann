@@ -122,9 +122,12 @@ void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TOTAL_NODE]);
 	fprintf(fptr, "%s\n", ann_header_total_node[0]);
-	for(i = 1; i < cfgPtr->layers - 1; i++)
+	if(cfgPtr->nodeList != NULL)
 	{
-		fprintf(fptr, "%02d= %d\n", i + 1, cfgPtr->nodeList[i]);
+		for(i = 1; i < cfgPtr->layers - 1; i++)
+		{
+			fprintf(fptr, "%02d= %d\n", i + 1, cfgPtr->nodeList[i]);
+		}
 	}
 	fprintf(fptr, "\n");
 

@@ -438,7 +438,8 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	iResult = ann_parse_config_total_node(&cfgTmp, fbPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
-		retValue = ANN_NO_ERROR;
+		printf("Parse total node failed with error: %d\n", iResult);
+		retValue = iResult;
 		goto ERR;
 	}
 
@@ -526,7 +527,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 		}
 
 		// Set node
-		nodeList[tmpIndex] = tmpValue;
+		nodeList[tmpIndex - 1] = tmpValue;
 		
 		// Cleanup
 		for(j = 0; j < strCount; j++)
