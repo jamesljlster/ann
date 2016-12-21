@@ -157,7 +157,7 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 	struct ANN_FILE_BLOCK tmpBlock;
 	struct ANN_FILE_STRUCT tmpStruct;
 	
-	struct ANN_FILE_BLOCK* tmpBlockPtr;
+	struct ANN_FILE_BLOCK* tmpBlockPtr = NULL;
 	
 	FILE* fileRead = NULL;
 
@@ -440,7 +440,7 @@ char ann_get_char(FILE* fileRead, int readAction)
 	}
 
 	// Determint if character is signaficant
-	if(ann_is_sigchar)
+	if(ann_is_sigchar(tmpRead))
 		goto RET;
 
 ERR:

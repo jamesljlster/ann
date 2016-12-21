@@ -32,8 +32,6 @@ void ann_config_delete_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
 
 void ann_delete_node(struct ANN_NODE* nodePtr)
 {
-	int i;
-	
 	log("enter");
 
 	if(nodePtr->weight != NULL)

@@ -364,7 +364,6 @@ RET:
 
 int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* fsPtr)
 {
-	int i;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
 	
@@ -460,7 +459,6 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 {
 	int i, j;
 	int iResult;
-	int strID;
 	int retValue = ANN_NO_ERROR;
 	
 	int tmpIndex;
@@ -528,7 +526,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 		}
 
 		// Set node
-		nodeList[i] = tmpValue;
+		nodeList[tmpIndex] = tmpValue;
 		
 		// Cleanup
 		for(j = 0; j < strCount; j++)

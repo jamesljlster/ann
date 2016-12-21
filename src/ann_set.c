@@ -100,7 +100,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 
 RET:
 	log("exit");
-	return ANN_NO_ERROR;
+	return retValue;
 }
 
 int ann_config_set_nodes(ann_config_t config, int hiddenLayerIndex, int nodes)
@@ -141,7 +141,6 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 {
 	struct ANN_LAYER* preLayerRef;
 	struct ANN_LAYER* layerRef;
-	struct ANN_NODE* nodeRef;
 
 	// Checking
 	assert(sptr->layerList != NULL);
@@ -165,7 +164,6 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 int ann_set_threshold_struct(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* layerRef;
-	struct ANN_NODE* nodeRef;
 
 	// Checking
 	assert(sptr->layerList != NULL);
