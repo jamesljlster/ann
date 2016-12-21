@@ -83,9 +83,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 	int retValue = ANN_NO_ERROR;
 	
 	struct ANN_FILE_STRUCT fStruct;
-	struct ANN_CONFIG_STRUCT* cfgRef;
-
-	ann_config_t cfgTmp = NULL;
+	struct ANN_CONFIG_STRUCT* cfgRef = NULL;
 
 	log("enter");
 
@@ -101,15 +99,14 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 	}
 
 	// Memory allocation
-	cfgTmp = malloc(sizeof(struct ANN_CONFIG_STRUCT));
-	if(cfgTmp == NULL)
+	cfgRef = malloc(sizeof(struct ANN_CONFIG_STRUCT));
+	if(cfgRef == NULL)
 	{
 		retValue = ANN_NO_ERROR;
 		goto RET;
 	}
 	else
 	{
-		cfgRef = cfgTmp;
 		ann_config_zeromem(cfgRef);
 	}
 
@@ -122,11 +119,13 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 	}
 
 	// Assign value
-	*configPtr = cfgTmp;
+	*configPtr = cfgRef;
+
+	goto RET;
 
 ERR:
-	if(cfgTmp != NULL)
-		free(cfgTmp);
+	if(cfgRef != NULL)
+		free(cfgRef);
 
 RET:
 	ann_fstruct_delete(&fStruct);
