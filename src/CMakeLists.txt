@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+
 # Variables
 set(PROJECT_NAME ann)
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Build confugure" FORCE)
