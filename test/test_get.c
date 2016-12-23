@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	printf("hidden nodes: ");
 	for(i = 0; i < ann_config_get_hidden_layers(cfg); i++)
 	{
-		printf("%d, ", ann_config_get_nodes(cfg, i));
+		printf("%d, ", ann_config_get_hidden_nodes(cfg, i));
 	}
 	printf("\n");
 	printf("transfer function index: %d\n", ann_config_get_transfer_func(cfg));

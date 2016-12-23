@@ -43,7 +43,7 @@ int main()
 		return -1;
 	}
 
-	iResult = ann_config_set_nodes(cfg, 0, 12);
+	iResult = ann_config_set_hidden_nodes(cfg, 0, 12);
 	if(iResult != ANN_NO_ERROR)
 	{
 		printf("ann_config_set_nodes() failed with error: %d\n", iResult);

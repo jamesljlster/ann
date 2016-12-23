@@ -103,7 +103,7 @@ RET:
 	return retValue;
 }
 
-int ann_config_set_nodes(ann_config_t config, int hiddenLayerIndex, int nodes)
+int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int nodes)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 

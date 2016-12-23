@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
 		if(i > 0)
 		{
-			iResult = ann_config_set_nodes(cfg, i - 1, i);
+			iResult = ann_config_set_hidden_nodes(cfg, i - 1, i);
 			if(iResult != ANN_NO_ERROR)
 			{
 				printf("ann_config_set_nodes() failed\n");

@@ -31,7 +31,7 @@ int ann_config_get_hidden_layers(ann_config_t config)
 	return cfgRef->layers - 2;
 }
 
-int ann_config_get_nodes(ann_config_t config, int hiddenLayerIndex)
+int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex)
 {
 	int layerIndex;
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
