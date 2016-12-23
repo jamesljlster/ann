@@ -8,25 +8,21 @@
 
 #define INIT_NODES	10
 
-int ann_config_set_learning_rate(ann_config_t config, double learningRate)
+void ann_config_set_learning_rate(ann_config_t config, double learningRate)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
 	cfgRef->learningRate = learningRate;
-
-	return ANN_NO_ERROR;
 }
 
-int ann_config_set_momentum_coef(ann_config_t config, double momentumCoef)
+void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
 	cfgRef->momentumCoef = momentumCoef;
-
-	return ANN_NO_ERROR;
 }
 
-int ann_config_set_inputs(ann_config_t config, int inputs)
+void ann_config_set_inputs(ann_config_t config, int inputs)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
@@ -36,11 +32,9 @@ int ann_config_set_inputs(ann_config_t config, int inputs)
 	{
 		cfgRef->nodeList[0] = inputs;
 	}
-
-	return ANN_NO_ERROR;
 }
 
-int ann_config_set_outputs(ann_config_t config, int outputs)
+void ann_config_set_outputs(ann_config_t config, int outputs)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
@@ -50,8 +44,6 @@ int ann_config_set_outputs(ann_config_t config, int outputs)
 	{
 		cfgRef->nodeList[cfgRef->layers - 1] = outputs;
 	}
-
-	return ANN_NO_ERROR;
 }
 
 int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
@@ -116,13 +108,11 @@ int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int n
 	return ANN_NO_ERROR;
 }
 
-int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
+void ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
 	cfgRef->transferFuncIndex = tFuncIndex;
-
-	return ANN_NO_ERROR;
 }
 
 int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value)

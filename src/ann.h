@@ -56,13 +56,13 @@ int ann_config_export(ann_config_t config, const char* filePath);
 void ann_config_delete(ann_config_t config);
 void ann_config_print(ann_config_t config);
 
-int ann_config_set_inputs(ann_config_t config, int inputs);
-int ann_config_set_outputs(ann_config_t config, int outputs);
 int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers);
 int ann_config_set_hodden_nodes(ann_config_t config, int hiddenLayerIndex, int nodes);
-int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
-int ann_config_set_learning_rate(ann_config_t config, double learningRate);
-int ann_config_set_momentum_coef(ann_config_t config, double momentumCoef);
+void ann_config_set_inputs(ann_config_t config, int inputs);
+void ann_config_set_outputs(ann_config_t config, int outputs);
+void ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
+void ann_config_set_learning_rate(ann_config_t config, double learningRate);
+void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef);
 
 int ann_config_get_inputs(ann_config_t config);
 int ann_config_get_outputs(ann_config_t config);
