@@ -3,6 +3,69 @@
 #include "ann.h"
 #include "ann_private.h"
 
+int ann_get_inputs(ann_t ann)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_inputs(annCfg);
+}
+
+int ann_get_outputs(ann_t ann)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_outputs(annCfg);
+}
+
+int ann_get_hidden_layers(ann_t ann)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_hidden_layers(annCfg);
+}
+
+int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_hidden_nodes(annCfg, hiddenLayerIndex);
+}
+
+int ann_get_transfer_func(ann_t ann)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_transfer_func(annCfg);
+}
+
+double ann_get_learning_rate(ann_t ann)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_learning_rate(annCfg);
+}
+
+double ann_get_momentum_coef(ann_t ann)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_momentum_coef(annCfg);
+}
+
 ann_config_t ann_get_config(ann_t ann)
 {
 	struct ANN_STRUCT* annRef = ann;

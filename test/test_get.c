@@ -24,7 +24,8 @@ int main(int argc, char* argv[])
 	}
 
 	cfg = ann_get_config(ann);
-
+	
+	printf("Using ann_config_get_*:\n");
 	printf("inputs: %d\n", ann_config_get_inputs(cfg));
 	printf("outputs: %d\n", ann_config_get_outputs(cfg));
 	printf("hidden layers: %d\n", ann_config_get_hidden_layers(cfg));
@@ -37,6 +38,21 @@ int main(int argc, char* argv[])
 	printf("transfer function index: %d\n", ann_config_get_transfer_func(cfg));
 	printf("learning rate: %lf\n", ann_config_get_learning_rate(cfg));
 	printf("momentum coef: %lf\n", ann_config_get_momentum_coef(cfg));
+	
+	printf("\n");
+	printf("Using ann_get_*:\n");
+	printf("inputs: %d\n", ann_get_inputs(ann));
+	printf("outputs: %d\n", ann_get_outputs(ann));
+	printf("hidden layers: %d\n", ann_get_hidden_layers(ann));
+	printf("hidden nodes: ");
+	for(i = 0; i < ann_get_hidden_layers(ann); i++)
+	{
+		printf("%d, ", ann_get_hidden_nodes(ann, i));
+	}
+	printf("\n");
+	printf("transfer function index: %d\n", ann_get_transfer_func(ann));
+	printf("learning rate: %lf\n", ann_get_learning_rate(ann));
+	printf("momentum coef: %lf\n", ann_get_momentum_coef(ann));
 
 	ann_delete(ann);
 

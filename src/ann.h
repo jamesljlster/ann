@@ -41,6 +41,14 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
 double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
 double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
 
+int ann_get_inputs(ann_t ann);
+int ann_get_outputs(ann_t ann);
+int ann_get_hidden_layers(ann_t ann);
+int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex);
+int ann_get_transfer_func(ann_t ann);
+double ann_get_learning_rate(ann_t ann);
+double ann_get_momentum_coef(ann_t ann);
+
 //int ann_config_create(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex);
 int ann_config_create(ann_config_t* configPtr);
 int ann_config_import(ann_config_t* configPtr, const char* filePath);
