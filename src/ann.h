@@ -38,6 +38,12 @@ ann_config_t ann_get_config(ann_t ann);
 
 int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
 int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
+
+void ann_zero_weight(ann_t ann);
+void ann_zero_threshold(ann_t ann);
+void ann_rand_weight(ann_t ann);
+void ann_rand_threshold(ann_t ann);
+
 double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
 double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
 

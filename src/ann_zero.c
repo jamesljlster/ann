@@ -1,23 +1,29 @@
-#include <stdlib.h>
-#include <time.h>
 
 #include "ann.h"
 #include "ann_private.h"
 
-#define NUM_PRECISION	1000000
-#define NUM_MAX			1
-#define	NUM_MIN			-1
+#include "debug.h"
 
-double ann_rand()
+void ann_zeromem(struct ANN_STRUCT* asPtr)
 {
-	int randRange;
-
-	randRange = (NUM_MAX - NUM_MIN) * NUM_PRECISION + 1;
-
-	return (double)(rand() % randRange) / (double)(NUM_PRECISION) + (double)NUM_MIN;
+	asPtr->layerList = NULL;
+	ann_config_zeromem(&asPtr->config);
 }
 
-void ann_rand_weight(ann_t ann)
+void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr)
+{
+	cfgPtr->inputs = 0;
+	cfgPtr->outputs = 0;
+	cfgPtr->layers = 0;
+	cfgPtr->transferFuncIndex = 0;
+	
+	cfgPtr->learningRate = 0;
+	cfgPtr->momentumCoef = 0;
+
+	cfgPtr->nodeList = NULL;
+}
+
+void ann_zero_weight(ann_t ann)
 {
 	int i, j, k;
 
@@ -29,21 +35,19 @@ void ann_rand_weight(ann_t ann)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
-	srand(time(NULL));
-
 	for(i = 1; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
 			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
 			{
-				layerRef[i].nodeList[j].weight[k] = ann_rand();
+				layerRef[i].nodeList[j].weight[k] = 0;
 			}
 		}
 	}
 }
 
-void ann_rand_threshold(ann_t ann)
+void ann_zero_threshold(ann_t ann)
 {
 	int i, j;
 
@@ -55,13 +59,11 @@ void ann_rand_threshold(ann_t ann)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
-	srand(time(NULL));
-
 	for(i = 0; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
-			layerRef[i].nodeList[j].threshold = ann_rand();
+			layerRef[i].nodeList[j].threshold = 0;
 		}
 	}
 }
