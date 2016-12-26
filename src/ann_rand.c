@@ -62,7 +62,7 @@ void ann_rand_threshold(ann_t ann)
 
 	srand(time(NULL));
 
-	for(i = 0; i < cfgRef->layers; i++)
+	for(i = 1; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
