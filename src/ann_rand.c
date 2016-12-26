@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
 
 #include "ann.h"
 #include "ann_private.h"
@@ -29,6 +30,8 @@ void ann_rand_weight(ann_t ann)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
+	assert(layerRef != NULL);
+
 	srand(time(NULL));
 
 	for(i = 1; i < cfgRef->layers; i++)
@@ -54,6 +57,8 @@ void ann_rand_threshold(ann_t ann)
 	annRef = ann;
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
+
+	assert(layerRef != NULL);
 
 	srand(time(NULL));
 

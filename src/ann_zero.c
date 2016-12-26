@@ -1,3 +1,4 @@
+#include <assert.h>
 
 #include "ann.h"
 #include "ann_private.h"
@@ -35,6 +36,8 @@ void ann_zero_weight(ann_t ann)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
+	assert(layerRef != NULL);
+
 	for(i = 1; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
@@ -58,6 +61,8 @@ void ann_zero_threshold(ann_t ann)
 	annRef = ann;
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
+
+	assert(layerRef != NULL);
 
 	for(i = 0; i < cfgRef->layers; i++)
 	{
