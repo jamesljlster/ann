@@ -93,6 +93,12 @@ int main()
 
 	ann_print(ann);
 
+	iResult = ann_export(ann, "./test.vgn");
+	if(iResult != ANN_NO_ERROR)
+	{
+		printf("ann_export() failed!\n");
+	}
+
 	ann_delete(ann);
 	ann_config_delete(cfg);
 
