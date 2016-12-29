@@ -48,7 +48,7 @@ void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
 		{
 			for(j = 0; j < asPtr->layerList[i].nodeCount; j++)
 			{
-				fprintf(fptr, "%02d-%02d-%02d=%.32lf\n", i + 1, k + 1, j + 1, asPtr->layerList[i].nodeList[j].weight[k]);
+				fprintf(fptr, "%02d-%02d-%02d=%.32G\n", i + 1, k + 1, j + 1, asPtr->layerList[i].nodeList[j].weight[k]);
 			}
 		}
 	}
@@ -69,7 +69,7 @@ void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
 	{
 		for(j = 0; j < asPtr->layerList[i].nodeCount; j++)
 		{
-			fprintf(fptr, "%02d-%02d=%.32lf\n", i + 1, j + 1, asPtr->layerList[i].nodeList[j].threshold);
+			fprintf(fptr, "%02d-%02d=%.32G\n", i + 1, j + 1, asPtr->layerList[i].nodeList[j].threshold);
 		}	
 	}
 	fprintf(fptr, "\n"); 
@@ -107,8 +107,8 @@ void ann_fprint_training_info(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 	log("enter");
 
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TRAINING_INFO]);
-	fprintf(fptr, "%s= %lf\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_LEARNING_RATE], cfgPtr->learningRate);
-	fprintf(fptr, "%s= %lf\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_MOMENTUM_COEF], cfgPtr->momentumCoef);
+	fprintf(fptr, "%s= %G\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_LEARNING_RATE], cfgPtr->learningRate);
+	fprintf(fptr, "%s= %G\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_MOMENTUM_COEF], cfgPtr->momentumCoef);
 	fprintf(fptr, "\n");
 
 	log("exit");
