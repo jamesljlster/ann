@@ -49,12 +49,7 @@ int main(int argc, char* argv[])
 		scanf(" %lf", &input[i]);
 	}
 
-	iResult = ann_forward_computation(ann, input, output);
-	if(iResult != ANN_NO_ERROR)
-	{
-		printf("ann_forward_compution() failed with error: %d\n", iResult);
-		return -1;
-	}
+	ann_forward_computation(ann, input, output);
 
 	for(i = 0; i < outputs; i++)
 	{
