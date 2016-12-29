@@ -1,2 +1,2 @@
 
-Copyright (C) 2016 ZHENG-LING LAI
+Copyright (C) 2016 Zheng-Ling Lai
