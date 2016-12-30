@@ -9,7 +9,6 @@
 int ann_training_gradient(ann_t ann, double* input, double* desire, double* output, double* err)
 {
 	int i;
-	int iResult;
 	int retValue = ANN_NO_ERROR;
 	
 	double* outputStore = NULL;
@@ -34,12 +33,7 @@ int ann_training_gradient(ann_t ann, double* input, double* desire, double* outp
 	}
 
 	// Forward computation
-	iResult = ann_forward_computation(ann, input, outputStore);
-	if(iResult != ANN_NO_ERROR)
-	{
-		retValue = iResult;
-		goto RET;
-	}
+	ann_forward_computation(ann, input, outputStore);
 
 	// Find error
 	for(i = 0; i < cfgRef->outputs; i++)
@@ -48,12 +42,7 @@ int ann_training_gradient(ann_t ann, double* input, double* desire, double* outp
 	}
 
 	// Backpropagation
-	iResult = ann_backpropagation(ann, cfgRef->learningRate, cfgRef->momentumCoef, errorStore);
-	if(iResult != ANN_NO_ERROR)
-	{
-		retValue = iResult;
-		goto RET;
-	}
+	ann_backpropagation(ann, cfgRef->learningRate, cfgRef->momentumCoef, errorStore);
 
 	if(output != NULL)
 		memcpy(output, outputStore, cfgRef->outputs * sizeof(double));

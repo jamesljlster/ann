@@ -12,6 +12,8 @@ struct ANN_NODE
 	double threshold;
 	double deltaTh;
 
+	double delta;
+
 	double sCalc;
 	double output;
 };

@@ -4,7 +4,7 @@
 
 #include "debug.h"
 
-int ann_forward_computation(ann_t ann, double* input, double* output)
+void ann_forward_computation(ann_t ann, double* input, double* output)
 {
 	int i, j;
 
@@ -64,7 +64,5 @@ int ann_forward_computation(ann_t ann, double* input, double* output)
 			output[i] = layerRef[cfgRef->layers - 1].nodeList[i].output;
 		}
 	}
-
-	return ANN_NO_ERROR;
 }
 

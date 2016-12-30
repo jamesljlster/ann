@@ -10,7 +10,7 @@
 
 extern double dataset[];
 
-int main()
+int main(int argc, char* argv[])
 {
 	int i, j;
 	int iResult;
@@ -22,40 +22,52 @@ int main()
 	ann_t ann;
 	ann_config_t cfg;
 
-	// Create config
-	iResult = ann_config_create(&cfg);
-	if(iResult != ANN_NO_ERROR)
+	if(argc > 1)
 	{
-		printf("ann_config_create() failed with error: %d\n", iResult);
-		return -1;
+		iResult = ann_import(&ann, argv[1]);
+		if(iResult != ANN_NO_ERROR)
+		{
+			printf("Failed to import neural network\n");
+			return -1;
+		}
 	}
-
-	ann_config_set_inputs(cfg, INPUTS);
-	ann_config_set_outputs(cfg, OUTPUTS);
-	ann_config_set_transfer_func(cfg, ANN_SIGMOID);
-	ann_config_set_learning_rate(cfg, 0.01);
-	ann_config_set_momentum_coef(cfg, 0.1);
-
-	iResult = ann_config_set_hidden_layers(cfg, 1);
-	if(iResult != ANN_NO_ERROR)
+	else
 	{
-		printf("ann_config_set_hidden_layers() failed with error: %d\n", iResult);
-		return -1;
-	}
+		// Create config
+		iResult = ann_config_create(&cfg);
+		if(iResult != ANN_NO_ERROR)
+		{
+			printf("ann_config_create() failed with error: %d\n", iResult);
+			return -1;
+		}
 
-	iResult = ann_config_set_hidden_nodes(cfg, 0, 12);
-	if(iResult != ANN_NO_ERROR)
-	{
-		printf("ann_config_set_nodes() failed with error: %d\n", iResult);
-		return -1;
-	}
+		ann_config_set_inputs(cfg, INPUTS);
+		ann_config_set_outputs(cfg, OUTPUTS);
+		ann_config_set_transfer_func(cfg, ANN_SIGMOID);
+		ann_config_set_learning_rate(cfg, 0.01);
+		ann_config_set_momentum_coef(cfg, 0.1);
 
-	// Create neural network
-	iResult = ann_create(&ann, cfg);
-	if(iResult != ANN_NO_ERROR)
-	{
-		printf("ann_create() failed with error: %d\n", iResult);
-		return -1;
+		iResult = ann_config_set_hidden_layers(cfg, 1);
+		if(iResult != ANN_NO_ERROR)
+		{
+			printf("ann_config_set_hidden_layers() failed with error: %d\n", iResult);
+			return -1;
+		}
+
+		iResult = ann_config_set_hidden_nodes(cfg, 0, 12);
+		if(iResult != ANN_NO_ERROR)
+		{
+			printf("ann_config_set_nodes() failed with error: %d\n", iResult);
+			return -1;
+		}
+
+		// Create neural network
+		iResult = ann_create(&ann, cfg);
+		if(iResult != ANN_NO_ERROR)
+		{
+			printf("ann_create() failed with error: %d\n", iResult);
+			return -1;
+		}
 	}
 
 	// Training
