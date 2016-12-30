@@ -27,7 +27,7 @@ typedef void* ann_config_t;
 extern "C" {
 #endif
 
-//int ann_create_args(ann_t* annPtr, int inputs, int outputs, int hiddenLayers, ...);
+int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
 int ann_create(ann_t* annPtr, ann_config_t config);
 int ann_import(ann_t* annPtr, const char* filePath);
 int ann_export(ann_t ann, const char* filePath);
