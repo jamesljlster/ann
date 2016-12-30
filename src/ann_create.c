@@ -1,9 +1,67 @@
 #include <stdlib.h>
+#include <stdarg.h>
 
 #include "ann.h"
 #include "ann_private.h"
 
 #include "debug.h"
+
+int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...)
+{
+	int i;
+	int iResult;
+	int retValue = ANN_NO_ERROR;
+	ann_config_t cfg = NULL;
+
+	int tmp;
+	va_list argList;
+	
+	// Create config
+	iResult = ann_config_create(&cfg);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto RET;
+	}
+
+	// Set config
+	ann_config_set_inputs(cfg, inputs);
+	ann_config_set_outputs(cfg, outputs);
+	ann_config_set_transfer_func(cfg, tFuncIndex);
+	ann_config_set_learning_rate(cfg, learningRate);
+	ann_config_set_momentum_coef(cfg, momentumCoef);
+	
+	iResult = ann_config_set_hidden_layers(cfg, hiddenLayers);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
+	}
+
+	va_start(argList, hiddenLayers);
+	for(i = 0; i < hiddenLayers; i++)
+	{
+		tmp = va_arg(argList, int);
+		iResult = ann_config_set_hidden_nodes(cfg, i, tmp);
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto ERR;
+		}
+	}
+
+	// Assign value
+	*configPtr = cfg;
+
+	goto RET;
+
+ERR:
+	if(cfg != NULL)
+		ann_config_delete(cfg);
+
+RET:
+	return retValue;
+}
 
 int ann_config_create(ann_config_t* configPtr)
 {
