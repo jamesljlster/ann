@@ -45,14 +45,7 @@ void ann_forward_computation(ann_t ann, double* input, double* output)
 			}
 			layerRef[i].nodeList[j].sCalc = calcTmp + layerRef[i].nodeList[j].threshold;
 			
-			if(layerRef[i].activeFunc == NULL)
-			{
-				layerRef[i].nodeList[j].output = layerRef[i].nodeList[j].sCalc;
-			}
-			else
-			{
-				layerRef[i].nodeList[j].output = layerRef[i].activeFunc(layerRef[i].nodeList[j].sCalc);
-			}
+			layerRef[i].nodeList[j].output = layerRef[i].activeFunc(layerRef[i].nodeList[j].sCalc);
 		}
 	}
 
