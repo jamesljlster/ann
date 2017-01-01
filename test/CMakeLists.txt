@@ -6,7 +6,6 @@ project(ann_test C)
 # Set file list
 file(GLOB PROJECT_SRCS 
 	${CMAKE_CURRENT_SOURCE_DIR}/*.c
-	${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 	)
 
 file(GLOB TEST_TXT

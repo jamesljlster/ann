@@ -5,7 +5,7 @@ set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation 
 set(BUILD_TEST OFF CACHE BOOL "Enable building test")
 
 # Set project
-project(nnlib C)
+project(ann C)
 
 # Include directories
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
