@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 #include <ann.h>
 
@@ -18,6 +19,8 @@ int main(int argc, char* argv[])
 
 	double err[OUTPUTS];
 	double iterErr[OUTPUTS];
+
+	clock_t timeHold;
 
 	ann_t ann;
 	ann_config_t cfg;
@@ -71,6 +74,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Training
+	timeHold = 0;
 	iterCount = 0;
 	while(iterCount < ITER_COUNT)
 	{
@@ -103,7 +107,11 @@ int main(int argc, char* argv[])
 		iterCount++;
 	}
 
+	timeHold = clock() - timeHold;
+
 	ann_print(ann);
+
+	printf("\nTime cost: %lf secs\n\n", (double)timeHold / (double)CLOCKS_PER_SEC);
 
 	iResult = ann_export(ann, "./test.vgn");
 	if(iResult != ANN_NO_ERROR)
