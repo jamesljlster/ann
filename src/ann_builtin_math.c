@@ -43,7 +43,7 @@ int ann_get_transfer_func_id(char* str)
 		iResult = ann_strcmp(str, ann_transfer_func_name[i]);
 		if(iResult == ANN_NO_ERROR)
 		{
-			retValue = iResult;
+			retValue = i;
 			break;
 		}
 	}
@@ -65,12 +65,12 @@ double ann_sigmoid_derivative(double x)
 
 double ann_modified_sigmoid(double x)
 {
-	return x;
+	return 2.0 * ann_sigmoid(x) - 1.0;
 }
 
 double ann_modified_sigmoid_derivative(double x)
 {
-	return x;
+	return 2.0 * ann_sigmoid_derivative(x);
 }
 
 double ann_tanh(double x)

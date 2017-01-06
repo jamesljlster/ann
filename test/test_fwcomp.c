@@ -34,6 +34,8 @@ int main(int argc, char* argv[])
 	inputs = ann_config_get_inputs(cfg);
 	outputs = ann_config_get_outputs(cfg);
 
+	ann_config_print(cfg);
+
 	// Memory allocation
 	input = calloc(inputs, sizeof(double));
 	output = calloc(outputs, sizeof(double));
