@@ -6,19 +6,16 @@
 
 #define INPUTS		4
 #define OUTPUTS		3
-#define ITER_COUNT	10000
+#define ITER_COUNT	10000000
 #define DATA_AMOUNT	120
 
 extern double dataset[];
 
 int main(int argc, char* argv[])
 {
-	int i, j;
+	int i;
 	int iResult;
 	int iterCount;
-
-	double err[OUTPUTS];
-	double iterErr[OUTPUTS];
 
 	clock_t timeHold;
 
@@ -73,51 +70,22 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	// Training
-	timeHold = 0;
+	// Print current ann config info
+	printf("Test with:\n");
+	ann_config_print(cfg);
+
+	// Test performance
+	timeHold = clock();
 	iterCount = 0;
+	i = 0;
 	while(iterCount < ITER_COUNT)
 	{
-		for(i = 0; i < OUTPUTS; i++)
-			iterErr[i] = 0;
-
-		for(i = 0; i < DATA_AMOUNT; i++)
-		{
-			iResult = ann_training_gradient(ann, &dataset[i * (INPUTS + OUTPUTS)], &dataset[i * (INPUTS + OUTPUTS) + INPUTS], NULL, err);
-			if(iResult != ANN_NO_ERROR)
-			{
-				printf("ann_training_gradient() failed with error: %d\n", iResult);
-				return -1;
-			}
-			
-			for(j = 0; j < OUTPUTS; j++)
-				iterErr[j] += err[j];
-		}
-
-		for(i = 0; i < OUTPUTS; i++)
-			iterErr[i] /= (double)DATA_AMOUNT;
-
-		printf("Iter. %5d error list: ", iterCount);
-		for(i = 0; i < OUTPUTS; i++)
-		{
-			printf("%lf, ", iterErr[i]);
-		}
-		printf("\n");
-
+		ann_forward_computation(ann, &dataset[i * (INPUTS + OUTPUTS)], NULL);
 		iterCount++;
 	}
-
 	timeHold = clock() - timeHold;
 
-	ann_print(ann);
-
-	printf("\nTime cost: %lf secs\n\n", (double)timeHold / (double)CLOCKS_PER_SEC);
-
-	iResult = ann_export(ann, "./test.vgn");
-	if(iResult != ANN_NO_ERROR)
-	{
-		printf("ann_export() failed!\n");
-	}
+	printf("Iters %d cost %lf\n", ITER_COUNT, (double)timeHold / (double)CLOCKS_PER_SEC);
 
 	ann_delete(ann);
 	ann_config_delete(cfg);

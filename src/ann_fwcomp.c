@@ -6,7 +6,9 @@
 
 void ann_forward_computation(ann_t ann, double* input, double* output)
 {
-	int i, j;
+	int i, j, k;
+
+	double calcTmp;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
@@ -20,14 +22,7 @@ void ann_forward_computation(ann_t ann, double* input, double* output)
 	// Copy inputs
 	for(i = 0; i < cfgRef->inputs; i++)
 	{
-		if(layerRef[0].activeFunc == NULL)
-		{
-			layerRef[0].nodeList[i].output = input[i];
-		}
-		else
-		{
-			layerRef[0].nodeList[i].output = layerRef[0].activeFunc(input[i]);
-		}
+		layerRef[0].nodeList[i].output = layerRef[0].activeFunc(input[i]);
 	}
 	
 	// Calculation
@@ -35,16 +30,12 @@ void ann_forward_computation(ann_t ann, double* input, double* output)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
-			int k;
-			double calcTmp;
-
 			calcTmp = 0;
 			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
 			{
 				calcTmp += layerRef[i - 1].nodeList[k].output * layerRef[i].nodeList[j].weight[k];
 			}
 			layerRef[i].nodeList[j].sCalc = calcTmp + layerRef[i].nodeList[j].threshold;
-			
 			layerRef[i].nodeList[j].output = layerRef[i].activeFunc(layerRef[i].nodeList[j].sCalc);
 		}
 	}
