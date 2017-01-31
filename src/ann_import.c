@@ -1,8 +1,9 @@
 #include <stdlib.h>
 
-#include <ann.h>
-#include <ann_file_proc.h>
-#include <ann_private.h>
+#include "ann.h"
+#include "ann_private.h"
+#include "ann_parse.h"
+#include "ann_file_header.h"
 
 #include "debug.h"
 
