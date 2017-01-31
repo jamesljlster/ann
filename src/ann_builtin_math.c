@@ -1,7 +1,7 @@
 #include <math.h>
 
 #include "ann.h"
-#include "ann_private.h"
+#include "ann_file_proc.h"
 #include "ann_builtin_math.h"
 
 #include "debug.h"
@@ -85,12 +85,12 @@ double ann_tanh_derivative(double x)
 
 double ann_gaussian(double x)
 {
-    return exp(-pow(x, 2));
+    return exp(-pow(x, 2) * 0.5);
 }
 
 double ann_gaussian_derivative(double x)
 {
-    return -2.0 * x * exp(-pow(x, 2));
+    return -2.0 * x * exp(-pow(x, 2) + 0.5);
 }
 
 double ann_modified_gaussian(double x)
