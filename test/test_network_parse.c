@@ -1,6 +1,8 @@
 #include <stdio.h>
 
 #include <ann.h>
+#include <ann_parse.h>
+#include <ann_print.h>
 #include <ann_private.h>
 #include <ann_file_proc.h>
 
