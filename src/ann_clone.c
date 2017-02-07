@@ -27,6 +27,7 @@ int ann_clone_config(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STRUCT* sr
 	return ANN_NO_ERROR;
 }
 
+#include <stdio.h>
 int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 {
 	int i, j, k;
@@ -44,7 +45,7 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 
 	// Create neural network
 	iResult = ann_create(&ann, srcCfg);
-	if(iResult != ANN_NO_ERROR);
+	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
 		goto RET;
@@ -78,7 +79,7 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 					tmp = ann_get_weight(srcAnn, i, k, j);
 					ann_set_weight(ann, i, k, j, tmp);
 				}
-				tmp = ann_get_threshold(ann, i, j);
+				tmp = ann_get_threshold(srcAnn, i, j);
 				ann_set_threshold(ann, i, j, tmp);
 			}
 		}
@@ -96,7 +97,6 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 			}
 		}
 	}
-	
 
 	// Assign value
 	*dstAnnPtr = ann;
