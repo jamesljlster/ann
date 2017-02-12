@@ -9,6 +9,7 @@
 #define OUTPUTS		4
 #define ITER_COUNT	10000000
 #define DATA_AMOUNT	2540
+#define TARGET_MSE	0.001
 
 extern double dataset[];
 
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
 
 	double errSum;
 	double errAvg;
+	double mse;
 
 	clock_t timeHold;
 
@@ -61,7 +63,7 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
-		iResult = ann_config_set_hidden_nodes(cfg, 0, 12);
+		iResult = ann_config_set_hidden_nodes(cfg, 0, 24);
 		if(iResult != ANN_NO_ERROR)
 		{
 			printf("ann_config_set_nodes() failed with error: %d\n", iResult);
@@ -84,6 +86,7 @@ int main(int argc, char* argv[])
 	{
 		errSum = 0;
 		errAvg = 0;
+		mse = 0;
 //		for(i = 0; i < OUTPUTS; i++)
 //		{
 //			iterErr[i] = 0;
@@ -98,34 +101,34 @@ int main(int argc, char* argv[])
 				return -1;
 			}
 			
-			if(iterCount % 500 == 0)
+			for(j = 0; j < OUTPUTS; j++)
 			{
-				for(j = 0; j < OUTPUTS; j++)
-				{
-	//				iterErr[j] += err[j];
-					errSum += fabs(err[j]);
-					errAvg += err[j];
-				}
+//				iterErr[j] += err[j];
+				mse += err[j] * err[j];
+				errSum += mse;
+				errAvg += fabs(err[j]);
 			}
 		}
 
 //		for(i = 0; i < OUTPUTS; i++)
 //			iterErr[i] /= (double)DATA_AMOUNT;
 
+		errAvg /= (double)DATA_AMOUNT * (double)OUTPUTS;
+		mse /= (double)DATA_AMOUNT * (double)OUTPUTS;
 
-		if(iterCount % 500 == 0)
-		{
-			errAvg /= (double)DATA_AMOUNT * (double)OUTPUTS;
+		printf("Iter. %5d; ", iterCount);
+		printf("Sum of error: %lf, ", errSum);
+		printf("Average of error: %lf, ", errAvg);
+		printf("MSE: %lf\n", mse);
+		
+		if(mse < TARGET_MSE)
+			break;
 
-			printf("Iter. %5d error list: ", iterCount);
-			printf("Sum error: %lf, ", errSum);
-			printf("Average error: %lf\n", errAvg);
-	//		for(i = 0; i < OUTPUTS; i++)
-	//		{
-	//			printf("%lf, ", iterErr[i]);
-	//		}
-	//		printf("\n");
-		}
+//		for(i = 0; i < OUTPUTS; i++)
+//		{
+//			printf("%lf, ", iterErr[i]);
+//		}
+//		printf("\n");
 
 		iterCount++;
 	}
