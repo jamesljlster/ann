@@ -162,14 +162,75 @@ void ann_rand_threshold(ann_t ann);
  */
 
 double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
+/**
+ *	@fn		double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
+ *	@brief	Get weight value with given information.
+ *	@param	ann:			Target ann_t type variable.
+ *	@param	layerIndex:		Layer index of target neural network node.
+ *	@param	preNodeIndex:	The node index of the weight that link to previous layer.
+ *	@param	nodeIndex:		The node index of the weight that link to current layer.
+ *	@return	Target weight value.
+ */
+
 double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
+/**
+ *	@fn		double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
+ *	@brief	Get threshold value with given information.
+ *	@param	ann:		Target ann_t type variable.
+ *	@param	layerIndex: Layer index of target neural network node.
+ *	@param	nodeIndex:	The node index of the target neural network node.
+ *	@return	Target threshold value.
+ */
 
 int ann_get_inputs(ann_t ann);
+/**
+ *	@fn		int ann_get_inputs(ann_t ann);
+ *	@brief	Get inputs of target neural network.
+ *	@param	ann:	Target ann_t type variable.
+ *	@return	Inputs of target neural network.
+ */
+
 int ann_get_outputs(ann_t ann);
+/**
+ *	@fn		int ann_get_outputs(ann_t ann);
+ *	@brief	Get outputs of target neural network.
+ *	@param	ann: Target ann_t type variable.
+ *	@return	Outputs of target neural network.
+ */
+
 int ann_get_hidden_layers(ann_t ann);
+/**
+ *	@fn		int ann_get_hidden_layers(ann_t ann);
+ *	@brief	Get hidden layers of target neural network.
+ *	@param	ann: Target ann_t type variable.
+ *	@return	Outputs of target neural network.
+ */
+
 int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex);
+/**
+ *	@fn		int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex);
+ *	@brief	Get hidden nodes of target hidden layer.
+ *	@param	ann:				Target ann_t type variable.
+ *	@param	hiddenLayerIndex:	Target hidden layer index of neural network.
+ *	@return	Hidden nodes of target hidden layer in neural network.
+ */
+
 int ann_get_transfer_func(ann_t ann);
+/**
+ *	@fn		int ann_get_transfer_func(ann_t ann);
+ *	@brief	Get transfer (activation) function index of target neural network.
+ *	@param	ann: Target ann_t type variable.
+ *	@return Transfer (activation) function index of target neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
+ */
+
 double ann_get_learning_rate(ann_t ann);
+/**
+ *	@fn		double ann_get_learning_rate(ann_t ann);
+ *	@brief	Get default learning rate of target neural network.
+ *	@param	ann: Target ann_t type variable.
+ *	@return	Default learning rate of neural network.
+ */
+
 double ann_get_momentum_coef(ann_t ann);
 
 int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
