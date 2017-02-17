@@ -232,13 +232,67 @@ double ann_get_learning_rate(ann_t ann);
  */
 
 double ann_get_momentum_coef(ann_t ann);
+/**
+ *	@fn		double ann_get_momentum_coef(ann_t ann);
+ *	@brief	Get default momentum coefficient of target neural network.
+ *	@param	ann: Target ann_t type variable.
+ *	@return Default momentum coefficient of neural network.
+ */
 
 int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
+/**
+ *	@fn		int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
+ *	@brief	Create a neural network configuration with function arguments. For more detail and example, please visit the wiki on git website.
+ *	@param	configPtr:		Pointer of ann_config_t type variable.
+ *	@param	inputs:			Inputs of neural network.
+ *	@param	outputs:		Outputs of neural network.
+ *	@param	tFuncIndex:		Transfer function index of neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
+ *	@param	learningRate:	Learinig rate of neural network.
+ *	@param	momentumCoef:	Momentum coefficient of neural network.
+ *	@param	hiddenLayers:	Hidden layers of neural network.
+ *	@param	... :			Nodes of each hidden layers in neural network.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ */
+
 int ann_config_create(ann_config_t* configPtr);
+/**
+ *	@fn		int ann_config_create(ann_config_t* configPtr);
+ *	@brief	Create a empty neural network configuration.
+ *	@param	configPtr:	Pointer of ann_config_t type.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ */
+
 int ann_config_import(ann_config_t* configPtr, const char* filePath);
+/**
+ *	@fn		int ann_import(ann_t* annPtr, const char* filePath);
+ *	@brief	Import neural network configuration with given file path.
+ *	@param	configPotr:	Pointer of ann_config_t type variable.
+ *	@param	filePath:	Input file path of neural network configuration file.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ */
+ 
 int ann_config_export(ann_config_t config, const char* filePath);
+/**
+ *	@fn		int ann_export(ann_t ann, const char* filePath);
+ *	@brief	Export neural network configuration with given file path.
+ *	@param	config:		Target ann_config_t type variable.
+ *	@param	filePath:	Output file path of neural network configuration file.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ */
+
 void ann_config_delete(ann_config_t config);
+/**
+ *	@fn		void ann_delete(ann_t ann);
+ *	@brief	Delete neural network configuration.
+ *	@param	config:	Target ann_config_t type variable.
+ */
+
 void ann_config_print(ann_config_t config);
+/**
+ *	@fn		void ann_config_print(ann_config_t config);
+ *	@brief	Print target neural network configuration.
+ *	@param	config:	Target ann_config_t type variable.
+ */
 
 int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers);
 int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int nodes);
