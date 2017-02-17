@@ -295,6 +295,14 @@ void ann_config_print(ann_config_t config);
  */
 
 int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers);
+/**
+ *	@fn		int ann_get_hidden_layers(ann_t ann);
+ *	@brief	Set hidden layers of target neural network configuration.
+ *	@param	config: 		Target ann_config_t type variable.
+ *	@param	hiddenLayers:	Hidden layers of target neural network configuration.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ */
+
 int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int nodes);
 void ann_config_set_inputs(ann_config_t config, int inputs);
 void ann_config_set_outputs(ann_config_t config, int outputs);
