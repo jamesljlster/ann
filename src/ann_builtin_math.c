@@ -90,17 +90,16 @@ double ann_gaussian(double x)
 
 double ann_gaussian_derivative(double x)
 {
-    return -2.0 * x * exp(-pow(x, 2) + 0.5);
+    return -x * exp(-pow(x, 2) * 0.5);
 }
 
 double ann_modified_gaussian(double x)
 {
-	return x;
+	return 2.0 * ann_gaussian(x) * tanh(x);
 }
 
 double ann_modified_gaussian_derivative(double x)
 {
-	return x;
+	return 1.0 / 0.61 * ann_gaussian_derivative(x);
 }
-
 
