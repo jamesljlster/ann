@@ -95,11 +95,25 @@ double ann_gaussian_derivative(double x)
 
 double ann_modified_gaussian(double x)
 {
-	return 2.0 * ann_gaussian(x) * tanh(x);
+	if(x == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return sin(x) / x;
+	}
 }
 
 double ann_modified_gaussian_derivative(double x)
 {
-	return 1.0 / 0.61 * ann_gaussian_derivative(x);
+	if(x == 0)
+	{
+		return 0;
+	}
+	else
+	{
+		return (cos(x) / x) - (sin(x) / pow(x, 2));
+	}
 }
 
