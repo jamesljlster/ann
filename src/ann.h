@@ -28,10 +28,10 @@ enum ANN_TRANSFER_FUNC
 };
 
 /** Type definition of ann. */
-typedef void* ann_t;
+typedef struct ANN_STRUCT* ann_t;
 
 /** Type definition of ann configuration. */
-typedef void* ann_config_t;
+typedef struct ANN_CONFIG_STRUCT* ann_config_t;
 
 #ifdef __cplusplus
 extern "C" {
