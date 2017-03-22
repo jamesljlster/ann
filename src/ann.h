@@ -48,7 +48,7 @@ int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, doub
  *	@param	learningRate:	Learinig rate of neural network.
  *	@param	momentumCoef:	Momentum coefficient of neural network.
  *	@param	hiddenLayers:	Hidden layers of neural network.
- *	@param	... :			Nodes of each hidden layers in neural network.
+ *	@param	...:			Nodes of each hidden layers in neural network.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  */
 
@@ -241,7 +241,7 @@ double ann_get_momentum_coef(ann_t ann);
 
 int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
 /**
- *	@fn		int ann_config_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
+ *	@fn		int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
  *	@brief	Create a neural network configuration with function arguments. For more detail and example, please visit the wiki on git website.
  *	@param	configPtr:		Pointer of ann_config_t type variable.
  *	@param	inputs:			Inputs of neural network.
@@ -250,7 +250,7 @@ int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int
  *	@param	learningRate:	Learinig rate of neural network.
  *	@param	momentumCoef:	Momentum coefficient of neural network.
  *	@param	hiddenLayers:	Hidden layers of neural network.
- *	@param	... :			Nodes of each hidden layers in neural network.
+ *	@param	...:			Nodes of each hidden layers in neural network.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  */
 
@@ -264,7 +264,7 @@ int ann_config_create(ann_config_t* configPtr);
 
 int ann_config_import(ann_config_t* configPtr, const char* filePath);
 /**
- *	@fn		int ann_config_import(ann_t* annPtr, const char* filePath);
+ *	@fn		int ann_config_import(ann_config_t* configPtr, const char* filePath);
  *	@brief	Import neural network configuration with given file path.
  *	@param	configPtr:	Pointer of ann_config_t type variable.
  *	@param	filePath:	Input file path of neural network configuration file.
@@ -273,7 +273,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath);
  
 int ann_config_export(ann_config_t config, const char* filePath);
 /**
- *	@fn		int ann_config_export(ann_t ann, const char* filePath);
+ *	@fn		int ann_config_export(ann_config_t config, const char* filePath);
  *	@brief	Export neural network configuration with given file path.
  *	@param	config:		Target ann_config_t type variable.
  *	@param	filePath:	Output file path of neural network configuration file.
@@ -282,7 +282,7 @@ int ann_config_export(ann_config_t config, const char* filePath);
 
 void ann_config_delete(ann_config_t config);
 /**
- *	@fn		void ann_config_delete(ann_t ann);
+ *	@fn		void ann_config_delete(ann_config_t config);
  *	@brief	Delete neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  */
