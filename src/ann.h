@@ -28,10 +28,10 @@ enum ANN_TRANSFER_FUNC
 };
 
 /** Type definition of ann. */
-typedef void* ann_t;
+typedef struct ANN_STRUCT* ann_t;
 
 /** Type definition of ann configuration. */
-typedef void* ann_config_t;
+typedef struct ANN_CONFIG_STRUCT* ann_config_t;
 
 #ifdef __cplusplus
 extern "C" {
@@ -453,6 +453,14 @@ void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, do
  *	@param	learningRate:	Custom learning rate in backpropagation.
  *	@param	momentumCoef:	Custom momentum coefficient in backpropagation.
  *	@param	dError:			Differential value of error value in cost function.
+ */
+
+const char* ann_get_error_msg(int retValue);
+/**
+ *	@fn		const char* ann_get_error_msg(int retValue);
+ *	@brief	Get error msg with return value.
+ *	@param	retValue:	Target return value that trying to parsing.
+ *	@return Constant string pointer that contains parsing message.
  */
 
 #ifdef __cplusplus
