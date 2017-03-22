@@ -455,6 +455,14 @@ void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, do
  *	@param	dError:			Differential value of error value in cost function.
  */
 
+const char* ann_get_error_msg(int retValue);
+/**
+ *	@fn		const char* ann_get_error_msg(int retValue);
+ *	@brief	Get error msg with return value.
+ *	@param	retValue:	Target return value that trying to parsing.
+ *	@return Constant string pointer that contains parsing message.
+ */
+
 #ifdef __cplusplus
 }
 #endif
