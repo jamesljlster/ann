@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 2.8)
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory")
 set(BUILD_TEST OFF CACHE BOOL "Enable building test")
 
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 2)
+set(VERSION_PATCH 1)
+
 # Set project
 project(ann C)
 
@@ -12,6 +16,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # Add subdirectory
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/doc)
 
 if(${BUILD_TEST})
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
