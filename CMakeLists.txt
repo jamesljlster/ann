@@ -6,7 +6,7 @@ set(BUILD_TEST OFF CACHE BOOL "Enable building test")
 
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
-set(VERSION_PATCH 0)
+set(VERSION_PATCH 1)
 
 # Set project
 project(ann C)
