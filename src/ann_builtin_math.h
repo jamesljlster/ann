@@ -26,6 +26,27 @@ double ann_gaussian_derivative(double x);
 double ann_modified_gaussian(double x);
 double ann_modified_gaussian_derivative(double x);
 
+double ann_bent_identity(double x);
+double ann_bent_identity_derivative(double x);
+
+double ann_softplus(double x);
+double ann_softplus_derivative(double x);
+
+double ann_softsign(double x);
+double ann_softsign_derivative(double x);
+
+double ann_sinc(double x);
+double ann_sinc_derivative(double x);
+
+double ann_sinusoid(double x);
+double ann_sinusoid_derivative(double x);
+
+double ann_identity(double x);
+double ann_identity_derivative(double x);
+
+double ann_relu(double x);
+double ann_relu_derivative(double x);
+
 #ifdef __cplusplus
 }
 #endif
