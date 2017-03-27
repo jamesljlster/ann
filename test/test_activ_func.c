@@ -20,7 +20,7 @@ int main()
 	dx = pow(10, DX_EXP);
 	assert(dx > 0);
 
-	for(i = 0; i < 5; i++)
+	for(i = 0; i < 12; i++)
 	{
 		printf("Test %s derivative...\n", ann_transfer_func_name[i]);
 
