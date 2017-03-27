@@ -17,7 +17,7 @@ int ann_training_gradient_custom(ann_t ann, double learningRate, double momentum
 	struct ANN_STRUCT* annRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
 
-	log("enter");
+	LOG("enter");
 
 	// Get reference
 	annRef = ann;
@@ -57,7 +57,7 @@ RET:
 	if(errorStore != NULL)
 		free(errorStore);
 
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -72,7 +72,7 @@ int ann_training_gradient(ann_t ann, double* input, double* desire, double* outp
 	struct ANN_STRUCT* annRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
 
-	log("enter");
+	LOG("enter");
 
 	// Get reference
 	annRef = ann;
@@ -112,7 +112,7 @@ RET:
 	if(errorStore != NULL)
 		free(errorStore);
 
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 

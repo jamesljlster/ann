@@ -39,7 +39,7 @@ void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
 {
 	int i, j, k;
 
-	log("enter");
+	LOG("enter");
 
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_WEIGHT_FACTOR]);
 	fprintf(fptr, "%s\n", ann_header_weight_factor[0]);
@@ -55,14 +55,14 @@ void ann_fprint_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
 	}
 	fprintf(fptr, "\n");
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
 {
 	int i, j;
 
-	log("enter");
+	LOG("enter");
 
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_THRESHOLD_VALUE]);
 	fprintf(fptr, "%s\n", ann_header_threshold_value[0]);
@@ -75,23 +75,23 @@ void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
 	}
 	fprintf(fptr, "\n"); 
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fprint_config(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 {
-	log("enter");
+	LOG("enter");
 	
 	ann_fprint_topology(fptr, cfgPtr);
 	ann_fprint_training_info(fptr, cfgPtr);
 	ann_fprint_total_node(fptr, cfgPtr);
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 {
-	log("enter");
+	LOG("enter");
 
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TOPOLOGY]);
 	fprintf(fptr, "%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_INPUTS], cfgPtr->inputs);
@@ -100,26 +100,26 @@ void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 	fprintf(fptr, "%s=%s\n", ann_header_topology[ANN_HEADER_TOPOLOGY_TRANSFER_FUNC], ann_transfer_func_name[cfgPtr->transferFuncIndex]);
 	fprintf(fptr, "\n");
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fprint_training_info(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 {
-	log("enter");
+	LOG("enter");
 
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TRAINING_INFO]);
 	fprintf(fptr, "%s= %G\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_LEARNING_RATE], cfgPtr->learningRate);
 	fprintf(fptr, "%s= %G\n", ann_header_training_info[ANN_HEADER_TRAINING_INFO_MOMENTUM_COEF], cfgPtr->momentumCoef);
 	fprintf(fptr, "\n");
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	int i;
 
-	log("enter");
+	LOG("enter");
 
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_TOTAL_NODE]);
 	fprintf(fptr, "%s\n", ann_header_total_node[0]);
@@ -132,6 +132,6 @@ void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 	}
 	fprintf(fptr, "\n");
 
-	log("exit");
+	LOG("exit");
 }
 

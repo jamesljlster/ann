@@ -19,7 +19,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	struct ANN_LAYER* tmpLayer = NULL;
 
-	log("enter");
+	LOG("enter");
 
 	// Checking
 	layers = sptr->config.layers;
@@ -27,7 +27,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	nodeList = sptr->config.nodeList;
 	if(layers <= 0 || nodeList == NULL || tfunc >= 5 || tfunc < 0)
 	{
-		log("Checking failed");
+		LOG("Checking failed");
 		retValue = ANN_INFO_NOT_FOUND;
 		goto RET;
 	}
@@ -36,7 +36,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	tmpLayer = calloc(layers, sizeof(struct ANN_LAYER));
 	if(tmpLayer == NULL)
 	{
-		log("calloc failed with arg: layers = %d", layers);
+		LOG("calloc failed with arg: layers = %d", layers);
 		retValue = ANN_MEM_FAILED;
 		goto ERR;
 	}
@@ -50,7 +50,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 		allocTmp = calloc(nodeList[i], sizeof(struct ANN_NODE));
 		if(allocTmp == NULL)
 		{
-			log("calloc failed with arg: nodeList[%d] = %d", i, nodeList[i]);
+			LOG("calloc failed with arg: nodeList[%d] = %d", i, nodeList[i]);
 			retValue = ANN_MEM_FAILED;
 			goto ERR;
 		}
@@ -65,7 +65,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 					allocTmp = calloc(nodeList[i - 1], sizeof(double));
 					if(allocTmp == NULL)
 					{
-						log("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
+						LOG("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
 						retValue = ANN_MEM_FAILED;
 						goto ERR;
 					}
@@ -77,7 +77,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 					allocTmp = calloc(nodeList[i - 1], sizeof(double));
 					if(allocTmp == NULL)
 					{
-						log("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
+						LOG("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
 						retValue = ANN_MEM_FAILED;
 						goto ERR;
 					}
@@ -105,7 +105,7 @@ ERR:
 	}
 
 RET:
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 

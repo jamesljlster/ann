@@ -157,7 +157,7 @@ int ann_create(ann_t* annPtr, ann_config_t config)
 	struct ANN_STRUCT* annRef = NULL;
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
-	log("enter");
+	LOG("enter");
 
 	// Memory allocation
 	annRef = malloc(sizeof(struct ANN_STRUCT));
@@ -195,6 +195,6 @@ ERR:
 	ann_delete_struct(annRef);
 
 RET:
-	log("exit");
+	LOG("exit");
 	return retValue;
 }

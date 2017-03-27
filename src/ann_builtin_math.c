@@ -57,7 +57,7 @@ int ann_get_transfer_func_id(char* str)
 	int iResult;
 	int retValue = ANN_INFO_NOT_FOUND;
 
-	log("enter");
+	LOG("enter");
 
 	for(i = 0; i < 5; i++)
 	{
@@ -69,7 +69,7 @@ int ann_get_transfer_func_id(char* str)
 		}
 	}
 
-	log("exit");
+	LOG("exit");
 
 	return retValue;
 }
