@@ -3,12 +3,12 @@
 
 #ifdef DEBUG
 #include <stdio.h>
-#define log(msg, ...) 							\
+#define LOG(msg, ...) 							\
 	fprintf(stderr, "%s(): ", __FUNCTION__);	\
 	fprintf(stderr, msg, ##__VA_ARGS__);		\
 	fprintf(stderr, "\n");
 #else
-#define	log(msg, ...)
+#define	LOG(msg, ...)
 #endif
 
 #endif

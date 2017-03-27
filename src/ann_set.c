@@ -56,7 +56,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
-	log("enter");
+	LOG("enter");
 
 	tmpLayerCount = hiddenLayers + 2;
 	
@@ -91,7 +91,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	cfgRef->layers = tmpLayerCount;
 
 RET:
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 

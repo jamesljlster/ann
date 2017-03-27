@@ -24,7 +24,14 @@ enum ANN_TRANSFER_FUNC
 	ANN_MODIFIED_SIGMOID,		/*!< Modified sigmoid function. */
 	ANN_HYPERBOLIC_TANGENT,		/*!< Hyperbolic tangent function. */
 	ANN_GAUSSIAN,				/*!< Gaussian function. */
-	ANN_MODIFIED_GAUSSIAN		/*!< Modified gaussian function. */
+	ANN_MODIFIED_GAUSSIAN,		/*!< Modified gaussian function. */
+	ANN_BENT_IDENTITY,			/*!< Bent identity function. */
+	ANN_SOFTPLUS,				/*!< SoftPlus function. */
+	ANN_SOFTSIGN,				/*!< SoftSign function. */
+	ANN_SINC,					/*!< Sinc function. */
+	ANN_SINUSOID,				/*!< Sinusoid (sine) function. */
+	ANN_IDENTITY,				/*!< Identity function. */
+	ANN_RELU					/*!< Rectifier linear unit function. */
 };
 
 /** Type definition of ann. */

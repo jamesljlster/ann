@@ -47,7 +47,7 @@ int ann_get_topology_content_id(char* src)
 	int retValue = ANN_INFO_NOT_FOUND;
 	int i;
 
-	log("enter");
+	LOG("enter");
 
 	for(i = 0; i < ANN_HEADER_TOPOLOGY_LIST_COUNT; i++)
 	{
@@ -59,7 +59,7 @@ int ann_get_topology_content_id(char* src)
 		}
 	}
 
-	log("exit");
+	LOG("exit");
 
 	return retValue;
 }
@@ -70,7 +70,7 @@ int ann_get_training_content_id(char* src)
 	int retValue = ANN_INFO_NOT_FOUND;
 	int i;
 	
-	log("enter");
+	LOG("enter");
 
 	for(i = 0; i < ANN_HEADER_TRAINING_INFO_LIST_COUNT; i++)
 	{
@@ -82,7 +82,7 @@ int ann_get_training_content_id(char* src)
 		}
 	}
 
-	log("exit");
+	LOG("exit");
 
 	return retValue;
 }

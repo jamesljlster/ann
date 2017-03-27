@@ -12,7 +12,7 @@ int ann_export(ann_t ann, const char* filePath)
 	struct ANN_CONFIG_STRUCT* cfgRef = NULL;
 	FILE* fileWrite = NULL;
 
-	log("enter");
+	LOG("enter");
 
 	// Set reference
 	annRef = ann;
@@ -35,7 +35,7 @@ int ann_export(ann_t ann, const char* filePath)
 RET:
 	if(fileWrite != NULL)
 		fclose(fileWrite);
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -45,7 +45,7 @@ int ann_config_export(ann_config_t config, const char* filePath)
 	struct ANN_CONFIG_STRUCT* cfgRef = NULL;
 	FILE* fileWrite = NULL;
 
-	log("enter");
+	LOG("enter");
 
 	// Set reference
 	cfgRef = config;
@@ -64,7 +64,7 @@ int ann_config_export(ann_config_t config, const char* filePath)
 RET:
 	if(fileWrite != NULL)
 		fclose(fileWrite);
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 

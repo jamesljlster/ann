@@ -15,7 +15,7 @@ void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, do
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
 	
-	log("enter");
+	LOG("enter");
 
 	// Get reference
 	annRef = ann;
@@ -63,5 +63,5 @@ void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, do
 		}
 	}
 
-	log("exit");
+	LOG("exit");
 }

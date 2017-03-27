@@ -22,7 +22,7 @@ int ann_str_extract(char*** strListPtr, int* strCountPtr, char* src, char sepCh)
 
 	struct ANN_STR tmpStr;
 	
-	log("enter");
+	LOG("enter");
 
 	// Zero memory
 	ann_str_zeromem(&tmpStr);
@@ -95,7 +95,7 @@ ERR:
 RET:
 	ann_str_delete(&tmpStr);
 
-	log("exit");
+	LOG("exit");
 
 	return retValue;
 }
@@ -105,7 +105,7 @@ struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int h
 	int i;
 	struct ANN_FILE_BLOCK* fptr = NULL;
 	
-	log("enter");
+	LOG("enter");
 
 	for(i = 0; i < fStructPtr->blockCount; i++)
 	{
@@ -116,7 +116,7 @@ struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int h
 		}
 	}
 	
-	log("exit");
+	LOG("exit");
 
 	return fptr;
 }
@@ -127,7 +127,7 @@ int ann_strcmp(char* src1, char* src2)
 	int srcLen;
 	int retValue = 0;
 
-	log("enter");
+	LOG("enter");
 
 	cmpLen = strlen(src1);
 	srcLen = strlen(src2);
@@ -140,7 +140,7 @@ int ann_strcmp(char* src1, char* src2)
 		retValue = strncmp(src1, src2, cmpLen);
 	}
 
-	log("exit");
+	LOG("exit");
 
 	return retValue;
 }
@@ -161,7 +161,7 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 	
 	FILE* fileRead = NULL;
 
-	log("enter");
+	LOG("enter");
 
 	// Zero memory
 	ann_str_zeromem(&tmpStr);
@@ -252,7 +252,7 @@ RET:
 	if(fileRead != NULL)
 		fclose(fileRead);
 	
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -260,21 +260,21 @@ void ann_fstruct_print(struct ANN_FILE_STRUCT* fStructPtr)
 {
 	int i;
 
-	log("enter");
+	LOG("enter");
 
 	for(i = 0; i < fStructPtr->blockCount; i++)
 	{
 		ann_fblock_print(&fStructPtr->blockList[i]);
 	}
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fblock_print(struct ANN_FILE_BLOCK* fBlockPtr)
 {
 	int i;
 
-	log("enter");
+	LOG("enter");
 
 	printf("[ %s ]\n", fBlockPtr->header);
 	for(i = 0; i < fBlockPtr->strCount; i++)
@@ -283,25 +283,25 @@ void ann_fblock_print(struct ANN_FILE_BLOCK* fBlockPtr)
 	}
 	printf("\n");
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fblock_zeromem(struct ANN_FILE_BLOCK* fBlockPtr)
 {
-	log("enter");
+	LOG("enter");
 
 	fBlockPtr->header = NULL;
 	fBlockPtr->strCount = 0;
 	fBlockPtr->strList = NULL;
 
-	log("exit");
+	LOG("exit");
 }
 
 void ann_fblock_delete(struct ANN_FILE_BLOCK* fBlockPtr)
 {
 	int i;
 	
-	log("enter");
+	LOG("enter");
 
 	if(fBlockPtr->strList != NULL)
 	{
@@ -321,7 +321,7 @@ void ann_fblock_delete(struct ANN_FILE_BLOCK* fBlockPtr)
 		fBlockPtr->header = NULL;
 	}
 
-	log("exit");
+	LOG("exit");
 }
 
 int ann_fblock_append(struct ANN_FILE_BLOCK* dst, char** srcPtr)
@@ -331,7 +331,7 @@ int ann_fblock_append(struct ANN_FILE_BLOCK* dst, char** srcPtr)
 	allocTmp = realloc(dst->strList, sizeof(char*) * (dst->strCount + 1));
 	if(allocTmp == NULL)
 	{
-		log("exit");
+		LOG("exit");
 		return ANN_MEM_FAILED;
 	}
 	else
@@ -356,12 +356,12 @@ int ann_fstruct_append(struct ANN_FILE_STRUCT* dst, struct ANN_FILE_BLOCK* src)
 {
 	void* allocTmp = NULL;
 
-	log("enter");
+	LOG("enter");
 
 	allocTmp = realloc(dst->blockList, sizeof(struct ANN_FILE_BLOCK) * (dst->blockCount + 1));
 	if(allocTmp == NULL)
 	{
-		log("exit");
+		LOG("exit");
 		return ANN_MEM_FAILED;
 	}
 	else
@@ -378,7 +378,7 @@ int ann_fstruct_append(struct ANN_FILE_STRUCT* dst, struct ANN_FILE_BLOCK* src)
 		src->strList = NULL;
 	}
 	
-	log("exit");
+	LOG("exit");
 	return ANN_NO_ERROR;
 }
 
@@ -386,7 +386,7 @@ void ann_fstruct_delete(struct ANN_FILE_STRUCT* fStructPtr)
 {
 	int i;
 
-	log("enter");
+	LOG("enter");
 
 	if(fStructPtr->blockList != NULL)
 	{
@@ -401,19 +401,19 @@ void ann_fstruct_delete(struct ANN_FILE_STRUCT* fStructPtr)
 
 	fStructPtr->blockCount = 0;
 
-	log("exit");
+	LOG("exit");
 }
 
 int ann_is_sigchar(char ch)
 {
 	int retValue = 0;
 
-	log("enter");
+	LOG("enter");
 
 	if(ch >= ASCII_MIN_SIG && ch <= ASCII_MAX_SIG)
 		retValue = 1;
 	
-	log("exit");
+	LOG("exit");
 
 	return retValue;
 }
@@ -424,7 +424,7 @@ char ann_get_char(FILE* fileRead, int readAction)
 	int readCount;
 	char tmpRead;
 
-	log("enter");
+	LOG("enter");
 
 	// Read a character
 	readCount = 1;
@@ -444,34 +444,34 @@ char ann_get_char(FILE* fileRead, int readAction)
 		goto RET;
 
 ERR:
-	log("exit");
+	LOG("exit");
 	return -1;
 
 RET:
-	log("exit");
+	LOG("exit");
 	return tmpRead;
 }
 
 void ann_str_zeromem(struct ANN_STR* strPtr)
 {
-	log("enter");
+	LOG("enter");
 
 	strPtr->size = 1;
 	strPtr->str = NULL;
 
-	log("exit");
+	LOG("exit");
 }
 
 int ann_str_append(struct ANN_STR* strPtr, char ch)
 {
 	void* allocTmp = NULL;
 
-	log("enter");
+	LOG("enter");
 	
 	allocTmp = realloc(strPtr->str, sizeof(char) * (strPtr->size + 1));
 	if(allocTmp == NULL)
 	{
-		log("exit");
+		LOG("exit");
 		return ANN_MEM_FAILED;
 	}
 	else
@@ -483,14 +483,14 @@ int ann_str_append(struct ANN_STR* strPtr, char ch)
 		strPtr->str[strPtr->size - 2] = ch;
 	}
 
-	log("exit");
+	LOG("exit");
 
 	return ANN_NO_ERROR;
 }
 
 void ann_str_delete(struct ANN_STR* strPtr)
 {
-	log("enter");
+	LOG("enter");
 
 	if(strPtr->str != NULL)
 	{
@@ -500,6 +500,6 @@ void ann_str_delete(struct ANN_STR* strPtr)
 
 	strPtr->size = 0;
 
-	log("exit");
+	LOG("exit");
 }
 

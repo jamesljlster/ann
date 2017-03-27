@@ -23,7 +23,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	struct ANN_STRUCT tmpStruct;
 	struct ANN_FILE_BLOCK* fbPtr = NULL;
 
-	log("enter");
+	LOG("enter");
 
 	// Checking
 	tmpStruct = *asPtr;
@@ -38,7 +38,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	iResult = ann_allocate_network(&tmpStruct);
 	if(iResult != ANN_NO_ERROR)
 	{
-		log("ann_allocate_network() failed");
+		LOG("ann_allocate_network() failed");
 		retValue = iResult;
 		goto ERR;
 	}
@@ -84,7 +84,7 @@ ERR:
 	ann_delete_struct(&tmpStruct);
 
 RET:
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -104,7 +104,7 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 	char** childStrList = NULL;
 	int childStrCount = 0;
 	
-	log("enter");
+	LOG("enter");
 	
 	// Checking
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_THRESHOLD_VALUE]);
@@ -172,14 +172,14 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 		iResult = ann_set_threshold_struct(asPtr, layerIndex - 1, nodeIndex - 1, tmpValue);
 		if(iResult != ANN_NO_ERROR)
 		{
-			log("set threshold failed with:");
-			log("Origin string: %s", fbPtr->strList[i]);
-			log("strList = {%s, %s}", strList[0], strList[1]);
-			log("childStrList = {%s, %s}", childStrList[0], childStrList[1]);
-			log("childStrList[1][0] in int = %d", childStrList[1][0]);
-			log("childStrList[1][1] in int = %d", childStrList[1][1]);
-			log("childStrList[1][2] in int = %d", childStrList[1][2]);
-			log("Decode info: layerIndex = %d, nodeIndex = %d, threshold = %lf", layerIndex, nodeIndex, tmpValue);
+			LOG("set threshold failed with:");
+			LOG("Origin string: %s", fbPtr->strList[i]);
+			LOG("strList = {%s, %s}", strList[0], strList[1]);
+			LOG("childStrList = {%s, %s}", childStrList[0], childStrList[1]);
+			LOG("childStrList[1][0] in int = %d", childStrList[1][0]);
+			LOG("childStrList[1][1] in int = %d", childStrList[1][1]);
+			LOG("childStrList[1][2] in int = %d", childStrList[1][2]);
+			LOG("Decode info: layerIndex = %d, nodeIndex = %d, threshold = %lf", layerIndex, nodeIndex, tmpValue);
 			retValue = iResult;
 			goto RET;
 		}
@@ -221,7 +221,7 @@ RET:
 		free(childStrList);
 	}
 	
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -242,7 +242,7 @@ int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 	char** childStrList = NULL;
 	int childStrCount = 0;
 	
-	log("enter");
+	LOG("enter");
 	
 	// Checking
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_WEIGHT_FACTOR]);
@@ -358,7 +358,7 @@ RET:
 		free(childStrList);
 	}
 	
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -371,7 +371,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 
 	struct ANN_FILE_BLOCK* fbPtr = NULL;
 	
-	log("enter");
+	LOG("enter");
 
 	// Zero memory
 	ann_config_zeromem(&cfgTmp);
@@ -451,7 +451,7 @@ ERR:
 	ann_config_delete_struct(&cfgTmp);
 
 RET:
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -470,7 +470,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 	char** strList = NULL;
 	int strCount = 0;
 	
-	log("enter");
+	LOG("enter");
 
 	// Checking
 	if(cfgPtr->layers <= 0)
@@ -572,7 +572,7 @@ RET:
 		free(strList);
 	}
 	
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -588,7 +588,7 @@ int ann_parse_config_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_
 	char** strList = NULL;
 	int strCount = 0;
 	
-	log("enter");
+	LOG("enter");
 
 	// Checking
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_TRAINING_INFO]);
@@ -676,7 +676,7 @@ RET:
 		free(strList);
 	}
 	
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
@@ -691,7 +691,7 @@ int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_
 	char** strList = NULL;
 	int strCount = 0;
 	
-	log("enter");
+	LOG("enter");
 
 	// Checking
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_TOPOLOGY]);
@@ -722,7 +722,7 @@ int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_
 		strID = ann_get_topology_content_id(strList[0]);
 		if(strID < 0)
 		{
-			log("Get topology content id with %s failed!", strList[0]);
+			LOG("Get topology content id with %s failed!", strList[0]);
 			retValue = strID;
 			goto RET;
 		}
@@ -782,7 +782,7 @@ int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_
 				break;
 
 			default:
-				log("Invalid ID: %d", strID);
+				LOG("Invalid ID: %d", strID);
 				retValue = ANN_SYNTAX_ERROR;
 				goto RET;
 		}
@@ -807,7 +807,7 @@ RET:
 		free(strList);
 	}
 	
-	log("exit");
+	LOG("exit");
 	return retValue;
 }
 
