@@ -1,6 +1,8 @@
 #ifndef __ANN_BUILTIN_MATH_H__
 #define __ANN_BUILTIN_MATH_H__
 
+#define ANN_TFUNC_AMOUNT	12
+
 extern double (*ann_transfer_list[])(double);
 extern double (*ann_transfer_derivative_list[])(double);
 extern char* ann_transfer_func_name[];
