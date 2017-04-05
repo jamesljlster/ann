@@ -14,7 +14,8 @@ enum ANN_RETUEN_VALUE
 	ANN_FILE_FAILED		= -2,	/*!< File processing failed. */
 	ANN_SYNTAX_ERROR	= -3,	/*!< There is(are) syntax error(s) in file. */
 	ANN_INFO_NOT_FOUND	= -4,	/*!< Important information(s) not found in file. */
-	ANN_OUT_OF_RANGE	= -5	/*!< Processing out of range. */
+	ANN_OUT_OF_RANGE	= -5,	/*!< Processing out of range. */
+	ANN_INVALID_ARG		= -6	/*!< Invalid argument(s) or setting(s). */
 };
 
 /** Transfer (activation) function index definitions. */

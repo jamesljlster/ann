@@ -10,6 +10,8 @@ char* ann_error_msg[] = {
 	"Wrong file format or syntax",
 	"Required information was not found",
 	"Operation out of range",
+	"Invalid argument(s) or setting(s)",
+
 	"Not a return value in ann library"
 };
 
@@ -43,6 +45,10 @@ const char* ann_get_error_msg(int retValue)
 
 			case ANN_OUT_OF_RANGE:
 				retPtr = ann_error_msg[ANN_OUT_OF_RANGE_MSG];
+				break;
+
+			case ANN_INVALID_ARG:
+				retPtr = ann_error_msg[ANN_INVALID_ARG_MSG];
 				break;
 
 			default:
