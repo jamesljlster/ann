@@ -27,7 +27,6 @@ int ann_clone_config(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STRUCT* sr
 	return ANN_NO_ERROR;
 }
 
-#include <stdio.h>
 int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 {
 	int i, j, k;

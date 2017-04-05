@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 #include "ann.h"
@@ -25,7 +26,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	LOG("enter");
 
 	// Checking
-	tmpStruct = *asPtr;
+	memcpy(&tmpStruct, asPtr, sizeof(struct ANN_STRUCT));
 	assert(tmpStruct.layerList == NULL);
 	assert(tmpStruct.config.inputs > 0);
 	assert(tmpStruct.config.outputs > 0);
@@ -39,7 +40,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	{
 		LOG("ann_allocate_network() failed");
 		retValue = iResult;
-		goto ERR;
+		goto RET;
 	}
 
 	// Get threshold
@@ -47,7 +48,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	if(fbPtr == NULL)
 	{
 		retValue = ANN_INFO_NOT_FOUND;
-		goto ERR;
+		goto RET;
 	}
 
 	// Parse threshold
@@ -55,7 +56,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
-		goto ERR;
+		goto RET;
 	}
 
 	// Get weight
@@ -63,7 +64,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	if(fbPtr == NULL)
 	{
 		retValue = ANN_INFO_NOT_FOUND;
-		goto ERR;
+		goto RET;
 	}
 
 	// Parse weight
@@ -71,16 +72,11 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
-		goto ERR;
+		goto RET;
 	}
 
 	// Assign value
-	*asPtr = tmpStruct;
-
-	goto RET;
-
-ERR:
-	ann_delete_struct(&tmpStruct);
+	memcpy(asPtr, &tmpStruct, sizeof(struct ANN_STRUCT));
 
 RET:
 	LOG("exit");
@@ -384,7 +380,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	if(fbPtr == NULL)
 	{
 		retValue = ANN_INFO_NOT_FOUND;
-		goto ERR;
+		goto RET;
 	}
 	else
 	{
@@ -392,7 +388,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 		if(fbPtr->strCount < ANN_HEADER_TOPOLOGY_LIST_COUNT)
 		{
 			retValue = ANN_INFO_NOT_FOUND;
-			goto ERR;
+			goto RET;
 		}
 	}
 	
@@ -401,7 +397,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
-		goto ERR;
+		goto RET;
 	}
 
 	// Get Training info
@@ -409,7 +405,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	if(fbPtr == NULL)
 	{
 		retValue = ANN_INFO_NOT_FOUND;
-		goto ERR;
+		goto RET;
 	}
 	else
 	{
@@ -417,7 +413,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 		if(fbPtr->strCount < ANN_HEADER_TRAINING_INFO_LIST_COUNT)
 		{
 			retValue = ANN_INFO_NOT_FOUND;
-			goto ERR;
+			goto RET;
 		}
 	}
 
@@ -426,7 +422,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
-		goto ERR;
+		goto RET;
 	}
 
 	// Get Total node
@@ -434,7 +430,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	if(fbPtr == NULL)
 	{
 		retValue = ANN_INFO_NOT_FOUND;
-		goto ERR;
+		goto RET;
 	}
 
 	// Parse Total node
@@ -442,18 +438,14 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
-		goto ERR;
+		goto RET;
 	}
 
 	// Assign values
-	*cfgPtr = cfgTmp;
-
-	goto RET;
-
-ERR:
-	ann_config_delete_struct(&cfgTmp);
+	ann_clone_config(cfgPtr, &cfgTmp);
 
 RET:
+	ann_config_delete_struct(&cfgTmp);
 	LOG("exit");
 	return retValue;
 }
