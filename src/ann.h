@@ -14,7 +14,8 @@ enum ANN_RETUEN_VALUE
 	ANN_FILE_FAILED		= -2,	/*!< File processing failed. */
 	ANN_SYNTAX_ERROR	= -3,	/*!< There is(are) syntax error(s) in file. */
 	ANN_INFO_NOT_FOUND	= -4,	/*!< Important information(s) not found in file. */
-	ANN_OUT_OF_RANGE	= -5	/*!< Processing out of range. */
+	ANN_OUT_OF_RANGE	= -5,	/*!< Processing out of range. */
+	ANN_INVALID_ARG		= -6	/*!< Invalid argument(s) or setting(s). */
 };
 
 /** Transfer (activation) function index definitions. */
@@ -320,28 +321,31 @@ int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int n
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  */
 
-void ann_config_set_inputs(ann_config_t config, int inputs);
+int ann_config_set_inputs(ann_config_t config, int inputs);
 /**
- *	@fn		void ann_config_set_inputs(ann_config_t config, int inputs);
+ *	@fn		int ann_config_set_inputs(ann_config_t config, int inputs);
  *	@brief	Set inputs of target neural network configuration.
  *	@param	config:	Target ann_config_t variable.
  *	@param	inputs:	Inputs of target neural network configuration.
+ *	@return If argument less then or equal with zero, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
  */
 
-void ann_config_set_outputs(ann_config_t config, int outputs);
+int ann_config_set_outputs(ann_config_t config, int outputs);
 /**
- *	@fn		void ann_config_set_outputs(ann_config_t config, int outputs);
+ *	@fn		int ann_config_set_outputs(ann_config_t config, int outputs);
  *	@brief	Set outputs of target neural network configuration.
  *	@param	config:		Target ann_config_t variable.
  *	@param	outputs:	Outputs of target neural network configuration.
+ *	@return If argument less then or equal with zero, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
  */
 
-void ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
+int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
 /**
- *	@fn		void ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
+ *	@fn		int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
  *	@brief	Set transfer (activation) function index of target neural network configuration.
  *	@param	config:		Target ann_config_t variable.
  *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
+ *	@return If argument less then zero or greater then the highest transfer function index, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
  */
 
 void ann_config_set_learning_rate(ann_config_t config, double learningRate);

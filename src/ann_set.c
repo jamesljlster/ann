@@ -3,6 +3,7 @@
 
 #include "ann.h"
 #include "ann_private.h"
+#include "ann_builtin_math.h"
 
 #include "debug.h"
 
@@ -22,9 +23,14 @@ void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef)
 	cfgRef->momentumCoef = momentumCoef;
 }
 
-void ann_config_set_inputs(ann_config_t config, int inputs)
+int ann_config_set_inputs(ann_config_t config, int inputs)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
+
+	if(inputs <= 0)
+	{
+		return ANN_INVALID_ARG;
+	}
 	
 	cfgRef->inputs = inputs;
 	
@@ -32,11 +38,18 @@ void ann_config_set_inputs(ann_config_t config, int inputs)
 	{
 		cfgRef->nodeList[0] = inputs;
 	}
+
+	return ANN_NO_ERROR;
 }
 
-void ann_config_set_outputs(ann_config_t config, int outputs)
+int ann_config_set_outputs(ann_config_t config, int outputs)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
+
+	if(outputs <= 0)
+	{
+		return ANN_INVALID_ARG;
+	}
 	
 	cfgRef->outputs = outputs;
 
@@ -44,6 +57,8 @@ void ann_config_set_outputs(ann_config_t config, int outputs)
 	{
 		cfgRef->nodeList[cfgRef->layers - 1] = outputs;
 	}
+
+	return ANN_NO_ERROR;
 }
 
 int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
@@ -57,6 +72,13 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
 	LOG("enter");
+
+	// Checking
+	if(hiddenLayers <= 0)
+	{
+		retValue = ANN_INVALID_ARG;
+		goto RET;
+	}
 
 	tmpLayerCount = hiddenLayers + 2;
 	
@@ -103,16 +125,29 @@ int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int n
 	if(hiddenLayerIndex < 0 || hiddenLayerIndex >= cfgRef->layers - 2)
 		return ANN_OUT_OF_RANGE;
 
+	if(nodes <= 0)
+	{
+		return ANN_INVALID_ARG;
+	}
+
 	cfgRef->nodeList[hiddenLayerIndex + 1] = nodes;
 
 	return ANN_NO_ERROR;
 }
 
-void ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
+int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
+
+	// Checking
+	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_AMOUNT)
+	{
+		return ANN_INVALID_ARG;
+	}
 	
 	cfgRef->transferFuncIndex = tFuncIndex;
+
+	return ANN_NO_ERROR;
 }
 
 int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value)
