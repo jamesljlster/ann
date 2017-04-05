@@ -20,22 +20,20 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 {
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	struct ANN_STRUCT tmpStruct;
 	struct ANN_FILE_BLOCK* fbPtr = NULL;
 
 	LOG("enter");
 
 	// Checking
-	memcpy(&tmpStruct, asPtr, sizeof(struct ANN_STRUCT));
-	assert(tmpStruct.layerList == NULL);
-	assert(tmpStruct.config.inputs > 0);
-	assert(tmpStruct.config.outputs > 0);
-	assert(tmpStruct.config.layers >= 2);
-	assert(tmpStruct.config.transferFuncIndex >= 0 && tmpStruct.config.transferFuncIndex < 5);
-	assert(tmpStruct.config.nodeList != NULL);
+	assert(asPtr->layerList == NULL);
+	assert(asPtr->config.inputs > 0);
+	assert(asPtr->config.outputs > 0);
+	assert(asPtr->config.layers >= 2);
+	assert(asPtr->config.transferFuncIndex >= 0 && asPtr->config.transferFuncIndex < ANN_TFUNC_AMOUNT);
+	assert(asPtr->config.nodeList != NULL);
 
 	// Allocate network
-	iResult = ann_allocate_network(&tmpStruct);
+	iResult = ann_allocate_network(asPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
 		LOG("ann_allocate_network() failed");
@@ -52,7 +50,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	}
 
 	// Parse threshold
-	iResult = ann_parse_threshold(&tmpStruct, fbPtr);
+	iResult = ann_parse_threshold(asPtr, fbPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
@@ -68,15 +66,12 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	}
 
 	// Parse weight
-	iResult = ann_parse_weight(&tmpStruct, fbPtr);
+	iResult = ann_parse_weight(asPtr, fbPtr);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
 		goto RET;
 	}
-
-	// Assign value
-	memcpy(asPtr, &tmpStruct, sizeof(struct ANN_STRUCT));
 
 RET:
 	LOG("exit");
