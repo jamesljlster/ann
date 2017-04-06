@@ -258,6 +258,13 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 		}
 	}
 
+	// Checking
+	if(headerReading == 1)
+	{
+		retValue = ANN_SYNTAX_ERROR;
+		goto ERR;
+	}
+
 	// Assign value
 	*fStructPtr = tmpStruct;
 	
