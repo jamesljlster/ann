@@ -149,6 +149,7 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 {
 	int retValue = ANN_NO_ERROR;
 	int iResult;
+	int headerReading = 0;
 	int fBlockIndex;
 
 	char tmpRead;
@@ -186,6 +187,16 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 			switch(tmpRead)
 			{
 				case ']':
+					if(headerReading == 1)
+					{
+						headerReading = 0;
+					}
+					else
+					{
+						retValue = ANN_SYNTAX_ERROR;
+						goto ERR;
+					}
+
 					if(tmpBlockPtr != NULL)
 					{
 						tmpBlockPtr->header = tmpStr.str;
@@ -201,6 +212,16 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 					break;
 
 				case '[':
+					if(headerReading == 1)
+					{
+						retValue = ANN_SYNTAX_ERROR;
+						goto ERR;
+					}
+					else
+					{
+						headerReading = 1;
+					}
+
 					iResult = ann_fstruct_append(&tmpStruct, &tmpBlock);
 					if(iResult != ANN_NO_ERROR)
 					{
