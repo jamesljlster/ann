@@ -5,7 +5,7 @@
 int main(int argc, char* argv[])
 {
 	int iResult;
-	ann_t ann;
+	ann_t ann = NULL;
 
 	// Checking
 	if(argc <= 1)
@@ -20,10 +20,10 @@ int main(int argc, char* argv[])
 		if(iResult != ANN_NO_ERROR)
 		{
 			printf("ann_config_import() failed with error: %d\n", iResult);
-			return -1;
 		}
 
-		ann_delete(ann);
+		if(ann != NULL)
+			ann_delete(ann);
 	}
 
 	return 0;
