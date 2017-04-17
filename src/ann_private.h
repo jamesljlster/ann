@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-int ann_clone_config(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STRUCT* src);
+int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STRUCT* src);
 
 int ann_allocate_network(struct ANN_STRUCT* sptr);
 
