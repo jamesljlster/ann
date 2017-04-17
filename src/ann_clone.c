@@ -5,6 +5,35 @@
 
 #include "debug.h"
 
+int ann_config_clone(ann_config_t* dstCfgPtr, ann_config_t srcCfg)
+{
+	int iResult;
+	int retValue = ANN_NO_ERROR;
+	ann_config_t tmpCfg = NULL;
+
+	// Allocate memory
+	tmpCfg = malloc(sizeof(struct ANN_CONFIG_STRUCT));
+	if(tmpCfg == NULL)
+	{
+		retValue = ANN_MEM_FAILED;
+		goto RET;
+	}
+
+	// Clone config
+	iResult = ann_clone_config_struct(tmpCfg, srcCfg);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto RET;
+	}
+
+	// Assig value
+	*dstCfgPtr = tmpCfg;
+
+RET:
+	return retValue;
+}
+
 int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STRUCT* src)
 {
 	int i;

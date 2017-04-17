@@ -96,6 +96,15 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  */
 
+int ann_config_clone(ann_config_t* dstCfgPtr, ann_config_t srcCfg);
+/**
+ *	@fn		int ann_config_clone(ann_config_t* dstCfgPtr, ann_config_t srcCfg);
+ *	@brief	Clone neural network configuration.
+ *	@param	dstCfgPtr:	Pointer of destination ann_config_t type variable.
+ *	@param	srcCfg:		Source ann_config_t type variable.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ */
+
 void ann_delete(ann_t ann);
 /**
  *	@fn		void ann_delete(ann_t ann);
