@@ -437,7 +437,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 	}
 
 	// Assign values
-	ann_clone_config(cfgPtr, &cfgTmp);
+	ann_clone_config_struct(cfgPtr, &cfgTmp);
 
 RET:
 	ann_config_delete_struct(&cfgTmp);

@@ -173,7 +173,7 @@ int ann_create(ann_t* annPtr, ann_config_t config)
 	}
 
 	// Clone config
-	iResult = ann_clone_config(&annRef->config, cfgRef);
+	iResult = ann_clone_config_struct(&annRef->config, cfgRef);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
