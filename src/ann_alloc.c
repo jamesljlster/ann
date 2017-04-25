@@ -25,7 +25,8 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	layers = sptr->config.layers;
 	tfunc = sptr->config.transferFuncIndex;
 	nodeList = sptr->config.nodeList;
-	if(layers <= 0 || nodeList == NULL || tfunc >= ANN_TFUNC_AMOUNT || tfunc < 0)
+	//if(layers <= 0 || nodeList == NULL || tfunc >= ANN_TFUNC_AMOUNT || tfunc < 0)
+	if(layers < 3 || nodeList == NULL || tfunc >= ANN_TFUNC_AMOUNT || tfunc < 0)
 	{
 		LOG("Checking failed");
 		retValue = ANN_INFO_NOT_FOUND;
