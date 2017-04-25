@@ -26,6 +26,7 @@ void ann_print(ann_t ann)
 	ann_fprint_config(stdout, &annRef->config);
 	ann_fprint_threshold(stdout, annRef);
 	ann_fprint_weight(stdout, annRef);
+	ann_fprint_recurrent_weight(stdout, annRef);
 }
 
 void ann_config_print(ann_config_t config)

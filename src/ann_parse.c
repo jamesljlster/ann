@@ -74,6 +74,14 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 		goto RET;
 	}
 
+	// Get recurrent weight
+	fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_RECURRENT_WEIGHT);
+	if(fbPtr == NULL)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto RET;
+	}
+
 	// Parse recurrent weight
 	if(asPtr->config.layers > 2)
 	{
@@ -283,22 +291,22 @@ int ann_parse_recurrent_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* 
 		}
 
 		// Checking
-		if(childStrCount != 3)
+		if(childStrCount != 2)
 		{
 			retValue = ANN_SYNTAX_ERROR;
 			goto RET;
 		}
 
 		// Parsing
-		preNodeIndex = strtol(childStrList[1], &tmpPtr, 10);
-		if(tmpPtr == childStrList[1])
+		preNodeIndex = strtol(childStrList[0], &tmpPtr, 10);
+		if(tmpPtr == childStrList[0])
 		{
 			retValue = ANN_SYNTAX_ERROR;
 			goto RET;
 		}
 
-		nodeIndex = strtol(childStrList[2], &tmpPtr, 10);
-		if(tmpPtr == childStrList[2])
+		nodeIndex = strtol(childStrList[1], &tmpPtr, 10);
+		if(tmpPtr == childStrList[1])
 		{
 			retValue = ANN_SYNTAX_ERROR;
 			goto RET;
