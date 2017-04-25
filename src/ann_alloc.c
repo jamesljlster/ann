@@ -101,6 +101,8 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 				retValue = ANN_MEM_FAILED;
 				goto ERR;
 			}
+
+			tmpLayer[1].nodeList[i].rWeight = allocTmp;
 		}
 	}
 
