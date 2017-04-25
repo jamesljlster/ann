@@ -81,7 +81,7 @@ void ann_fprint_recurrent_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
 		{
 			for(j = 0; j < layerRef->nodeCount; j++)
 			{
-				fprintf(fptr, "%02d-%02d=%.32G\n", i + 1, j + 1, layerRef->nodeList[i].rWeight[j]);
+				fprintf(fptr, "%02d-%02d=%.32G\n", i + 1, j + 1, layerRef->nodeList[j].rWeight[i]);
 			}
 		}
 	}
