@@ -15,6 +15,7 @@ int ann_parse_config_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_
 int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
+int ann_parse_recurrent_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
 
 int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 {
@@ -172,6 +173,137 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 			LOG("childStrList[1][1] in int = %d", childStrList[1][1]);
 			LOG("childStrList[1][2] in int = %d", childStrList[1][2]);
 			LOG("Decode info: layerIndex = %d, nodeIndex = %d, threshold = %lf", layerIndex, nodeIndex, tmpValue);
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Cleanup
+		for(j = 0; j < strCount; j++)
+		{
+			free(strList[j]);
+		}
+		free(strList);
+		strList = NULL;
+
+		for(j = 0; j < childStrCount; j++)
+		{
+			free(childStrList[j]);
+		}
+		free(childStrList);
+		childStrList = NULL;
+	}
+	
+RET:
+	if(strList != NULL)
+	{
+		for(i = 0; i < strCount; i++)
+		{
+			if(strList[i] != NULL)
+				free(strList[i]);
+		}
+		free(strList);
+	}
+
+	if(childStrList != NULL)
+	{
+		for(i = 0; i < childStrCount; i++)
+		{
+			if(childStrList[i] != NULL)
+				free(childStrList[i]);
+		}
+		free(childStrList);
+	}
+	
+	LOG("exit");
+	return retValue;
+}
+
+int ann_parse_recurrent_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
+{
+	int i, j;
+	int iResult;
+	int retValue = ANN_NO_ERROR;
+	
+	int preNodeIndex;
+	int nodeIndex;
+	double tmpValue;
+
+	char** strList = NULL;
+	int strCount = 0;
+
+	char** childStrList = NULL;
+	int childStrCount = 0;
+
+	char* tmpPtr = NULL;
+	
+	LOG("enter");
+	
+	// Checking
+	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_RECURRENT_WEIGHT]);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto RET;
+	}
+
+	for(i = 1; i < fbPtr->strCount; i++)
+	{
+		// Extract string
+		iResult = ann_str_extract(&strList, &strCount, fbPtr->strList[i], '=');
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Checking
+		if(strCount != 2)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Extract child string
+		iResult = ann_str_extract(&childStrList, &childStrCount, strList[0], '-');
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Checking
+		if(childStrCount != 3)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Parsing
+		preNodeIndex = strtol(childStrList[1], &tmpPtr, 10);
+		if(tmpPtr == childStrList[1])
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		nodeIndex = strtol(childStrList[2], &tmpPtr, 10);
+		if(tmpPtr == childStrList[2])
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		tmpValue = strtod(strList[1], &tmpPtr);
+		if(tmpPtr == strList[1])
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		// Set weight
+		iResult = ann_set_recurrent_weight_struct(asPtr, preNodeIndex - 1, nodeIndex - 1, tmpValue);
+		if(iResult != ANN_NO_ERROR)
+		{
 			retValue = iResult;
 			goto RET;
 		}

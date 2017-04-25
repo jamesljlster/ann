@@ -10,11 +10,12 @@ char* ann_file_header[] = {
 	"Training information",
 	"Total node",
 	"Threshold value",
-	"Weight factor"
+	"Weight factor",
+	"Recurrent weight"
 };
 
 char* ann_header_application[] = {
-	"Name=Visual Gene Developer - Neural Network"
+	"Name=Recurrent Neural Network"
 };
 
 char* ann_header_topology[] = {
@@ -39,6 +40,10 @@ char* ann_header_threshold_value[] = {
 
 char* ann_header_weight_factor[] = {
 	"layer-node(layer n-1)-node(layer n)=weight factor"
+};
+
+char* ann_header_recurrent_weight[] = {
+	"node(layer total-1)-node(layer 1)=recurrent weight"
 };
 
 int ann_get_topology_content_id(char* src)

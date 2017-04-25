@@ -186,6 +186,35 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 	return ANN_NO_ERROR;
 }
 
+int ann_set_recurrent_weight_struct(struct ANN_STRUCT* sptr, int preNodeIndex, int nodeIndex, double value)
+{
+	struct ANN_LAYER* preLayerRef;
+	struct ANN_LAYER* layerRef;
+	int layers;
+
+	// Checking
+	assert(sptr->layerList != NULL);
+	layers = sptr->config.layers;
+	if(layers <= 2)
+	{
+		return ANN_INVALID_ARG;
+	}
+
+	// Set layer reference
+	preLayerRef = &sptr->layerList[layers - 2];
+	layerRef = &sptr->layerList[1];
+
+	if(preNodeIndex < 0 || preNodeIndex >= preLayerRef->nodeCount)
+		return ANN_OUT_OF_RANGE;
+	if(nodeIndex < 0 || nodeIndex >= layerRef->nodeCount)
+		return ANN_OUT_OF_RANGE;
+
+	assert(layerRef->nodeList[nodeIndex].rWeight != NULL);
+	layerRef->nodeList[nodeIndex].rWeight[preNodeIndex] = value;
+
+	return ANN_NO_ERROR;
+}
+
 int ann_set_threshold_struct(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* layerRef;
