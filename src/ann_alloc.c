@@ -90,6 +90,20 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 		}
 	}
 
+	// Allocate recurrent weight
+	if(layers > 2)
+	{
+		for(i = 0; i < nodeList[1]; i++)
+		{
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+		}
+	}
+
 	// Assign value
 	sptr->layerList = tmpLayer;
 

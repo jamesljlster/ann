@@ -3,8 +3,12 @@
 
 struct ANN_NODE
 {
+	double* rWeight;
 	double* weight;
 	double* deltaW;
+
+	int queueLen;
+	double* queue;
 
 	double threshold;
 	double deltaTh;
