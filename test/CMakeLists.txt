@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Set project
-project(ann_test C)
+project(rnn_test C)
 
 # Set file list
 file(GLOB PROJECT_SRCS 
@@ -9,11 +9,11 @@ file(GLOB PROJECT_SRCS
 	)
 
 file(GLOB TEST_TXT
-	${CMAKE_CURRENT_SOURCE_DIR}/*.vgn
+	${CMAKE_CURRENT_SOURCE_DIR}/*.rnn
 	)
 
 # Set dependences
-set(PROJECT_DEPS ann m)
+set(PROJECT_DEPS rnn m)
 if(UNIX)
 	find_library(CONIO_LIB conio
 		"/usr/lib"
