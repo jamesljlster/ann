@@ -15,6 +15,7 @@ struct ANN_NODE
 
 	double delta;
 
+	double rHold;
 	double sCalc;
 	double output;
 };

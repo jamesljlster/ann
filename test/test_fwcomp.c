@@ -45,17 +45,21 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	
-	for(i = 0; i < inputs; i++)
+	while(1)
 	{
-		printf("Assign %d of %d input: ", i + 1, inputs);
-		scanf(" %lf", &input[i]);
-	}
+		for(i = 0; i < inputs; i++)
+		{
+			printf("Assign %d of %d input: ", i + 1, inputs);
+			scanf(" %lf", &input[i]);
+		}
 
-	ann_forward_computation(ann, input, output);
+		ann_forward_computation(ann, input, output);
 
-	for(i = 0; i < outputs; i++)
-	{
-		printf("%d of %d output: %lf\n", i + 1, outputs, output[i]);
+		for(i = 0; i < outputs; i++)
+		{
+			printf("%d of %d output: %lf\n", i + 1, outputs, output[i]);
+		}
+		printf("\n");
 	}
 
 	ann_delete(ann);
