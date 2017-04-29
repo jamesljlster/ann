@@ -150,6 +150,22 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  */
 
+void ann_set_learning_rate(ann_t ann, double learningRate);
+/**
+ *	@fn		void ann_set_learning_rate(ann_t ann, double learningRate);
+ *	@brief	Set default learning rate of target neural network.
+ *	@param	ann:			Target ann_t variable.
+ *	@param	learningRate:	Default learning rate of target neural network configuration.
+ */
+
+void ann_set_momentum_coef(ann_t ann, double momentumCoef);
+/**
+ *	@fn		void ann_set_momentum_coef(ann_t ann, double momentumCoef);
+ *	@brief	Set default momentum coefficient of target neural network.
+ *	@param	ann:			Target ann_t variable.
+ *	@param	momentumCoef:	Default momentum coefficient of target neural network configuration.
+ */
+
 void ann_zero_weight(ann_t ann);
 /**
  *	@fn		void ann_zero_weight(ann_t ann);
