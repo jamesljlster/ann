@@ -240,6 +240,14 @@ int ann_get_transfer_func(ann_t ann);
  *	@return Transfer (activation) function index of target neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
  */
 
+const char* ann_get_transfer_func_name(int tFuncIndex);
+/**
+ *	@fn		const char* ann_get_transfer_func_name(int tFuncIndex);
+ *	@brief	Get the name of transfer (activation) function.
+ *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
+ *	@return Constant string pointer of the transfer function name. The function would return NULL if tFuncIndex is out of range.
+ */
+
 double ann_get_learning_rate(ann_t ann);
 /**
  *	@fn		double ann_get_learning_rate(ann_t ann);
