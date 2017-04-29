@@ -9,6 +9,18 @@
 
 #define INIT_NODES	10
 
+void ann_set_learning_rate(ann_t ann, double learningRate)
+{
+	struct ANN_STRUCT* annRef = ann;
+	annRef->config.learningRate = learningRate;
+}
+
+void ann_set_momentum_coef(ann_t ann, double momentumCoef)
+{
+	struct ANN_STRUCT* annRef = ann;
+	annRef->config.momentumCoef = momentumCoef;
+}
+
 void ann_config_set_learning_rate(ann_config_t config, double learningRate)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
