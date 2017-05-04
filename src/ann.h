@@ -9,36 +9,36 @@
 /** Return value definitions of ann library. */
 enum ANN_RETUEN_VALUE
 {
-	ANN_NO_ERROR		= 0,	/*!< No error occured while running called function. */
-	ANN_MEM_FAILED		= -1,	/*!< Memory allocation failed. */
-	ANN_FILE_FAILED		= -2,	/*!< File processing failed. */
-	ANN_SYNTAX_ERROR	= -3,	/*!< There is(are) syntax error(s) in file. */
-	ANN_INFO_NOT_FOUND	= -4,	/*!< Important information(s) not found in file. */
-	ANN_OUT_OF_RANGE	= -5,	/*!< Processing out of range. */
-	ANN_INVALID_ARG		= -6	/*!< Invalid argument(s) or setting(s). */
+	ANN_NO_ERROR		= 0,	/*!< No error occured while running called function. @since 0.1.0 */
+	ANN_MEM_FAILED		= -1,	/*!< Memory allocation failed. @since 0.1.0 */
+	ANN_FILE_FAILED		= -2,	/*!< File processing failed. @since 0.1.0 */
+	ANN_SYNTAX_ERROR	= -3,	/*!< There is(are) syntax error(s) in file. @since 0.1.0 */
+	ANN_INFO_NOT_FOUND	= -4,	/*!< Important information(s) not found in file. @since 0.1.0 */
+	ANN_OUT_OF_RANGE	= -5,	/*!< Processing out of range. @since 0.1.0 */
+	ANN_INVALID_ARG		= -6	/*!< Invalid argument(s) or setting(s). @since 0.2.2 */
 };
 
 /** Transfer (activation) function index definitions. */
 enum ANN_TRANSFER_FUNC
 {
-	ANN_SIGMOID,				/*!< Sigmoid function. */
-	ANN_MODIFIED_SIGMOID,		/*!< Modified sigmoid function. */
-	ANN_HYPERBOLIC_TANGENT,		/*!< Hyperbolic tangent function. */
-	ANN_GAUSSIAN,				/*!< Gaussian function. */
-	ANN_MODIFIED_GAUSSIAN,		/*!< Modified gaussian function. */
-	ANN_BENT_IDENTITY,			/*!< Bent identity function. */
-	ANN_SOFTPLUS,				/*!< SoftPlus function. */
-	ANN_SOFTSIGN,				/*!< SoftSign function. */
-	ANN_SINC,					/*!< Sinc function. */
-	ANN_SINUSOID,				/*!< Sinusoid (sine) function. */
-	ANN_IDENTITY,				/*!< Identity function. */
-	ANN_RELU					/*!< Rectifier linear unit function. */
+	ANN_SIGMOID,				/*!< Sigmoid function. @since 0.1.0 */
+	ANN_MODIFIED_SIGMOID,		/*!< Modified sigmoid function. @since 0.1.2 */
+	ANN_HYPERBOLIC_TANGENT,		/*!< Hyperbolic tangent function. @since 0.1.2 */
+	ANN_GAUSSIAN,				/*!< Gaussian function. @since 0.1.3 */
+	ANN_MODIFIED_GAUSSIAN,		/*!< Modified gaussian function. @since 0.1.3 */
+	ANN_BENT_IDENTITY,			/*!< Bent identity function. @since 0.2.2 */
+	ANN_SOFTPLUS,				/*!< SoftPlus function. @since 0.2.2 */
+	ANN_SOFTSIGN,				/*!< SoftSign function. @since 0.2.2 */
+	ANN_SINC,					/*!< Sinc function. @since 0.2.2 */
+	ANN_SINUSOID,				/*!< Sinusoid (sine) function. @since 0.2.2 */
+	ANN_IDENTITY,				/*!< Identity function. @since 0.2.2 */
+	ANN_RELU					/*!< Rectifier linear unit function. @since 0.2.2 */
 };
 
-/** Type definition of ann. */
+/** Type definition of ann. @since 0.2.0 */
 typedef struct ANN_STRUCT* ann_t;
 
-/** Type definition of ann configuration. */
+/** Type definition of ann configuration. @since 0.2.0 */
 typedef struct ANN_CONFIG_STRUCT* ann_config_t;
 
 #ifdef __cplusplus
@@ -58,6 +58,7 @@ int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, doub
  *	@param	hiddenLayers:	Hidden layers of neural network.
  *	@param	...:			Nodes of each hidden layers in neural network.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_create(ann_t* annPtr, ann_config_t config);
@@ -67,6 +68,7 @@ int ann_create(ann_t* annPtr, ann_config_t config);
  *	@param	annPtr:	Pointer of ann_t type variable.
  *	@param	config:	Ann configuration.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_import(ann_t* annPtr, const char* filePath);
@@ -76,6 +78,7 @@ int ann_import(ann_t* annPtr, const char* filePath);
  *	@param	annPtr:		Pointer of ann_t type variable.
  *	@param	filePath:	Input file path of neural network file.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
  
 int ann_export(ann_t ann, const char* filePath);
@@ -85,6 +88,7 @@ int ann_export(ann_t ann, const char* filePath);
  *	@param	ann:		ann_t type variable.
  *	@param	filePath:	Output file path of neural network file.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn);
@@ -94,6 +98,7 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn);
  *	@param	dstAnnPtr:	Pointer of destination ann_t type variable.
  *	@param	srcAnn:		Source ann_t type variable.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.4
  */
 
 int ann_config_clone(ann_config_t* dstCfgPtr, ann_config_t srcCfg);
@@ -103,6 +108,7 @@ int ann_config_clone(ann_config_t* dstCfgPtr, ann_config_t srcCfg);
  *	@param	dstCfgPtr:	Pointer of destination ann_config_t type variable.
  *	@param	srcCfg:		Source ann_config_t type variable.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.2.4
  */
 
 void ann_delete(ann_t ann);
@@ -110,6 +116,7 @@ void ann_delete(ann_t ann);
  *	@fn		void ann_delete(ann_t ann);
  *	@brief	Delete neural network.
  *	@param	ann:	Target ann_t type variable.
+ *	@since	0.1.0
  */
 
 void ann_print(ann_t ann);
@@ -117,6 +124,7 @@ void ann_print(ann_t ann);
  *	@fn		void ann_print(ann_t ann);
  *	@brief	Print target neural network.
  *	@param	ann:	Target ann_t type variable.
+ *	@since	0.1.0
  */
 
 ann_config_t ann_get_config(ann_t ann);
@@ -125,6 +133,7 @@ ann_config_t ann_get_config(ann_t ann);
  *	@brief	Get configuration form existed neural network.
  *	@param	ann:	Target ann_t type variable.
  *	@return	Configuration of target neural network.
+ *	@since	0.1.0
  */
 
 int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
@@ -137,6 +146,7 @@ int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, d
  *	@param	nodeIndex:		Node index of target weight thar link to current layer.
  *	@param	value:			Weight value.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
@@ -148,6 +158,7 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
  *	@param	nodeIndex:		Node index of target threshold thar link to current layer.
  *	@param	value:			Threshold value.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 void ann_set_learning_rate(ann_t ann, double learningRate);
@@ -156,6 +167,7 @@ void ann_set_learning_rate(ann_t ann, double learningRate);
  *	@brief	Set default learning rate of target neural network.
  *	@param	ann:			Target ann_t variable.
  *	@param	learningRate:	Default learning rate of target neural network configuration.
+ *	@since	0.2.5
  */
 
 void ann_set_momentum_coef(ann_t ann, double momentumCoef);
@@ -164,6 +176,7 @@ void ann_set_momentum_coef(ann_t ann, double momentumCoef);
  *	@brief	Set default momentum coefficient of target neural network.
  *	@param	ann:			Target ann_t variable.
  *	@param	momentumCoef:	Default momentum coefficient of target neural network configuration.
+ *	@since	0.2.5
  */
 
 void ann_zero_weight(ann_t ann);
@@ -171,6 +184,7 @@ void ann_zero_weight(ann_t ann);
  *	@fn		void ann_zero_weight(ann_t ann);
  *	@brief	Zero all weight in neural network.
  *	@param	ann:	Target ann_t type variable.
+ *	@since	0.1.0
  */
 
 void ann_zero_threshold(ann_t ann);
@@ -178,6 +192,7 @@ void ann_zero_threshold(ann_t ann);
  *	@fn		void ann_zero_threshold(ann_t ann);
  *	@brief	Zero all threshold in neural network.
  *	@param	ann:	Target ann_t type variable.
+ *	@since	0.1.0
  */
 
 void ann_rand_weight(ann_t ann);
@@ -185,6 +200,7 @@ void ann_rand_weight(ann_t ann);
  *	@fn		void ann_rand_weight(ann_t ann);
  *	@brief	Random all weight in neural network.
  *	@param	ann:	Target ann_t type variable.
+ *	@since	0.1.0
  */
 
 void ann_rand_threshold(ann_t ann);
@@ -192,6 +208,7 @@ void ann_rand_threshold(ann_t ann);
  *	@fn		void ann_rand_threshold(ann_t ann);
  *	@brief	Random all threshold in neural network.
  *	@param	ann:	Target ann_t type variable.
+ *	@since	0.1.0
  */
 
 double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
@@ -203,6 +220,7 @@ double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex
  *	@param	preNodeIndex:	The node index of the weight that link to previous layer.
  *	@param	nodeIndex:		The node index of the weight that link to current layer.
  *	@return	Target weight value.
+ *	@since	0.1.0
  */
 
 double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
@@ -213,6 +231,7 @@ double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
  *	@param	layerIndex: Layer index of target neural network node.
  *	@param	nodeIndex:	The node index of the target neural network node.
  *	@return	Target threshold value.
+ *	@since	0.1.0
  */
 
 int ann_get_inputs(ann_t ann);
@@ -221,6 +240,7 @@ int ann_get_inputs(ann_t ann);
  *	@brief	Get inputs of target neural network.
  *	@param	ann:	Target ann_t type variable.
  *	@return	Inputs of target neural network.
+ *	@since	0.1.0
  */
 
 int ann_get_outputs(ann_t ann);
@@ -229,6 +249,7 @@ int ann_get_outputs(ann_t ann);
  *	@brief	Get outputs of target neural network.
  *	@param	ann: Target ann_t type variable.
  *	@return	Outputs of target neural network.
+ *	@since	0.1.0
  */
 
 int ann_get_hidden_layers(ann_t ann);
@@ -237,6 +258,7 @@ int ann_get_hidden_layers(ann_t ann);
  *	@brief	Get hidden layers of target neural network.
  *	@param	ann: Target ann_t type variable.
  *	@return	Hidden layers of target neural network.
+ *	@since	0.1.0
  */
 
 int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex);
@@ -246,6 +268,7 @@ int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex);
  *	@param	ann:				Target ann_t type variable.
  *	@param	hiddenLayerIndex:	Target hidden layer index of neural network.
  *	@return	Hidden nodes of target hidden layer in neural network.
+ *	@since	0.1.0
  */
 
 int ann_get_transfer_func(ann_t ann);
@@ -254,6 +277,7 @@ int ann_get_transfer_func(ann_t ann);
  *	@brief	Get transfer (activation) function index of target neural network.
  *	@param	ann: Target ann_t type variable.
  *	@return Transfer (activation) function index of target neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
+ *	@since	0.1.0
  */
 
 const char* ann_get_transfer_func_name(int tFuncIndex);
@@ -262,6 +286,7 @@ const char* ann_get_transfer_func_name(int tFuncIndex);
  *	@brief	Get the name of transfer (activation) function.
  *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
  *	@return Constant string pointer of the transfer function name. The function would return NULL if tFuncIndex is out of range.
+ *	@since	0.2.5
  */
 
 double ann_get_learning_rate(ann_t ann);
@@ -270,6 +295,7 @@ double ann_get_learning_rate(ann_t ann);
  *	@brief	Get default learning rate of target neural network.
  *	@param	ann: Target ann_t type variable.
  *	@return	Default learning rate of neural network.
+ *	@since	0.1.0
  */
 
 double ann_get_momentum_coef(ann_t ann);
@@ -278,6 +304,7 @@ double ann_get_momentum_coef(ann_t ann);
  *	@brief	Get default momentum coefficient of target neural network.
  *	@param	ann: Target ann_t type variable.
  *	@return Default momentum coefficient of neural network.
+ *	@since	0.1.0
  */
 
 int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
@@ -293,6 +320,7 @@ int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int
  *	@param	hiddenLayers:	Hidden layers of neural network.
  *	@param	...:			Nodes of each hidden layers in neural network.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_config_create(ann_config_t* configPtr);
@@ -301,6 +329,7 @@ int ann_config_create(ann_config_t* configPtr);
  *	@brief	Create a empty neural network configuration.
  *	@param	configPtr:	Pointer of ann_config_t type.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_config_import(ann_config_t* configPtr, const char* filePath);
@@ -310,6 +339,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath);
  *	@param	configPtr:	Pointer of ann_config_t type variable.
  *	@param	filePath:	Input file path of neural network configuration file.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
  
 int ann_config_export(ann_config_t config, const char* filePath);
@@ -319,6 +349,7 @@ int ann_config_export(ann_config_t config, const char* filePath);
  *	@param	config:		Target ann_config_t type variable.
  *	@param	filePath:	Output file path of neural network configuration file.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 void ann_config_delete(ann_config_t config);
@@ -326,6 +357,7 @@ void ann_config_delete(ann_config_t config);
  *	@fn		void ann_config_delete(ann_config_t config);
  *	@brief	Delete neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
+ *	@since	0.1.0
  */
 
 void ann_config_print(ann_config_t config);
@@ -333,6 +365,7 @@ void ann_config_print(ann_config_t config);
  *	@fn		void ann_config_print(ann_config_t config);
  *	@brief	Print target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
+ *	@since	0.1.0
  */
 
 int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers);
@@ -342,6 +375,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers);
  *	@param	config: 		Target ann_config_t type variable.
  *	@param	hiddenLayers:	Hidden layers of target neural network configuration.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int nodes);
@@ -352,6 +386,7 @@ int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int n
  *	@param	hiddenLayerIndex:	Target hidden layer index in neural networl configuration.
  *	@param	nodes:				Nodes of target hidden layer.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_config_set_inputs(ann_config_t config, int inputs);
@@ -361,6 +396,7 @@ int ann_config_set_inputs(ann_config_t config, int inputs);
  *	@param	config:	Target ann_config_t variable.
  *	@param	inputs:	Inputs of target neural network configuration.
  *	@return If argument less then or equal with zero, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
+ *	@since	0.1.0
  */
 
 int ann_config_set_outputs(ann_config_t config, int outputs);
@@ -370,6 +406,7 @@ int ann_config_set_outputs(ann_config_t config, int outputs);
  *	@param	config:		Target ann_config_t variable.
  *	@param	outputs:	Outputs of target neural network configuration.
  *	@return If argument less then or equal with zero, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
+ *	@since	0.1.0
  */
 
 int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
@@ -379,6 +416,7 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
  *	@param	config:		Target ann_config_t variable.
  *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
  *	@return If argument less then zero or greater then the highest transfer function index, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
+ *	@since	0.1.0
  */
 
 void ann_config_set_learning_rate(ann_config_t config, double learningRate);
@@ -387,6 +425,7 @@ void ann_config_set_learning_rate(ann_config_t config, double learningRate);
  *	@brief	Set default learning rate of target neural network configuration.
  *	@param	config:			Target ann_config_t variable.
  *	@param	learningRate:	Default learning rate of target neural network configuration.
+ *	@since	0.1.0
  */
 
 void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef);
@@ -395,6 +434,7 @@ void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef);
  *	@brief	Set default momentum coefficient of target neural network configuration.
  *	@param	config:			Target ann_config_t variable.
  *	@param	momentumCoef:	Default momentum coefficient of target neural network configuration.
+ *	@since	0.1.0
  */
 
 int ann_config_get_inputs(ann_config_t config);
@@ -403,6 +443,7 @@ int ann_config_get_inputs(ann_config_t config);
  *	@brief	Get inputs of target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return	Inputs of target neural network configuration.
+ *	@since	0.1.0
  */
 
 int ann_config_get_outputs(ann_config_t config);
@@ -411,6 +452,7 @@ int ann_config_get_outputs(ann_config_t config);
  *	@brief	Get outputs of target neural network confuguration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return	Outputs of target neural network configuration.
+ *	@since	0.1.0
  */
 
 int ann_config_get_hidden_layers(ann_config_t config);
@@ -419,6 +461,7 @@ int ann_config_get_hidden_layers(ann_config_t config);
  *	@brief	Get hidden layers of target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return	Hidden layers of target neural network.
+ *	@since	0.1.0
  */
 
 int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex);
@@ -428,6 +471,7 @@ int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex);
  *	@param	config:				Target ann_config_t type variable.
  *	@param	hiddenLayerIndex:	Target hidden layer index of neural network.
  *	@return	Hidden nodes of target hidden layer in neural network configuration.
+ *	@since	0.1.0
  */
 
 int ann_config_get_transfer_func(ann_config_t config);
@@ -436,6 +480,7 @@ int ann_config_get_transfer_func(ann_config_t config);
  *	@brief	Get transfer (activation) function index of target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return Transfer (activation) function index of target neural network configuration. Transfer function index is described by #ANN_TRANSFER_FUNC.
+ *	@since	0.1.0
  */
 
 double ann_config_get_learning_rate(ann_config_t config);
@@ -444,6 +489,7 @@ double ann_config_get_learning_rate(ann_config_t config);
  *	@brief	Get default learning rate of target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return	Default learning rate of neural network configuration.
+ *	@since	0.1.0
  */
 
 double ann_config_get_momentum_coef(ann_config_t config);
@@ -452,6 +498,7 @@ double ann_config_get_momentum_coef(ann_config_t config);
  *	@brief	Get default momentum coefficient of target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return Default momentum coefficient of neural network configuration.
+ *	@since	0.1.0
  */
 
 int ann_training_gradient(ann_t ann, double* input, double* desire, double* output, double* err);
@@ -464,6 +511,7 @@ int ann_training_gradient(ann_t ann, double* input, double* desire, double* outp
  *	@param	output:	Array for storing outputs of forward computation. Pass NULL if you want to ignore it.
  *	@param	err:	Array for storing error (desire - output) before backpropagation. Pass NULL if you want to ignore it.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
  */
 
 int ann_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double* input, double* desire, double* output, double* err);
@@ -478,6 +526,7 @@ int ann_training_gradient_custom(ann_t ann, double learningRate, double momentum
  *	@param	output:			Array for storing outputs of forward computation. Pass NULL if you want to ignore it.
  *	@param	err:			Array for storing error (desire - output) before backpropagation. Pass NULL if you want to ignore it.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.4
  */
 
 void ann_forward_computation(ann_t ann, double* input, double* output);
@@ -487,6 +536,7 @@ void ann_forward_computation(ann_t ann, double* input, double* output);
  *	@param	ann:	Target ann_t type variable.
  *	@param	input:	Input array.
  *	@param	output:	Array for storing outputs.
+ *	@since	0.1.0
  */
 
 void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError);
@@ -497,6 +547,7 @@ void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, do
  *	@param	learningRate:	Custom learning rate in backpropagation.
  *	@param	momentumCoef:	Custom momentum coefficient in backpropagation.
  *	@param	dError:			Differential value of error value in cost function.
+ *	@since	0.1.0
  */
 
 const char* ann_get_error_msg(int retValue);
@@ -505,6 +556,7 @@ const char* ann_get_error_msg(int retValue);
  *	@brief	Get error msg with return value.
  *	@param	retValue:	Target return value that trying to parsing.
  *	@return Constant string pointer that contains parsing message.
+ *	@since	0.2.0
  */
 
 #ifdef __cplusplus
