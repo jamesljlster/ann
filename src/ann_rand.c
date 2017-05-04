@@ -5,7 +5,7 @@
 #include "ann.h"
 #include "ann_private.h"
 
-#define NUM_PRECISION	1000000
+#define NUM_PRECISION	1000
 #define NUM_MAX			1
 #define	NUM_MIN			-1
 
