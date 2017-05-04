@@ -3,6 +3,19 @@
 
 #include "ann.h"
 #include "ann_private.h"
+#include "ann_builtin_math.h"
+
+const char* ann_get_transfer_func_name(int tFuncIndex)
+{
+	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_AMOUNT)
+	{
+		return NULL;
+	}
+	else
+	{
+		return ann_transfer_func_name[tFuncIndex];
+	}
+}
 
 int ann_get_inputs(ann_t ann)
 {

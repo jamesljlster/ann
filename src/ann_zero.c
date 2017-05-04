@@ -6,6 +6,33 @@
 
 #include "debug.h"
 
+void ann_clear_momentum(ann_t ann)
+{
+	int i, j, k;
+
+	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	annRef = ann;
+	layerRef = annRef->layerList;
+	cfgRef = &annRef->config;
+
+	assert(layerRef != NULL);
+
+	for(i = 1; i < cfgRef->layers; i++)
+	{
+		for(j = 0; j < layerRef[i].nodeCount; j++)
+		{
+			layerRef[i].nodeList[j].deltaTh = 0;
+			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
+			{
+				layerRef[i].nodeList[j].deltaW[k] = 0;
+			}
+		}
+	}
+}
+
 void ann_zeromem(struct ANN_STRUCT* asPtr)
 {
 	asPtr->layerList = NULL;
