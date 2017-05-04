@@ -501,6 +501,14 @@ double ann_config_get_momentum_coef(ann_config_t config);
  *	@since	0.1.0
  */
 
+void ann_clear_momentum(ann_t ann);
+/**
+ *	@fn		void ann_clear_momentum(ann_t ann);
+ *	@brief	Clear momentum in target neural network.
+ *	@param	ann:	Target ann_t type variable.
+ *	@since	0.2.5
+ */
+
 int ann_training_gradient(ann_t ann, double* input, double* desire, double* output, double* err);
 /**
  *	@fn		int ann_training_gradient(ann_t ann, double* input, double* desire, double* output, double* err);
