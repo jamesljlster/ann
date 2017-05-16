@@ -5,6 +5,57 @@
 
 #include "debug.h"
 
+int rnn_bptt(ann_t ann, double* dError)
+{
+	int i, j, k;
+	int retValue = ANN_NO_ERROR;
+
+	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	int queueLen = 0;
+	double** outputQueueList = NULL;
+	double** sCalcQueueList = NULL;
+
+	LOG("enter");
+
+	// Get reference
+	annRef = ann;
+	layerRef = annRef->layerList;
+	cfgRef = &annRef->config;
+
+ERR:
+
+RET:
+	if(outputQueueList != NULL)
+	{
+		for(i = 0; i < cfgRef->outputs; i++)
+		{
+			if(outputQueueList[i] != NULL)
+			{
+				free(outputQueueList[i]);
+			}
+		}
+		free(outputQueueList);
+	}
+
+	if(sCalcQueueList != NULL)
+	{
+		for(i = 0; i < cfgRef->outputs; i++)
+		{
+			if(sCalcQueueList[i] != NULL)
+			{
+				free(sCalcQueueList[i]);
+			}
+			free(sCalcQueueList);
+		}
+	}
+
+	LOG("exit");
+	return retValue;
+}
+
 void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError)
 {
 	int i, j, k;
