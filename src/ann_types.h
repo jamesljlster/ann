@@ -3,19 +3,20 @@
 
 struct ANN_NODE
 {
-	double* rWeight;
-	double* weight;
-	double* deltaW;
+	double* rWeight;	// Recurrent weight list
+	double* weight;		// Weight list
+	double* deltaW;		// Momentum of weight
 
-	int queueLen;
-	double* queue;
+	int queueLen;			// Recurrent queue length
+	double* outputQueue;	// Output queue
+	double* sCalcQueue;		// sCalc queue
 
-	double threshold;
-	double deltaTh;
+	double threshold;	// Threshold of the node
+	double deltaTh;		// Momentum of threshold
 
-	double delta;
+	double delta;		// For bp calculation
 
-	double rHold;
+	double rHold;		// For recurrent forward computation.
 	double sCalc;
 	double output;
 };
