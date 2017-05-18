@@ -14,9 +14,8 @@ int rnn_bptt(ann_t ann, double* dError)
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
 
+	double* tmpPtr = NULL;
 	int queueLen = 0;
-	double** outputQueueList = NULL;
-	double** sCalcQueueList = NULL;
 
 	LOG("enter");
 
@@ -25,32 +24,37 @@ int rnn_bptt(ann_t ann, double* dError)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
-ERR:
+	// Re-Allocate queue space
+	queueLen = annRef->queueLen;
+	for(i = 0; i < cfgRef->layers; i++)
+	{
+		for(j = 0; j < layerRef[i].nodeCount; j++)
+		{
+			tmpPtr = realloc(layerRef[i].nodeList[j].outputQueue, (queueLen + 1) * sizeof(double));
+			if(tmpPtr == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto RET;
+			}
+			else
+			{
+				layerRef[i].nodeList[j].outputQueue = tmpPtr;
+			}
+
+			tmpPtr = realloc(layerRef[i].nodeList[j].sCalcQueue, (queueLen + 1) * sizeof(double));
+			if(tmpPtr == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto RET;
+			}
+			else
+			{
+				layerRef[i].nodeList[j].sCalcQueue = tmpPtr;
+			}
+		}
+	}
 
 RET:
-	if(outputQueueList != NULL)
-	{
-		for(i = 0; i < cfgRef->outputs; i++)
-		{
-			if(outputQueueList[i] != NULL)
-			{
-				free(outputQueueList[i]);
-			}
-		}
-		free(outputQueueList);
-	}
-
-	if(sCalcQueueList != NULL)
-	{
-		for(i = 0; i < cfgRef->outputs; i++)
-		{
-			if(sCalcQueueList[i] != NULL)
-			{
-				free(sCalcQueueList[i]);
-			}
-			free(sCalcQueueList);
-		}
-	}
 
 	LOG("exit");
 	return retValue;

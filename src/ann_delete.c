@@ -65,8 +65,6 @@ void ann_delete_node(struct ANN_NODE* nodePtr)
 		free(nodePtr->sCalcQueue);
 	}
 
-	nodePtr->queueLen = 0;
-
 	LOG("exit");
 }
 
@@ -106,6 +104,7 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 	}
 	
 	ann_config_delete_struct(&structPtr->config);
+	structPtr->queueLen = 0;
 
 	LOG("exit");
 }

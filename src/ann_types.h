@@ -7,7 +7,6 @@ struct ANN_NODE
 	double* weight;		// Weight list
 	double* deltaW;		// Momentum of weight
 
-	int queueLen;			// Recurrent queue length
 	double* outputQueue;	// Output queue
 	double* sCalcQueue;		// sCalc queue
 
@@ -45,6 +44,7 @@ struct ANN_CONFIG_STRUCT
 
 struct ANN_STRUCT
 {
+	int queueLen;			// Recurrent queue length
     struct ANN_LAYER* layerList;
 
 	struct ANN_CONFIG_STRUCT config;
