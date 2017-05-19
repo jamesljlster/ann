@@ -54,6 +54,11 @@ int rnn_bptt(ann_t ann, double* dError)
 		}
 	}
 
+	// Update queue length
+	annRef->queueLen++;
+
+	// Find delta
+
 RET:
 
 	LOG("exit");
