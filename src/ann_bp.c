@@ -9,6 +9,7 @@ int rnn_bptt(ann_t ann, double* dError)
 {
 	int i, j, k;
 	int retValue = ANN_NO_ERROR;
+	double calcTmp;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
@@ -57,7 +58,31 @@ int rnn_bptt(ann_t ann, double* dError)
 	// Update queue length
 	annRef->queueLen++;
 
-	// Find delta
+	// Find output delta
+	for(j = 0; j < layerRef[cfgRef->layers - 1].nodeCount; j++)
+	{
+		layerRef[cfgRef->layers - 1].nodeList[j].delta = dError[j] * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
+	}
+	
+	for(i = cfgRef->layers - 1; i > 0; i--)
+	{
+		for(j = 0; j < layerRef[i].nodeCount; j++)
+		{
+			if(i == cfgRef->layers - 1)
+			{
+				layerRef[i].nodeList[j].delta = dError[j] * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
+			}
+			else
+			{
+				calcTmp = 0;
+				for(k = 0; k < layerRef[i + 1].nodeCount; k++)
+				{
+					calcTmp += layerRef[i + 1].nodeList[k].delta * layerRef[i + 1].nodeList[k].weight[j];
+				}
+				layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
+			}
+		}
+	}
 
 RET:
 
