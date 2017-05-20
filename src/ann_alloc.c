@@ -84,6 +84,18 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 					}
 					else
 					{
+						tmpLayer[i].nodeList[j].weightDelta = allocTmp;
+					}
+
+					allocTmp = calloc(nodeList[i - 1], sizeof(double));
+					if(allocTmp == NULL)
+					{
+						LOG("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
+						retValue = ANN_MEM_FAILED;
+						goto ERR;
+					}
+					else
+					{
 						tmpLayer[i].nodeList[j].deltaW = allocTmp;
 					}
 				}
@@ -102,8 +114,21 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 				retValue = ANN_MEM_FAILED;
 				goto ERR;
 			}
+			else
+			{
+				tmpLayer[1].nodeList[i].rWeight = allocTmp;
+			}
 
-			tmpLayer[1].nodeList[i].rWeight = allocTmp;
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+			else
+			{
+				tmpLayer[1].nodeList[i].rWeightDelta = allocTmp;
+			}
 		}
 	}
 

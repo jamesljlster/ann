@@ -42,6 +42,12 @@ void ann_delete_node(struct ANN_NODE* nodePtr)
 		free(nodePtr->weight);
 		nodePtr->weight = NULL;
 	}
+
+	if(nodePtr->weightDelta != NULL)
+	{
+		free(nodePtr->weightDelta);
+		nodePtr->weightDelta = NULL;
+	}
 	
 	if(nodePtr->deltaW != NULL)
 	{
@@ -53,6 +59,12 @@ void ann_delete_node(struct ANN_NODE* nodePtr)
 	{
 		free(nodePtr->rWeight);
 		nodePtr->rWeight = NULL;
+	}
+
+	if(nodePtr->rWeightDelta != NULL)
+	{
+		free(nodePtr->rWeightDelta);
+		nodePtr->rWeightDelta = NULL;
 	}
 
 	if(nodePtr->outputQueue != NULL)

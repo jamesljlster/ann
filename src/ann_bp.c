@@ -5,16 +5,18 @@
 
 #include "debug.h"
 
-int rnn_bptt(ann_t ann, double* dError)
+int rnn_bptt(ann_t ann, double learningRate, double momentumCoef, double* dError)
 {
-	int i, j, k;
+	int i, j, k, re;
 	int retValue = ANN_NO_ERROR;
+	int indexTmp;
 	double calcTmp;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
 
+	double* deltaHold = NULL;
 	double* tmpPtr = NULL;
 	int queueLen = 0;
 
@@ -25,7 +27,7 @@ int rnn_bptt(ann_t ann, double* dError)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
-	// Re-Allocate queue space
+	// Re-Allocate queue space and clear delta
 	queueLen = annRef->queueLen;
 	for(i = 0; i < cfgRef->layers; i++)
 	{
@@ -39,6 +41,7 @@ int rnn_bptt(ann_t ann, double* dError)
 			}
 			else
 			{
+				tmpPtr[queueLen] = layerRef[i].nodeList[j].output;
 				layerRef[i].nodeList[j].outputQueue = tmpPtr;
 			}
 
@@ -50,38 +53,52 @@ int rnn_bptt(ann_t ann, double* dError)
 			}
 			else
 			{
+				tmpPtr[queueLen] = layerRef[i].nodeList[j].sCalc;
 				layerRef[i].nodeList[j].sCalcQueue = tmpPtr;
 			}
+
+			layerRef[i].nodeList[j].delta = 0;
 		}
 	}
 
 	// Update queue length
 	annRef->queueLen++;
 
-	// Find output delta
-	for(j = 0; j < layerRef[cfgRef->layers - 1].nodeCount; j++)
+	// Find network adjust delta: Output layer
+	indexTmp = cfgRef->layers - 1;
+	for(j = 0; j < layerRef[indexTmp].nodeCount; j++)
 	{
-		layerRef[cfgRef->layers - 1].nodeList[j].delta = dError[j] * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
+		layerRef[indexTmp].nodeList[j].delta = dError[j] * layerRef[indexTmp].dActiveFunc(layerRef[indexTmp].nodeList[j].sCalc);
 	}
-	
-	for(i = cfgRef->layers - 1; i > 0; i--)
+
+	// Find network adjust delta: Hidden layers
+	if(cfgRef->layers == 3)
 	{
-		for(j = 0; j < layerRef[i].nodeCount; j++)
+		// Allocate delta hold list
+		deltaHold = calloc(layerRef[1].nodeCount, sizeof(double));
+		if(deltaHold == NULL)
 		{
-			if(i == cfgRef->layers - 1)
-			{
-				layerRef[i].nodeList[j].delta = dError[j] * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
-			}
-			else
-			{
-				calcTmp = 0;
-				for(k = 0; k < layerRef[i + 1].nodeCount; k++)
-				{
-					calcTmp += layerRef[i + 1].nodeList[k].delta * layerRef[i + 1].nodeList[k].weight[j];
-				}
-				layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalc);
-			}
+			retValue = ANN_MEM_FAILED;
+			goto RET;
 		}
+
+		// Find delta
+		for(re = annRef->queueLen - 1; re >= 0; re--)
+		{
+			// Backup hidden layer recurrent delta
+			for(j = 0; j < layerRef[1].nodeCount; j++)
+			{
+				deltaHold[j] = layerRef[1].nodeList[j].delta;
+			}
+
+		}
+
+		// Cleanup
+		free(deltaHold);
+	}
+	else if(cfgRef->layers > 3)
+	{
+
 	}
 
 RET:
