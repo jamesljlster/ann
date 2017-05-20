@@ -12,8 +12,9 @@ struct ANN_NODE
 	double* outputQueue;	// Output queue
 	double* sCalcQueue;		// sCalc queue
 
-	double threshold;	// Threshold of the node
-	double deltaTh;		// Momentum of threshold
+	double threshold;		// Threshold of the node
+	double thresholdDelta;	// Adjust delta summation of threshold
+	double deltaTh;			// Momentum of threshold
 
 	double delta;		// For bp calculation
 
