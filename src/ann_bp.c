@@ -5,7 +5,17 @@
 
 #include "debug.h"
 
-int rnn_bptt(ann_t ann, double learningRate, double* dError)
+void rnn_bptt_forget(ann_t ann)
+{
+
+}
+
+void rnn_bptt_adjust_network(ann_t ann, double momentumCoef)
+{
+
+}
+
+int rnn_bptt_sum_delta(ann_t ann, double learningRate, double* dError)
 {
 	int i, j, k, re;
 	int retValue = ANN_NO_ERROR;
