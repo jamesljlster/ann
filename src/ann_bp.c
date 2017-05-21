@@ -9,11 +9,15 @@ void rnn_bptt_erase(ann_t ann)
 {
 	struct ANN_STRUCT* annRef;
 
+	LOG("enter");
+
 	// Get reference
 	annRef = ann;
 
 	// Reset queue length
 	annRef->queueLen = 0;
+
+	LOG("exit");
 }
 
 void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef)
@@ -25,6 +29,8 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 	struct ANN_CONFIG_STRUCT* cfgRef;
 
 	double calcTmp;
+
+	LOG("enter");
 
 	// Get reference
 	annRef = ann;
@@ -48,19 +54,21 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 				layerRef[i].nodeList[j].deltaW[k] = calcTmp - layerRef[i].nodeList[j].weight[k];
 				layerRef[i].nodeList[j].weight[k] = calcTmp;
 			}
-
-			// Adjust recurrent weight
-			if(i == cfgRef->layers - 2)
-			{
-				for(k = 0; k < layerRef[i - 1].nodeCount; k++)
-				{
-					calcTmp = layerRef[i].nodeList[j].rWeight[k] + learningRate * layerRef[i].nodeList[j].rWeightDelta[k] + momentumCoef * layerRef[i].nodeList[j].deltaRW[k];
-					layerRef[i].nodeList[j].deltaRW[k] = calcTmp - layerRef[i].nodeList[j].rWeight[k];
-					layerRef[i].nodeList[j].rWeight[k] = calcTmp;
-				}
-			}
 		}
 	}
+
+	// Adjust recurrent weight
+	for(i = 0; i < layerRef[cfgRef->layers - 2].nodeCount; i++)
+	{
+		for(j = 0; j < layerRef[1].nodeCount; j++)
+		{
+			calcTmp = layerRef[1].nodeList[j].rWeight[i] + learningRate * layerRef[1].nodeList[j].rWeightDelta[i] + momentumCoef * layerRef[1].nodeList[j].deltaRW[i];
+			layerRef[1].nodeList[j].deltaRW[i] = calcTmp - layerRef[1].nodeList[j].rWeight[i];
+			layerRef[1].nodeList[j].rWeight[i] = calcTmp;
+		}
+	}
+
+	LOG("exit");
 }
 
 int rnn_bptt_sum_delta(ann_t ann, double* dError)
@@ -81,12 +89,15 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 	LOG("enter");
 
 	// Get reference
+	LOG("get referenct");
 	annRef = ann;
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
 	// Re-Allocate queue space and clear delta
+	LOG("reallocate queue space and clear delta");
 	queueLen = annRef->queueLen;
+	LOG("queueLen = %d", queueLen);
 	for(i = 0; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
@@ -118,9 +129,11 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 	}
 
 	// Update queue length
+	LOG("update queue length");
 	annRef->queueLen++;
 
 	// Find network adjust delta: Output layer
+	LOG("find netwrok adjust delta: output layer");
 	indexTmp = cfgRef->layers - 1;
 	for(j = 0; j < layerRef[indexTmp].nodeCount; j++)
 	{
@@ -138,9 +151,13 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 	}
 
 	// Find network adjust delta: Recurrent hidden layers
+	LOG("Find network adjust delta: Recurrent hidden layers");
 	if(cfgRef->layers == 3)
 	{
+		LOG("cfgRef->layers == 3");
+
 		// Allocate delta hold list
+		LOG("Allocate delta hold list");
 		deltaHold = calloc(layerRef[1].nodeCount, sizeof(double));
 		if(deltaHold == NULL)
 		{
@@ -151,13 +168,17 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 		// Find delta: recurrent
 		for(re = annRef->queueLen - 1; re >= 0; re--)
 		{
+			LOG("re = %d", re);
+
 			// Backup hidden layer recurrent delta
+			LOG("Backup hidden layer recurrent delta");
 			for(j = 0; j < layerRef[1].nodeCount; j++)
 			{
 				deltaHold[j] = layerRef[1].nodeList[j].delta;
 			}
 
 			// Delta calculation
+			LOG("Delta calculation");
 			for(j = 0; j < layerRef[1].nodeCount; j++)
 			{
 				if(re == annRef->queueLen - 1)
@@ -181,25 +202,33 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 			}
 
 			// Find threshold adjust amount
+			LOG("Find threshold adjust amount");
 			layerRef[1].nodeList[j].thresholdDelta += layerRef[1].nodeList[j].delta;
 
 			// Find weight and recurrent adjust amount
-			for(k = 0; k < layerRef[1].nodeCount; k++)
+			LOG("Find weight and recurrent adjust amount");
+			for(j = 0; j < layerRef[1].nodeCount; j++)
 			{
-				layerRef[1].nodeList[j].weightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[0].nodeList[k].outputQueue[re];
-
-				if(re - 1 >= 0)
+				for(k = 0; k < layerRef[1].nodeCount; k++)
 				{
-					layerRef[1].nodeList[j].rWeightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[1].nodeList[k].outputQueue[re - 1];
+					layerRef[1].nodeList[j].weightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[0].nodeList[k].outputQueue[re];
+
+					if(re - 1 >= 0)
+					{
+						layerRef[1].nodeList[j].rWeightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[1].nodeList[k].outputQueue[re - 1];
+					}
 				}
 			}
 		}
 
 		// Cleanup
+		LOG("Cleanup");
 		free(deltaHold);
 	}
 	else if(cfgRef->layers > 3)
 	{
+		LOG("cfgRef->layers > 3");
+
 		// Find delta: recurrent
 		for(re = annRef->queueLen - 1; re >= 0; re--)
 		{
