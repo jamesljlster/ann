@@ -44,6 +44,14 @@ void ann_rand_weight(ann_t ann)
 			}
 		}
 	}
+
+	for(i = 0; i < layerRef[cfgRef->layers - 2].nodeCount; i++)
+	{
+		for(j = 0; j < layerRef[1].nodeCount; j++)
+		{
+			layerRef[1].nodeList[j].rWeight[i] = ann_rand();
+		}
+	}
 }
 
 void ann_rand_threshold(ann_t ann)
