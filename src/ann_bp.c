@@ -10,7 +10,7 @@ void rnn_bptt_forget(ann_t ann)
 
 }
 
-void rnn_bptt_adjust_network(ann_t ann, double momentumCoef)
+void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef)
 {
 
 }
@@ -80,12 +80,12 @@ int rnn_bptt_sum_delta(ann_t ann, double learningRate, double* dError)
 		layerRef[indexTmp].nodeList[j].delta = dError[j] * layerRef[indexTmp].dActiveFunc(layerRef[indexTmp].nodeList[j].sCalc);
 
 		// Find threshold adjust amount
-		layerRef[indexTmp].nodeList[j].thresholdDelta += learningRate * layerRef[indexTmp].nodeList[j].delta;
+		layerRef[indexTmp].nodeList[j].thresholdDelta += layerRef[indexTmp].nodeList[j].delta;
 
 		// Find weight adjust amount
 		for(k = 0; k < layerRef[indexTmp - 1].nodeCount; k++)
 		{
-			layerRef[indexTmp].nodeList[j].weightDelta[k] += learningRate * layerRef[indexTmp].nodeList[j].delta * layerRef[indexTmp - 1].nodeList[k].output;
+			layerRef[indexTmp].nodeList[j].weightDelta[k] += layerRef[indexTmp].nodeList[j].delta * layerRef[indexTmp - 1].nodeList[k].output;
 		}
 	}
 
@@ -133,16 +133,16 @@ int rnn_bptt_sum_delta(ann_t ann, double learningRate, double* dError)
 			}
 
 			// Find threshold adjust amount
-			layerRef[1].nodeList[j].thresholdDelta += learningRate * layerRef[1].nodeList[j].delta;
+			layerRef[1].nodeList[j].thresholdDelta += layerRef[1].nodeList[j].delta;
 
 			// Find weight and recurrent adjust amount
 			for(k = 0; k < layerRef[1].nodeCount; k++)
 			{
-				layerRef[1].nodeList[j].weightDelta[k] += learningRate * layerRef[1].nodeList[j].delta * layerRef[0].nodeList[k].outputQueue[re];
+				layerRef[1].nodeList[j].weightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[0].nodeList[k].outputQueue[re];
 
 				if(re - 1 >= 0)
 				{
-					layerRef[1].nodeList[j].rWeightDelta[k] += learningRate * layerRef[1].nodeList[j].delta * layerRef[1].nodeList[k].outputQueue[re - 1];
+					layerRef[1].nodeList[j].rWeightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[1].nodeList[k].outputQueue[re - 1];
 				}
 			}
 		}
@@ -194,18 +194,18 @@ int rnn_bptt_sum_delta(ann_t ann, double learningRate, double* dError)
 				}
 
 				// Find threshold adjust amount
-				layerRef[i].nodeList[j].thresholdDelta += learningRate * layerRef[i].nodeList[j].delta;
+				layerRef[i].nodeList[j].thresholdDelta += layerRef[i].nodeList[j].delta;
 
 				// Find weight adjust amount
 				for(k = 0; k < layerRef[indexTmp - 1].nodeCount; k++)
 				{
-					layerRef[1].nodeList[j].weightDelta[k] += learningRate * layerRef[1].nodeList[j].delta * layerRef[indexTmp - 1].nodeList[k].outputQueue[re];
+					layerRef[1].nodeList[j].weightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[indexTmp - 1].nodeList[k].outputQueue[re];
 				}
 
 				// Find recurrent adjust amount
 				if(i == 1 && re - 1 >= 0)
 				{
-					layerRef[1].nodeList[j].rWeightDelta[k] += learningRate * layerRef[1].nodeList[j].delta * layerRef[1].nodeList[k].outputQueue[re - 1];
+					layerRef[1].nodeList[j].rWeightDelta[k] += layerRef[1].nodeList[j].delta * layerRef[1].nodeList[k].outputQueue[re - 1];
 				}
 			}
 		}
