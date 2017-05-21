@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 
 			// Find error
 			for(j = 0; j < OUTPUTS; j++)
-				err[j] = dataset[i * (INPUTS + OUTPUTS) + INPUTS + j] - outputList[i];
+				err[j] = dataset[i * (INPUTS + OUTPUTS) + INPUTS + j] - outputList[j];
 
 			// Backpropagation
 			iResult = rnn_bptt_sum_delta(ann, err);
