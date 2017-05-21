@@ -5,6 +5,29 @@
 
 #include "debug.h"
 
+void rnn_forget(ann_t ann)
+{
+	int i, j;
+
+	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	// Get reference
+	annRef = ann;
+	layerRef = annRef->layerList;
+	cfgRef = &annRef->config;
+
+	// Clear recurrent hold
+	for(i = 1; i < cfgRef->layers; i++)
+	{
+		for(j = 0; j < layerRef[i].nodeCount; j++)
+		{
+			layerRef[i].nodeList[j].rHold = 0;
+		}
+	}
+}
+
 void ann_forward_computation(ann_t ann, double* input, double* output)
 {
 	int i, j, k;
