@@ -483,6 +483,10 @@ const char* ann_get_error_msg(int retValue);
  *	@return Constant string pointer that contains parsing message.
  */
 
+void rnn_bptt_erase(ann_t ann);
+void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef);
+int rnn_bptt_sum_delta(ann_t ann, double learningRate, double* dError);
+
 #ifdef __cplusplus
 }
 #endif
