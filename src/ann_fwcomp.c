@@ -7,11 +7,14 @@
 
 void rnn_forget(ann_t ann)
 {
-	int i, j;
+	int i;
+	int indexTmp;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	LOG("enter");
 
 	// Get reference
 	annRef = ann;
@@ -19,13 +22,13 @@ void rnn_forget(ann_t ann)
 	cfgRef = &annRef->config;
 
 	// Clear recurrent hold
-	for(i = 1; i < cfgRef->layers; i++)
+	indexTmp = cfgRef->layers - 2;
+	for(i = 0; i < layerRef[indexTmp].nodeCount; i++)
 	{
-		for(j = 0; j < layerRef[i].nodeCount; j++)
-		{
-			layerRef[i].nodeList[j].rHold = 0;
-		}
+		layerRef[indexTmp].nodeList[i].rHold = 0;
 	}
+
+	LOG("exit");
 }
 
 void ann_forward_computation(ann_t ann, double* input, double* output)
@@ -37,6 +40,8 @@ void ann_forward_computation(ann_t ann, double* input, double* output)
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	LOG("enter");
 
 	// Get reference
 	annRef = ann;
@@ -92,5 +97,7 @@ void ann_forward_computation(ann_t ann, double* input, double* output)
 			output[i] = layerRef[cfgRef->layers - 1].nodeList[i].output;
 		}
 	}
+
+	LOG("exit");
 }
 
