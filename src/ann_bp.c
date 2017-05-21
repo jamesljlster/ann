@@ -12,7 +12,49 @@ void rnn_bptt_forget(ann_t ann)
 
 void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef)
 {
+	int i, j, k;
 
+	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	double calcTmp;
+
+	// Get reference
+	annRef = ann;
+	layerRef = annRef->layerList;
+	cfgRef = &annRef->config;
+
+	// Adjust network
+	for(i = cfgRef->layers - 1; i > 0; i--)
+	{
+		for(j = 0; j < layerRef[i].nodeCount; j++)
+		{
+			// Adjust threshold
+			calcTmp = layerRef[i].nodeList[j].threshold + learningRate * layerRef[i].nodeList[j].thresholdDelta + momentumCoef * layerRef[i].nodeList[j].deltaTh;
+			layerRef[i].nodeList[j].deltaTh = calcTmp - layerRef[i].nodeList[j].threshold;
+			layerRef[i].nodeList[j].threshold = calcTmp;
+
+			// Adjust weight
+			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
+			{
+				calcTmp = layerRef[i].nodeList[j].weight[k] + learningRate * layerRef[i].nodeList[j].weightDelta[k] + momentumCoef * layerRef[i].nodeList[j].deltaW[k];
+				layerRef[i].nodeList[j].deltaW[k] = calcTmp - layerRef[i].nodeList[j].weight[k];
+				layerRef[i].nodeList[j].weight[k] = calcTmp;
+			}
+
+			// Adjust recurrent weight
+			if(i == cfgRef->layers - 2)
+			{
+				for(k = 0; k < layerRef[i - 1].nodeCount; k++)
+				{
+					calcTmp = layerRef[i].nodeList[j].rWeight[k] + learningRate * layerRef[i].nodeList[j].rWeightDelta[k] + momentumCoef * layerRef[i].nodeList[j].deltaRW[k];
+					layerRef[i].nodeList[j].deltaRW[k] = calcTmp - layerRef[i].nodeList[j].rWeight[k];
+					layerRef[i].nodeList[j].rWeight[k] = calcTmp;
+				}
+			}
+		}
+	}
 }
 
 int rnn_bptt_sum_delta(ann_t ann, double learningRate, double* dError)

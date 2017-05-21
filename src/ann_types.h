@@ -5,6 +5,8 @@ struct ANN_NODE
 {
 	double* rWeight;		// Recurrent weight list
 	double* rWeightDelta;	// Adjust delta summation of recurrent weight
+	double* deltaRW;		// Momentum of recurrent weight
+
 	double* weight;			// Weight list
 	double* weightDelta;	// Adjust delta summation of weight
 	double* deltaW;			// Momentum of weight
