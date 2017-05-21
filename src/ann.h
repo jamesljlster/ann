@@ -485,7 +485,7 @@ const char* ann_get_error_msg(int retValue);
 
 void rnn_bptt_erase(ann_t ann);
 void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef);
-int rnn_bptt_sum_delta(ann_t ann, double learningRate, double* dError);
+int rnn_bptt_sum_delta(ann_t ann, double* dError);
 
 #ifdef __cplusplus
 }
