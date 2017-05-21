@@ -5,9 +5,15 @@
 
 #include "debug.h"
 
-void rnn_bptt_forget(ann_t ann)
+void rnn_bptt_erase(ann_t ann)
 {
+	struct ANN_STRUCT* annRef;
 
+	// Get reference
+	annRef = ann;
+
+	// Reset queue length
+	annRef->queueLen = 0;
 }
 
 void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef)
