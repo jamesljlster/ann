@@ -20,7 +20,7 @@ void rnn_bptt_erase(ann_t ann)
 	LOG("exit");
 }
 
-void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef)
+void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double deltaLimit)
 {
 	int i, j, k;
 
@@ -43,6 +43,11 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
 			// Adjust threshold
+			if(layerRef[i].nodeList[j].thresholdDelta > deltaLimit)
+			{
+				layerRef[i].nodeList[j].thresholdDelta = deltaLimit;
+			}
+
 			calcTmp = layerRef[i].nodeList[j].threshold + learningRate * layerRef[i].nodeList[j].thresholdDelta + momentumCoef * layerRef[i].nodeList[j].deltaTh;
 			layerRef[i].nodeList[j].deltaTh = calcTmp - layerRef[i].nodeList[j].threshold;
 			layerRef[i].nodeList[j].threshold = calcTmp;
@@ -50,6 +55,11 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 			// Adjust weight
 			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
 			{
+				if(layerRef[i].nodeList[j].weightDelta[k] > deltaLimit)
+				{
+					layerRef[i].nodeList[j].weightDelta[k] = deltaLimit;
+				}
+
 				calcTmp = layerRef[i].nodeList[j].weight[k] + learningRate * layerRef[i].nodeList[j].weightDelta[k] + momentumCoef * layerRef[i].nodeList[j].deltaW[k];
 				layerRef[i].nodeList[j].deltaW[k] = calcTmp - layerRef[i].nodeList[j].weight[k];
 				layerRef[i].nodeList[j].weight[k] = calcTmp;
@@ -62,6 +72,11 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 	{
 		for(j = 0; j < layerRef[1].nodeCount; j++)
 		{
+			if(layerRef[1].nodeList[j].rWeightDelta[i] > deltaLimit)
+			{
+				layerRef[1].nodeList[j].rWeightDelta[i] = deltaLimit;
+			}
+
 			calcTmp = layerRef[1].nodeList[j].rWeight[i] + learningRate * layerRef[1].nodeList[j].rWeightDelta[i] + momentumCoef * layerRef[1].nodeList[j].deltaRW[i];
 			layerRef[1].nodeList[j].deltaRW[i] = calcTmp - layerRef[1].nodeList[j].rWeight[i];
 			layerRef[1].nodeList[j].rWeight[i] = calcTmp;
@@ -102,7 +117,7 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 		goto RET;
 	}
 
-	// Re-Allocate queue space and clear delta
+	// Re-Allocate queue space
 	queueLen = annRef->queueLen;
 	for(i = 0; i < cfgRef->layers; i++)
 	{
@@ -131,8 +146,6 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 				tmpPtr[queueLen] = layerRef[i].nodeList[j].sCalc;
 				layerRef[i].nodeList[j].sCalcQueue = tmpPtr;
 			}
-
-			layerRef[i].nodeList[j].delta = 0;
 		}
 	}
 
@@ -174,6 +187,7 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 					layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[re]);
 				}
 			}
+
 		}
 		else
 		{
@@ -207,6 +221,32 @@ int rnn_bptt_sum_delta(ann_t ann, double* dError)
 							calcTmp += layerRef[i + 1].nodeList[k].delta * layerRef[i + 1].nodeList[k].weight[j];
 						}
 						layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[re]);
+					}
+				}
+			}
+		}
+
+		// Sum adjust amount
+		for(i = cfgRef->layers - 2; i > 0; i--)
+		{
+			for(j = 0; j < layerRef[i].nodeCount; j++)
+			{
+				// Find threshold adjust amount
+				layerRef[i].nodeList[j].thresholdDelta += layerRef[i].nodeList[j].delta;
+
+				// Find weight adjust amount
+				for(k = 0; k < layerRef[i - 1].nodeCount; k++)
+				{
+					layerRef[i].nodeList[j].weightDelta[k] += layerRef[i].nodeList[j].delta * layerRef[i - 1].nodeList[k].outputQueue[re];
+				}
+
+				// Find recurrent weight adjust amount
+				if(i == 1 && re > 0)
+				{
+					indexTmp = cfgRef->layers - 2;
+					for(k = 0; k < layerRef[indexTmp].nodeCount; k++)
+					{
+						layerRef[i].nodeList[j].rWeightDelta[k] += layerRef[i].nodeList[j].delta * layerRef[indexTmp].nodeList[k].outputQueue[re - 1];
 					}
 				}
 			}
