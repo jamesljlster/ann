@@ -76,11 +76,13 @@ void ann_delete_node(struct ANN_NODE* nodePtr)
 	if(nodePtr->outputQueue != NULL)
 	{
 		free(nodePtr->outputQueue);
+		nodePtr->outputQueue = NULL;
 	}
 
 	if(nodePtr->sCalcQueue != NULL)
 	{
 		free(nodePtr->sCalcQueue);
+		nodePtr->sCalcQueue = NULL;
 	}
 
 	LOG("exit");
