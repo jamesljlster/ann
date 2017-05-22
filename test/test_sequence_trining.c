@@ -51,14 +51,14 @@ int main(int argc, char* argv[])
 		ann_config_set_learning_rate(cfg, 0.01);
 		ann_config_set_momentum_coef(cfg, 0.1);
 
-		iResult = ann_config_set_hidden_layers(cfg, 12);
+		iResult = ann_config_set_hidden_layers(cfg, 1);
 		if(iResult != ANN_NO_ERROR)
 		{
 			printf("ann_config_set_hidden_layers() failed with error: %d\n", iResult);
 			return -1;
 		}
 
-		iResult = ann_config_set_hidden_nodes(cfg, 0, 1);
+		iResult = ann_config_set_hidden_nodes(cfg, 0, 12);
 		if(iResult != ANN_NO_ERROR)
 		{
 			printf("ann_config_set_nodes() failed with error: %d\n", iResult);
@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 		}
 
 		// Adjust netwrok
-		rnn_bptt_adjust_network(ann, 0.001, 0.0);
+		rnn_bptt_adjust_network(ann, 0.01, 0.0, 3);
 
 		// Erase rnn
 		rnn_bptt_erase(ann);
