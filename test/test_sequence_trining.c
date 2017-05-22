@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
-		iResult = ann_config_set_hidden_nodes(cfg, 0, 1);
+		iResult = ann_config_set_hidden_nodes(cfg, 0, 12);
 		if(iResult != ANN_NO_ERROR)
 		{
 			printf("ann_config_set_nodes() failed with error: %d\n", iResult);
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 
 			// Find error
 			for(j = 0; j < OUTPUTS; j++)
-				err[j] = dataset[i * (INPUTS + OUTPUTS) + INPUTS + j] - outputList[i];
+				err[j] = dataset[i * (INPUTS + OUTPUTS) + INPUTS + j] - outputList[j];
 
 			// Backpropagation
 			iResult = rnn_bptt_sum_delta(ann, err);
@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 		}
 
 		// Adjust netwrok
-		rnn_bptt_adjust_network(ann, 0.01, 0.1);
+		rnn_bptt_adjust_network(ann, 0.01, 0.0, 3);
 
 		// Erase rnn
 		rnn_bptt_erase(ann);
