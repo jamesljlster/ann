@@ -6,8 +6,9 @@
 
 #define INPUTS		1
 #define OUTPUTS		1
-#define ITER_COUNT	10000
+#define ITER_COUNT	1
 #define DATA_AMOUNT	3
+#define DELTA_LIMIT	100
 
 extern double dataset[];
 
@@ -23,8 +24,8 @@ int main(int argc, char* argv[])
 
 	clock_t timeHold;
 
-	ann_t ann;
-	ann_config_t cfg;
+	ann_t ann = NULL;
+	ann_config_t cfg = NULL;
 
 	if(argc > 1)
 	{
@@ -58,7 +59,7 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
-		iResult = ann_config_set_hidden_nodes(cfg, 0, 12);
+		iResult = ann_config_set_hidden_nodes(cfg, 0, 1);
 		if(iResult != ANN_NO_ERROR)
 		{
 			printf("ann_config_set_nodes() failed with error: %d\n", iResult);
@@ -109,7 +110,7 @@ int main(int argc, char* argv[])
 		}
 
 		// Adjust netwrok
-		rnn_bptt_adjust_network(ann, 0.01, 0.0, 3);
+		rnn_bptt_adjust_network(ann, 0.01, 0.0, DELTA_LIMIT);
 
 		// Erase rnn
 		rnn_bptt_erase(ann);
@@ -147,8 +148,8 @@ int main(int argc, char* argv[])
 }
 
 double dataset[] = {
-	1, 0,
 	0, 0,
-	1, 1
+	0, 1,
+	1, 0
 };
 
