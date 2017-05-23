@@ -6,6 +6,18 @@
 
 #include "debug.h"
 
+int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit)
+{
+	struct ANN_STRUCT* annRef = NULL;
+	struct ANN_CONFIG_STRUCT* cfgRef = NULL;
+
+	// Get referenct
+	annRef = ann;
+	cfgRef = &annRef->config;
+
+	return rnn_training_gradient_custom(ann, cfgRef->learningRate, cfgRef->momentumCoef, inputList, desireList, outputList, errList, timeStep, deltaLimit);
+}
+
 int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit)
 {
 	int i, j;
