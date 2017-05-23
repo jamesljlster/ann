@@ -6,7 +6,7 @@
 
 #include "debug.h"
 
-int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit)
+int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit)
 {
 	int i, j;
 	int iResult;
@@ -55,7 +55,7 @@ int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, do
 	}
 
 	// Adjust network
-	rnn_bptt_adjust_network(ann, cfgRef->learningRate, cfgRef->momentumCoef, deltaLimit);
+	rnn_bptt_adjust_network(ann, learningRate, momentumCoef, deltaLimit);
 
 	// Erase
 	rnn_bptt_erase(ann);
