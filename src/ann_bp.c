@@ -47,6 +47,10 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 			{
 				layerRef[i].nodeList[j].thresholdDelta = deltaLimit;
 			}
+			else if(layerRef[i].nodeList[j].thresholdDelta < -deltaLimit)
+			{
+				layerRef[i].nodeList[j].thresholdDelta = -deltaLimit;
+			}
 
 			calcTmp = layerRef[i].nodeList[j].threshold + learningRate * layerRef[i].nodeList[j].thresholdDelta + momentumCoef * layerRef[i].nodeList[j].deltaTh;
 			layerRef[i].nodeList[j].deltaTh = calcTmp - layerRef[i].nodeList[j].threshold;
@@ -58,6 +62,10 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 				if(layerRef[i].nodeList[j].weightDelta[k] > deltaLimit)
 				{
 					layerRef[i].nodeList[j].weightDelta[k] = deltaLimit;
+				}
+				else if(layerRef[i].nodeList[j].weightDelta[k] < -deltaLimit)
+				{
+					layerRef[i].nodeList[j].weightDelta[k] = -deltaLimit;
 				}
 
 				calcTmp = layerRef[i].nodeList[j].weight[k] + learningRate * layerRef[i].nodeList[j].weightDelta[k] + momentumCoef * layerRef[i].nodeList[j].deltaW[k];
@@ -75,6 +83,10 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 			if(layerRef[1].nodeList[j].rWeightDelta[i] > deltaLimit)
 			{
 				layerRef[1].nodeList[j].rWeightDelta[i] = deltaLimit;
+			}
+			else if(layerRef[1].nodeList[j].rWeightDelta[i] < -deltaLimit)
+			{
+				layerRef[1].nodeList[j].rWeightDelta[i] = -deltaLimit;
 			}
 
 			calcTmp = layerRef[1].nodeList[j].rWeight[i] + learningRate * layerRef[1].nodeList[j].rWeightDelta[i] + momentumCoef * layerRef[1].nodeList[j].deltaRW[i];
