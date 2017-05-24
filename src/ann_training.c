@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "ann.h"
 #include "ann_private.h"
@@ -58,8 +59,8 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 		}
 
 		// Backpropagation
-		iResult = rnn_bptt_sum_delta(ann, &errorStore[i * cfgRef->outputs + j]);
-		if(iResult != ANN_NO_ERROR);
+		iResult = rnn_bptt_sum_delta(ann, &errorStore[i * cfgRef->outputs]);
+		if(iResult != ANN_NO_ERROR)
 		{
 			retValue = iResult;
 			goto RET;
@@ -73,15 +74,25 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 	rnn_bptt_erase(ann);
 
 	// Copy values
-	for(i = 0; i < timeStep; i++)
+	if(outputList != NULL)
 	{
-		for(j = 0; j < cfgRef->outputs; j++)
+		for(i = 0; i < timeStep; i++)
 		{
-			if(outputList != NULL)
+			for(j = 0; j < cfgRef->outputs; j++)
+			{
 				outputList[i][j] = outputStore[i * cfgRef->outputs + j];
+			}
+		}
+	}
 
-			if(errList != NULL)
+	if(errList != NULL)
+	{
+		for(i = 0; i < timeStep; i++)
+		{
+			for(j = 0; j < cfgRef->outputs; j++)
+			{
 				errList[i][j] = errorStore[i * cfgRef->outputs + j];
+			}
 		}
 	}
 
