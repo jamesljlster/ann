@@ -10,11 +10,12 @@
 #define HIDDEN_SIZE		16
 
 #define L_RATE		0.001
-#define M_COEF		0.0
+#define M_COEF		0.1
 #define DECAY		0.996
-#define T_FUNC		ANN_SIGMOID
+#define T_FUNC		ANN_SOFTSIGN
 
-#define ITER_COUNT	1000
+#define STOP_MSE	0.00001
+#define ITER_COUNT	10000
 #define DELTA_LIMIT	1
 
 #define DATA_ROWS	256
@@ -25,6 +26,7 @@ double* adder_dataprep(int rows, int cols);
 int main(int argc, char* argv[])
 {
 	int i, j, k;
+	int augendIndex, addendIndex;
 	int iResult;
 	int iterCount;
 
@@ -107,7 +109,6 @@ int main(int argc, char* argv[])
 		printf("Prepare dataset failed!\n");
 		return -1;
 	}
-	/*
 	else
 	{
 		for(i = 0; i < dataRows; i++)
@@ -119,7 +120,8 @@ int main(int argc, char* argv[])
 			printf("\n");
 		}
 	}
-	*/
+
+	getchar();
 	
 	// Memory allocation
 	for(i = 0; i < DATA_COLS; i++)
@@ -161,11 +163,34 @@ int main(int argc, char* argv[])
 			{
 				inputList[j][0] = dataset[i * DATA_COLS + j];
 				inputList[j][1] = dataset[(i + 1) * DATA_COLS + j];
-				desireList[j][0] = dataset[(i + 2) * DATA_COLS + j];
+				desireList[j][0] = dataset[(i * 2 + 1) * DATA_COLS + j];
 			}
 
+			// Print data
+			printf("Input list: \n");
+			for(j = DATA_COLS - 1; j >= 0; j--)
+			{
+				printf("%lf ", inputList[j][0]);
+			}
+			printf("\n");
+
+			for(j = DATA_COLS - 1; j >= 0; j--)
+			{
+				printf("%lf ", inputList[j][1]);
+			}
+			printf("\n");
+
+			printf("Output list: \n");
+			for(j = DATA_COLS - 1; j >= 0; j--)
+			{
+				printf("%lf ", desireList[j][0]);
+			}
+			printf("\n");
+
+			getchar();
+
 			// Training
-			iResult = rnn_training_gradient(ann, inputList, desireList, NULL, errList, DATA_COLS, DELTA_LIMIT);
+			iResult = rnn_training_gradient_custom(ann, lRate, mCoef, inputList, desireList, NULL, errList, DATA_COLS, DELTA_LIMIT);
 			if(iResult != ANN_NO_ERROR)
 			{
 				printf("rnn_training_gradient() failed with error: %s\n", ann_get_error_msg(iResult));
@@ -186,6 +211,9 @@ int main(int argc, char* argv[])
 
 		mse /= (double)(DATA_COLS) * (double)(DATA_ROWS - 2) * (double)OUTPUTS;
 		printf("Iter. %5d mse: %lf\n", iterCount, mse);
+
+		if(mse <= STOP_MSE)
+			break;
 
 		lRate = lRate * DECAY;
 		mCoef = mCoef * DECAY;
