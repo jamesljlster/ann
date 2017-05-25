@@ -7,15 +7,42 @@
 
 void rnn_bptt_erase(ann_t ann)
 {
+	int i, j, k;
 	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
 
 	LOG("enter");
 
 	// Get reference
 	annRef = ann;
+	layerRef = annRef->layerList;
+	cfgRef = &annRef->config;
 
 	// Reset queue length
 	annRef->queueLen = 0;
+	
+	// Clear common delta
+	for(i = cfgRef->layers - 1; i > 0; i--)
+	{
+		for(j = 0; j < layerRef[i].nodeCount; j++)
+		{
+			layerRef[i].nodeList[j].thresholdDelta = 0;
+			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
+			{
+				layerRef[i].nodeList[j].weightDelta[k] = 0;
+			}
+		}
+	}
+
+	// Clear recurrent delta
+	for(i = 0; i < layerRef[cfgRef->layers - 2].nodeCount; i++)
+	{
+		for(j = 0; j < layerRef[1].nodeCount; j++)
+		{
+			layerRef[1].nodeList[j].rWeightDelta[i] = 0;
+		}
+	}
 
 	LOG("exit");
 }
