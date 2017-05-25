@@ -151,8 +151,7 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 	int iResult;
 	int headerReading = 0;
 	int fBlockIndex;
-
-	char tmpRead;
+	int tmpRead;
 
 	struct ANN_STR tmpStr;
 	struct ANN_FILE_BLOCK tmpBlock;
@@ -446,7 +445,7 @@ int ann_is_sigchar(char ch)
 	return retValue;
 }
 
-char ann_get_char(FILE* fileRead, int readAction)
+int ann_get_char(FILE* fileRead, int readAction)
 {
 	int iResult;
 	int readCount;

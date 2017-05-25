@@ -59,7 +59,7 @@ int ann_get_transfer_func_id(char* str)
 
 	LOG("enter");
 
-	for(i = 0; i < 5; i++)
+	for(i = 0; i < ANN_TFUNC_AMOUNT; i++)
 	{
 		iResult = ann_strcmp(str, ann_transfer_func_name[i]);
 		if(iResult == ANN_NO_ERROR)
