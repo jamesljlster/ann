@@ -25,7 +25,7 @@ void rnn_forget(ann_t ann)
 	indexTmp = cfgRef->layers - 2;
 	for(i = 0; i < layerRef[indexTmp].nodeCount; i++)
 	{
-		layerRef[indexTmp].nodeList[i].rHold = 0;
+		layerRef[indexTmp].nodeList[i].output = 0;
 	}
 
 	LOG("exit");
