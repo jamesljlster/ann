@@ -6,9 +6,11 @@
 
 #define INPUTS		1
 #define OUTPUTS		1
-#define ITER_COUNT	1
+#define ITER_COUNT	2
 #define DATA_AMOUNT	3
 #define DELTA_LIMIT	100
+
+#define DEBUG
 
 extern double dataset[];
 
@@ -96,6 +98,25 @@ int main(int argc, char* argv[])
 			for(j = 0; j < OUTPUTS; j++)
 				err[j] = dataset[i * (INPUTS + OUTPUTS) + INPUTS + j] - outputList[j];
 
+#ifdef DEBUG
+			printf("Inputs: ");
+			for(j = 0; j < INPUTS; j++)
+			{
+				printf("%lf, ", dataset[i * (INPUTS + OUTPUTS) + j]);
+			}
+			printf("\nOutputs: ");
+			for(j = 0; j < OUTPUTS; j++)
+			{
+				printf("%lf, ", outputList[j]);
+			}
+			printf("\ndError: ");
+			for(j = 0; j < OUTPUTS; j++)
+			{
+				printf("%lf, ", err[j]);
+			}
+			printf("\n\n");
+#endif
+
 			// Backpropagation
 			iResult = rnn_bptt_sum_delta(ann, err);
 			if(iResult != ANN_NO_ERROR)
@@ -110,11 +131,17 @@ int main(int argc, char* argv[])
 		}
 
 		// Adjust netwrok
-		rnn_bptt_adjust_network(ann, 0.01, 0.0, DELTA_LIMIT);
+		rnn_bptt_adjust_network(ann, 0.1, 0.0, DELTA_LIMIT);
 
 		// Erase rnn
 		rnn_bptt_erase(ann);
 		rnn_forget(ann);
+
+#ifdef DEBUG
+		ann_print(ann);
+		getchar();
+#endif
+
 
 		for(i = 0; i < OUTPUTS; i++)
 			iterErr[i] /= (double)DATA_AMOUNT;
@@ -148,8 +175,8 @@ int main(int argc, char* argv[])
 }
 
 double dataset[] = {
-	0, 0,
 	0, 1,
-	1, 0
+	1, 0,
+	0, 1
 };
 
