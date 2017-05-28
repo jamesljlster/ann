@@ -50,7 +50,12 @@ int main(int argc, char* argv[])
 		for(i = 0; i < inputs; i++)
 		{
 			printf("Assign %d of %d input: ", i + 1, inputs);
-			scanf(" %lf", &input[i]);
+			iResult = scanf(" %lf", &input[i]);
+			if(iResult <= 0)
+			{
+				i--;
+				continue;
+			}
 		}
 
 		ann_forward_computation(ann, input, output);

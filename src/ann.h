@@ -485,7 +485,7 @@ const char* ann_get_error_msg(int retValue);
 
 int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit);
 int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit);
-void rnn_forget(ann_t ann);
+void rnn_forward_computation_erase(ann_t ann);
 void rnn_bptt_erase(ann_t ann);
 void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double deltaLimit);
 int rnn_bptt_sum_delta(ann_t ann, double* dError);

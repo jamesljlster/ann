@@ -5,7 +5,7 @@
 
 #include "debug.h"
 
-void rnn_forget(ann_t ann)
+void rnn_forward_computation_erase(ann_t ann)
 {
 	int i;
 	int indexTmp;

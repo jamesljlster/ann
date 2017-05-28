@@ -72,7 +72,7 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 
 	// Erase
 	rnn_bptt_erase(ann);
-	rnn_forget(ann);
+	rnn_forward_computation_erase(ann);
 
 	// Copy values
 	if(outputList != NULL)
