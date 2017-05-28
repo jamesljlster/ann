@@ -135,7 +135,7 @@ int main(int argc, char* argv[])
 
 		// Erase rnn
 		rnn_bptt_erase(ann);
-		rnn_forget(ann);
+		rnn_forward_computation_erase(ann);
 
 #ifdef DEBUG
 		ann_print(ann);

@@ -14,7 +14,7 @@
 #define DECAY		1.0
 #define T_FUNC		ANN_SOFTSIGN
 
-#define STOP_MSE	0.0005
+#define STOP_MSE	0.001
 #define ITER_COUNT	10000
 #define DELTA_LIMIT	30
 
