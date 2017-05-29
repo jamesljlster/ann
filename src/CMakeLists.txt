@@ -26,7 +26,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Set file list
 file(GLOB PROJECT_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
-set(PROJECT_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/rnn.h)
+set(PROJECT_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/ann.h)
 
 # Build library
 add_library(${PROJECT_NAME} STATIC ${PROJECT_SRCS})
