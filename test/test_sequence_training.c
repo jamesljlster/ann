@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
 #endif
 
 			// Backpropagation
-			iResult = rnn_bptt_sum_delta(ann, err);
+			iResult = rnn_bptt_sum_gradient(ann, err);
 			if(iResult != ANN_NO_ERROR)
 			{
 				printf("rnn_bptt_sum_delta() failed with error: %d\n", iResult);

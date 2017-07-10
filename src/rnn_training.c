@@ -59,7 +59,7 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 		}
 
 		// Backpropagation
-		iResult = rnn_bptt_sum_delta(ann, &errorStore[i * cfgRef->outputs]);
+		iResult = rnn_bptt_sum_gradient(ann, &errorStore[i * cfgRef->outputs]);
 		if(iResult != ANN_NO_ERROR)
 		{
 			retValue = iResult;

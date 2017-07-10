@@ -125,7 +125,7 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 	LOG("exit");
 }
 
-int rnn_bptt_sum_delta(ann_t ann, double* dError)
+int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 {
 	int i, j, k, re;
 	int retValue = ANN_NO_ERROR;

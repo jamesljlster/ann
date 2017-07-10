@@ -498,7 +498,7 @@ void rnn_forward_computation(ann_t ann, double* input, double* output);
 void rnn_forward_computation_erase(ann_t ann);
 void rnn_bptt_erase(ann_t ann);
 void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double deltaLimit);
-int rnn_bptt_sum_delta(ann_t ann, double* dError);
+int rnn_bptt_sum_gradient(ann_t ann, double* dError);
 
 #ifdef __cplusplus
 }
