@@ -11,8 +11,6 @@ extern char* ann_transfer_func_name[];
 extern "C" {
 #endif
 
-int ann_get_transfer_func_id(char* str);
-
 double ann_sigmoid(double x);
 double ann_sigmoid_derivative(double x);
 

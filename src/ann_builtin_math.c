@@ -51,7 +51,7 @@ char* ann_transfer_func_name[] = {
 	"Rectifier Linear Unit"
 };
 
-int ann_get_transfer_func_id(char* str)
+int ann_get_transfer_func_id(char* tFuncName)
 {
 	int i;
 	int iResult;
@@ -61,7 +61,7 @@ int ann_get_transfer_func_id(char* str)
 
 	for(i = 0; i < ANN_TFUNC_AMOUNT; i++)
 	{
-		iResult = ann_strcmp(str, ann_transfer_func_name[i]);
+		iResult = ann_strcmp(tFuncName, ann_transfer_func_name[i]);
 		if(iResult == ANN_NO_ERROR)
 		{
 			retValue = i;

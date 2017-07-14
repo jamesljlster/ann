@@ -21,18 +21,18 @@ enum ANN_RETUEN_VALUE
 /** Transfer (activation) function index definitions. */
 enum ANN_TRANSFER_FUNC
 {
-	ANN_SIGMOID,				/*!< Sigmoid function. @since 0.1.0 */
-	ANN_MODIFIED_SIGMOID,		/*!< Modified sigmoid function. @since 0.1.2 */
-	ANN_HYPERBOLIC_TANGENT,		/*!< Hyperbolic tangent function. @since 0.1.2 */
-	ANN_GAUSSIAN,				/*!< Gaussian function. @since 0.1.3 */
-	ANN_MODIFIED_GAUSSIAN,		/*!< Modified gaussian function. @since 0.1.3 */
-	ANN_BENT_IDENTITY,			/*!< Bent identity function. @since 0.2.2 */
-	ANN_SOFTPLUS,				/*!< SoftPlus function. @since 0.2.2 */
-	ANN_SOFTSIGN,				/*!< SoftSign function. @since 0.2.2 */
-	ANN_SINC,					/*!< Sinc function. @since 0.2.2 */
-	ANN_SINUSOID,				/*!< Sinusoid (sine) function. @since 0.2.2 */
-	ANN_IDENTITY,				/*!< Identity function. @since 0.2.2 */
-	ANN_RELU					/*!< Rectifier linear unit function. @since 0.2.2 */
+	ANN_SIGMOID				= 0,	/*!< Sigmoid function. @since 0.1.0 */
+	ANN_MODIFIED_SIGMOID	= 1,	/*!< Modified sigmoid function. @since 0.1.2 */
+	ANN_HYPERBOLIC_TANGENT	= 2,	/*!< Hyperbolic tangent function. @since 0.1.2 */
+	ANN_GAUSSIAN			= 3,	/*!< Gaussian function. @since 0.1.3 */
+	ANN_MODIFIED_GAUSSIAN	= 4,	/*!< Modified gaussian function. @since 0.1.3 */
+	ANN_BENT_IDENTITY		= 5,	/*!< Bent identity function. @since 0.2.2 */
+	ANN_SOFTPLUS			= 6,	/*!< SoftPlus function. @since 0.2.2 */
+	ANN_SOFTSIGN			= 7,	/*!< SoftSign function. @since 0.2.2 */
+	ANN_SINC				= 8,	/*!< Sinc function. @since 0.2.2 */
+	ANN_SINUSOID			= 9,	/*!< Sinusoid (sine) function. @since 0.2.2 */
+	ANN_IDENTITY			= 10,	/*!< Identity function. @since 0.2.2 */
+	ANN_RELU				= 11	/*!< Rectifier linear unit function. @since 0.2.2 */
 };
 
 /** Type definition of ann. @since 0.2.0 */
@@ -287,6 +287,15 @@ const char* ann_get_transfer_func_name(int tFuncIndex);
  *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
  *	@return Constant string pointer of the transfer function name. The function would return NULL if tFuncIndex is out of range.
  *	@since	0.2.5
+ */
+
+int ann_get_transfer_func_id(char* tFuncName);
+/**
+ *	@fn		int ann_get_transfer_func_id(char* tFuncName);
+ *	@brief	Get transfer function id with given transfer function name.
+ *	@param	tFuncName: Transfer (activeation) function name.
+ *	@return	ID of the transfer funciton. The function would return #ANN_INFO_NOT_FOUND if no any transfer function was corresponding with the given name.
+ *	@since	1.0.0
  */
 
 double ann_get_learning_rate(ann_t ann);
