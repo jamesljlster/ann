@@ -31,6 +31,7 @@ int ann_export(ann_t ann, const char* filePath)
 	ann_fprint_config(fileWrite, cfgRef);
 	ann_fprint_threshold(fileWrite, annRef);
 	ann_fprint_weight(fileWrite, annRef);
+	ann_fprint_recurrent_weight(fileWrite, annRef);
 
 RET:
 	if(fileWrite != NULL)

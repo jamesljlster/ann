@@ -20,6 +20,7 @@ void ann_delete_node(struct ANN_NODE* nodePtr);
 void ann_delete_layer(struct ANN_LAYER* layerPtr);
 void ann_delete_struct(struct ANN_STRUCT* structPtr);
 
+int ann_set_recurrent_weight_struct(struct ANN_STRUCT* sptr, int preNodeIndex, int nodeIndex, double value);
 int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, int nodeIndex, double value);
 int ann_set_threshold_struct(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value);
 

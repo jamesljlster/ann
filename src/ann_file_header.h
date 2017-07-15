@@ -9,6 +9,7 @@ enum ANN_FILE_HEADER_LIST
 	ANN_HEADER_TOTAL_NODE,
 	ANN_HEADER_THRESHOLD_VALUE,
 	ANN_HEADER_WEIGHT_FACTOR,
+	ANN_HEADER_RECURRENT_WEIGHT,
 
 	ANN_HEADER_HEADER_LIST_COUNT
 };
@@ -51,6 +52,11 @@ enum ANN_HEADER_WEIGHT_LIST
 	ANN_HEADER_WEIGHT_MSG
 };
 
+enum ANN_HEADER_RECURRENT_LIST
+{
+	ANN_HEADER_RECURRENT_MSG
+};
+
 extern char* ann_file_header[];
 extern char* ann_header_application[];
 extern char* ann_header_topology[];
@@ -58,6 +64,7 @@ extern char* ann_header_training_info[];
 extern char* ann_header_total_node[];
 extern char* ann_header_threshold_value[];
 extern char* ann_header_weight_factor[];
+extern char* ann_header_recurrent_weight[];
 
 #ifdef __cplusplus
 extern "C" {

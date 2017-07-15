@@ -203,6 +203,14 @@ void ann_rand_weight(ann_t ann);
  *	@since	0.1.0
  */
 
+void ann_rand_recurrent_weight(ann_t ann);
+/**
+ *	@fn		void ann_rand_recurrent_weight(ann_t ann);
+ *	@brief	Random all recurrent weight in neural network.
+ *	@param	ann:	Target ann_t type variable.
+ *	@since	1.0.0
+ */
+
 void ann_rand_threshold(ann_t ann);
 /**
  *	@fn		void ann_rand_threshold(ann_t ann);
