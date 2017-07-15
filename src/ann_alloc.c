@@ -25,10 +25,10 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	layers = sptr->config.layers;
 	tfunc = sptr->config.transferFuncIndex;
 	nodeList = sptr->config.nodeList;
-	if(layers <= 0 || nodeList == NULL || tfunc >= ANN_TFUNC_AMOUNT || tfunc < 0)
+	if(layers < 2 || nodeList == NULL || tfunc >= ANN_TFUNC_AMOUNT || tfunc < 0)
 	{
 		LOG("Checking failed");
-		retValue = ANN_INFO_NOT_FOUND;
+		retValue = ANN_INVALID_ARG;
 		goto RET;
 	}
 
@@ -83,12 +83,67 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 					}
 					else
 					{
+						tmpLayer[i].nodeList[j].weightDelta = allocTmp;
+					}
+
+					allocTmp = calloc(nodeList[i - 1], sizeof(double));
+					if(allocTmp == NULL)
+					{
+						LOG("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
+						retValue = ANN_MEM_FAILED;
+						goto ERR;
+					}
+					else
+					{
 						tmpLayer[i].nodeList[j].deltaW = allocTmp;
 					}
 				}
 			}
 		}
 	}
+
+	// Allocate recurrent weight
+	if(layers > 2)
+	{
+		for(i = 0; i < nodeList[1]; i++)
+		{
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+			else
+			{
+				tmpLayer[1].nodeList[i].rWeight = allocTmp;
+			}
+
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+			else
+			{
+				tmpLayer[1].nodeList[i].rWeightDelta = allocTmp;
+			}
+
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+			else
+			{
+				tmpLayer[1].nodeList[i].deltaRW = allocTmp;
+			}
+		}
+	}
+
+	// Assign value
+	sptr->layerList = tmpLayer;
 
 	// Assign value
 	sptr->layerList = tmpLayer;

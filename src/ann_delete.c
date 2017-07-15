@@ -43,10 +43,46 @@ void ann_delete_node(struct ANN_NODE* nodePtr)
 		nodePtr->weight = NULL;
 	}
 	
+	if(nodePtr->weightDelta != NULL)
+	{
+		free(nodePtr->weightDelta);
+		nodePtr->weightDelta = NULL;
+	}
+	
 	if(nodePtr->deltaW != NULL)
 	{
 		free(nodePtr->deltaW);
 		nodePtr->deltaW = NULL;
+	}
+
+	if(nodePtr->rWeight != NULL)
+	{
+		free(nodePtr->rWeight);
+		nodePtr->rWeight = NULL;
+	}
+
+	if(nodePtr->rWeightDelta != NULL)
+	{
+		free(nodePtr->rWeightDelta);
+		nodePtr->rWeightDelta = NULL;
+	}
+
+	if(nodePtr->deltaRW != NULL)
+	{
+		free(nodePtr->deltaRW);
+		nodePtr->deltaRW = NULL;
+	}
+
+	if(nodePtr->outputQueue != NULL)
+	{
+		free(nodePtr->outputQueue);
+		nodePtr->outputQueue = NULL;
+	}
+
+	if(nodePtr->sCalcQueue != NULL)
+	{
+		free(nodePtr->sCalcQueue);
+		nodePtr->sCalcQueue = NULL;
 	}
 
 	LOG("exit");
@@ -88,6 +124,7 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 	}
 	
 	ann_config_delete_struct(&structPtr->config);
+	structPtr->queueLen = 0;
 
 	LOG("exit");
 }
