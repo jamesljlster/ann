@@ -52,7 +52,7 @@ void ann_fblock_delete(struct ANN_FILE_BLOCK* fBlockPtr);
 void ann_fblock_print(struct ANN_FILE_BLOCK* fBlockPtr);
 int ann_fblock_append(struct ANN_FILE_BLOCK* dst, char** srcPtr);
 
-char ann_get_char(FILE* fileRead, int readAction);
+int ann_get_char(FILE* fileRead, int readAction);
 int ann_is_sigchar(char ch);
 
 int ann_strcmp(char* src1, char* src2);

@@ -9,6 +9,18 @@
 
 #define INIT_NODES	10
 
+void ann_set_learning_rate(ann_t ann, double learningRate)
+{
+	struct ANN_STRUCT* annRef = ann;
+	annRef->config.learningRate = learningRate;
+}
+
+void ann_set_momentum_coef(ann_t ann, double momentumCoef)
+{
+	struct ANN_STRUCT* annRef = ann;
+	annRef->config.momentumCoef = momentumCoef;
+}
+
 void ann_config_set_learning_rate(ann_config_t config, double learningRate)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
@@ -182,6 +194,35 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 		return ANN_OUT_OF_RANGE;
 
 	layerRef->nodeList[nodeIndex].weight[preNodeIndex] = value;
+
+	return ANN_NO_ERROR;
+}
+
+int ann_set_recurrent_weight_struct(struct ANN_STRUCT* sptr, int preNodeIndex, int nodeIndex, double value)
+{
+	struct ANN_LAYER* preLayerRef;
+	struct ANN_LAYER* layerRef;
+	int layers;
+
+	// Checking
+	assert(sptr->layerList != NULL);
+	layers = sptr->config.layers;
+	if(layers <= 2)
+	{
+		return ANN_INVALID_ARG;
+	}
+
+	// Set layer reference
+	preLayerRef = &sptr->layerList[layers - 2];
+	layerRef = &sptr->layerList[1];
+
+	if(preNodeIndex < 0 || preNodeIndex >= preLayerRef->nodeCount)
+		return ANN_OUT_OF_RANGE;
+	if(nodeIndex < 0 || nodeIndex >= layerRef->nodeCount)
+		return ANN_OUT_OF_RANGE;
+
+	assert(layerRef->nodeList[nodeIndex].rWeight != NULL);
+	layerRef->nodeList[nodeIndex].rWeight[preNodeIndex] = value;
 
 	return ANN_NO_ERROR;
 }

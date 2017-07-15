@@ -51,6 +51,7 @@ int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, doub
 			goto ERR;
 		}
 	}
+	va_end(argList);
 
 	// Create neural network
 	iResult = ann_create(&ann, cfg);
@@ -119,6 +120,7 @@ int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int
 			goto ERR;
 		}
 	}
+	va_end(argList);
 
 	// Assign value
 	*configPtr = cfg;
@@ -171,7 +173,7 @@ int ann_create(ann_t* annPtr, ann_config_t config)
 	}
 
 	// Clone config
-	iResult = ann_clone_config(&annRef->config, cfgRef);
+	iResult = ann_clone_config_struct(&annRef->config, cfgRef);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;

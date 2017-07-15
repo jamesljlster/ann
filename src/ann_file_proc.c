@@ -149,9 +149,9 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 {
 	int retValue = ANN_NO_ERROR;
 	int iResult;
+	int headerReading = 0;
 	int fBlockIndex;
-
-	char tmpRead;
+	int tmpRead;
 
 	struct ANN_STR tmpStr;
 	struct ANN_FILE_BLOCK tmpBlock;
@@ -186,6 +186,16 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 			switch(tmpRead)
 			{
 				case ']':
+					if(headerReading == 1)
+					{
+						headerReading = 0;
+					}
+					else
+					{
+						retValue = ANN_SYNTAX_ERROR;
+						goto ERR;
+					}
+
 					if(tmpBlockPtr != NULL)
 					{
 						tmpBlockPtr->header = tmpStr.str;
@@ -201,6 +211,16 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 					break;
 
 				case '[':
+					if(headerReading == 1)
+					{
+						retValue = ANN_SYNTAX_ERROR;
+						goto ERR;
+					}
+					else
+					{
+						headerReading = 1;
+					}
+
 					iResult = ann_fstruct_append(&tmpStruct, &tmpBlock);
 					if(iResult != ANN_NO_ERROR)
 					{
@@ -235,6 +255,13 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 				tmpStr.size = 1;
 			}
 		}
+	}
+
+	// Checking
+	if(headerReading == 1)
+	{
+		retValue = ANN_SYNTAX_ERROR;
+		goto ERR;
 	}
 
 	// Assign value
@@ -418,7 +445,7 @@ int ann_is_sigchar(char ch)
 	return retValue;
 }
 
-char ann_get_char(FILE* fileRead, int readAction)
+int ann_get_char(FILE* fileRead, int readAction)
 {
 	int iResult;
 	int readCount;

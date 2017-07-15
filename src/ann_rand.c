@@ -5,7 +5,7 @@
 #include "ann.h"
 #include "ann_private.h"
 
-#define NUM_PRECISION	1000000
+#define NUM_PRECISION	1000
 #define NUM_MAX			1
 #define	NUM_MIN			-1
 
@@ -41,6 +41,34 @@ void ann_rand_weight(ann_t ann)
 			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
 			{
 				layerRef[i].nodeList[j].weight[k] = ann_rand();
+			}
+		}
+	}
+}
+
+void ann_rand_recurrent_weight(ann_t ann)
+{
+	int i, j;
+
+	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	annRef = ann;
+	layerRef = annRef->layerList;
+	cfgRef = &annRef->config;
+
+	assert(layerRef != NULL);
+
+	srand(time(NULL));
+
+	if(cfgRef->layers >= 3)
+	{
+		for(i = 0; i < layerRef[cfgRef->layers - 2].nodeCount; i++)
+		{
+			for(j = 0; j < layerRef[1].nodeCount; j++)
+			{
+				layerRef[1].nodeList[j].rWeight[i] = ann_rand();
 			}
 		}
 	}
