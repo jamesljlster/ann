@@ -584,8 +584,22 @@ const char* ann_get_error_msg(int retValue);
  *	@since	0.2.0
  */
 
-int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit);
-int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit);
+int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
+/**
+ *	@fn		int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
+ *	@brief	Processing recurrent neural network training.
+ *	@param	ann:		Target ann_t type variable.
+ *	@param	inputList:	Array of Input array.
+ *	@param	desireList:	Array of desire output array.
+ *	@param	outputList:	Array of array for storing outputs of forward computation. Pass NULL if you want to ignore it.
+ *	@param	errList:	Array of array for storing error (desire - output) before backpropagation. Pass NULL if you want to ignore it.
+ *	@param	timeStep:	Time step of recurrent training.
+ *	@param	gradLimit:	Gradient limit for recurrent training.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	0.1.0
+ */
+
+int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
 
 void rnn_forward_computation(ann_t ann, double* input, double* output);
 /**
@@ -598,7 +612,7 @@ void rnn_forward_computation(ann_t ann, double* input, double* output);
 
 void rnn_forward_computation_erase(ann_t ann);
 void rnn_bptt_erase(ann_t ann);
-void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double deltaLimit);
+void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double gradLimit);
 int rnn_bptt_sum_gradient(ann_t ann, double* dError);
 
 #ifdef __cplusplus

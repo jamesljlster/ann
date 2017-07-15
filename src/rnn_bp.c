@@ -47,7 +47,7 @@ void rnn_bptt_erase(ann_t ann)
 	LOG("exit");
 }
 
-void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double deltaLimit)
+void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double gradLimit)
 {
 	int i, j, k;
 
@@ -70,13 +70,13 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
 			// Adjust threshold
-			if(layerRef[i].nodeList[j].thresholdDelta > deltaLimit)
+			if(layerRef[i].nodeList[j].thresholdDelta > gradLimit)
 			{
-				layerRef[i].nodeList[j].thresholdDelta = deltaLimit;
+				layerRef[i].nodeList[j].thresholdDelta = gradLimit;
 			}
-			else if(layerRef[i].nodeList[j].thresholdDelta < -deltaLimit)
+			else if(layerRef[i].nodeList[j].thresholdDelta < -gradLimit)
 			{
-				layerRef[i].nodeList[j].thresholdDelta = -deltaLimit;
+				layerRef[i].nodeList[j].thresholdDelta = -gradLimit;
 			}
 
 			calcTmp = layerRef[i].nodeList[j].threshold + learningRate * layerRef[i].nodeList[j].thresholdDelta + momentumCoef * layerRef[i].nodeList[j].deltaTh;
@@ -86,13 +86,13 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 			// Adjust weight
 			for(k = 0; k < layerRef[i - 1].nodeCount; k++)
 			{
-				if(layerRef[i].nodeList[j].weightDelta[k] > deltaLimit)
+				if(layerRef[i].nodeList[j].weightDelta[k] > gradLimit)
 				{
-					layerRef[i].nodeList[j].weightDelta[k] = deltaLimit;
+					layerRef[i].nodeList[j].weightDelta[k] = gradLimit;
 				}
-				else if(layerRef[i].nodeList[j].weightDelta[k] < -deltaLimit)
+				else if(layerRef[i].nodeList[j].weightDelta[k] < -gradLimit)
 				{
-					layerRef[i].nodeList[j].weightDelta[k] = -deltaLimit;
+					layerRef[i].nodeList[j].weightDelta[k] = -gradLimit;
 				}
 
 				calcTmp = layerRef[i].nodeList[j].weight[k] + learningRate * layerRef[i].nodeList[j].weightDelta[k] + momentumCoef * layerRef[i].nodeList[j].deltaW[k];
@@ -107,13 +107,13 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 	{
 		for(j = 0; j < layerRef[1].nodeCount; j++)
 		{
-			if(layerRef[1].nodeList[j].rWeightDelta[i] > deltaLimit)
+			if(layerRef[1].nodeList[j].rWeightDelta[i] > gradLimit)
 			{
-				layerRef[1].nodeList[j].rWeightDelta[i] = deltaLimit;
+				layerRef[1].nodeList[j].rWeightDelta[i] = gradLimit;
 			}
-			else if(layerRef[1].nodeList[j].rWeightDelta[i] < -deltaLimit)
+			else if(layerRef[1].nodeList[j].rWeightDelta[i] < -gradLimit)
 			{
-				layerRef[1].nodeList[j].rWeightDelta[i] = -deltaLimit;
+				layerRef[1].nodeList[j].rWeightDelta[i] = -gradLimit;
 			}
 
 			calcTmp = layerRef[1].nodeList[j].rWeight[i] + learningRate * layerRef[1].nodeList[j].rWeightDelta[i] + momentumCoef * layerRef[1].nodeList[j].deltaRW[i];
