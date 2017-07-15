@@ -145,9 +145,6 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	// Assign value
 	sptr->layerList = tmpLayer;
 
-	// Assign value
-	sptr->layerList = tmpLayer;
-
 	goto RET;
 
 ERR:
