@@ -51,8 +51,7 @@ void rnn_forward_computation(ann_t ann, double* input, double* output)
 	// Copy inputs
 	for(i = 0; i < cfgRef->inputs; i++)
 	{
-		//layerRef[0].nodeList[i].output = layerRef[0].activeFunc(input[i]);
-		layerRef[0].nodeList[i].output = input[i];
+		layerRef[0].nodeList[i].output = layerRef[0].activeFunc(input[i]);
 	}
 
 	// Backup recurrent output
