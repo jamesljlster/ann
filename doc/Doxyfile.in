@@ -11,7 +11,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "ANN Library"
 PROJECT_NUMBER         = @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
-PROJECT_BRIEF          = "Artificial Neural Network Library"
+PROJECT_BRIEF          = "Artificial/Recurrent Neural Network Library"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       =
 CREATE_SUBDIRS         = NO
