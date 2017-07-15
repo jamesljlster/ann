@@ -36,6 +36,7 @@ void ann_clear_momentum(ann_t ann)
 void ann_zeromem(struct ANN_STRUCT* asPtr)
 {
 	asPtr->layerList = NULL;
+	asPtr->queueLen = 0;
 	ann_config_zeromem(&asPtr->config);
 }
 

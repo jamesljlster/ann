@@ -203,6 +203,14 @@ void ann_rand_weight(ann_t ann);
  *	@since	0.1.0
  */
 
+void ann_rand_recurrent_weight(ann_t ann);
+/**
+ *	@fn		void ann_rand_recurrent_weight(ann_t ann);
+ *	@brief	Random all recurrent weight in neural network.
+ *	@param	ann:	Target ann_t type variable.
+ *	@since	1.0.0
+ */
+
 void ann_rand_threshold(ann_t ann);
 /**
  *	@fn		void ann_rand_threshold(ann_t ann);
@@ -575,6 +583,23 @@ const char* ann_get_error_msg(int retValue);
  *	@return Constant string pointer that contains parsing message.
  *	@since	0.2.0
  */
+
+int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit);
+int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double deltaLimit);
+
+void rnn_forward_computation(ann_t ann, double* input, double* output);
+/**
+ *	@fn		void rnn_forward_computation(ann_t ann, double* input, double* output);
+ *	@brief	Processing recurrent neural network forward computation.
+ *	@param	ann:	Target ann_t type variable.
+ *	@param	input:	Input array.
+ *	@param	output:	Array for storing outputs.
+ */
+
+void rnn_forward_computation_erase(ann_t ann);
+void rnn_bptt_erase(ann_t ann);
+void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double deltaLimit);
+int rnn_bptt_sum_gradient(ann_t ann, double* dError);
 
 #ifdef __cplusplus
 }
