@@ -1,14 +1,9 @@
 #ifndef __ANN_BUILTIN_MATH_H__
 #define __ANN_BUILTIN_MATH_H__
 
-enum ANN_TFUNC_PRIVDEF	// Ann transfer function private definition
-{
-	ANN_TFUNC_AMOUNT	= 12,
-	ANN_TFUNC_MULTIPLE,
-	ANN_TFUNC_CUSTOM,
-
-	ANN_TFUNC_RESERVED	// Reserve for parsing ann model file
-};
+// Ann transfer function private definition
+#define ANN_TFUNC_AMOUNT	12
+#define ANN_TFUNC_RESERVED	14	// Reserve for parsing ann model file
 
 extern double (*ann_transfer_list[])(double);
 extern double (*ann_transfer_derivative_list[])(double);

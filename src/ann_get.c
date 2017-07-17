@@ -53,13 +53,22 @@ int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex)
 	return ann_config_get_hidden_nodes(annCfg, hiddenLayerIndex);
 }
 
-int ann_get_transfer_func(ann_t ann, int layerIndex)
+int ann_get_transfer_func(ann_t ann)
 {
 	ann_config_t annCfg;
 
 	annCfg = ann_get_config(ann);
 
-	return ann_config_get_transfer_func(annCfg, layerIndex);
+	return ann_config_get_transfer_func(annCfg);
+}
+
+int ann_get_transfer_func_of_layer(ann_t ann, int layerIndex)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_transfer_func_of_layer(annCfg, layerIndex);
 }
 
 double ann_get_learning_rate(ann_t ann)
@@ -122,7 +131,14 @@ int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex)
 	return cfgRef->nodeList[layerIndex];
 }
 
-int ann_config_get_transfer_func(ann_config_t config, int layerIndex)
+int ann_config_get_transfer_func(ann_config_t config)
+{
+	struct ANN_CONFIG_STRUCT* cfgRef = config;
+
+	return cfgRef->tFuncRoot;
+}
+
+int ann_config_get_transfer_func_of_layer(ann_config_t config, int layerIndex)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 

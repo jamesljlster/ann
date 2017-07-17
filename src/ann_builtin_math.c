@@ -49,7 +49,6 @@ char* ann_transfer_func_name[] = {
 	"Sinusoid",
 	"Identity",
 	"Rectifier Linear Unit",
-	"",							// Reserve for ANN_TFUNC_AMOUNT
 	"Multiple",					// Reserve for ANN_TFUNC_MULTIPLE
 	"Custom"					// Reserve for ANN_TFUNC_CUSTOM
 };
