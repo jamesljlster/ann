@@ -286,7 +286,7 @@ int ann_get_transfer_func(ann_t ann, int layerIndex);
  *	@param	ann:		Target ann_t type variable.
  *	@param	layerIndex:	Target layer index of neural network.
  *	@return Transfer (activation) function index of target neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 const char* ann_get_transfer_func_name(int tFuncIndex);
