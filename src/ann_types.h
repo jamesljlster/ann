@@ -39,7 +39,7 @@ struct ANN_CONFIG_STRUCT
 	int inputs;
 	int outputs;
 	int layers;	
-	int transferFuncIndex;
+	int* tFuncList;
 	
 	double learningRate;
 	double momentumCoef;

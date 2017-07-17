@@ -279,11 +279,12 @@ int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex);
  *	@since	0.1.0
  */
 
-int ann_get_transfer_func(ann_t ann);
+int ann_get_transfer_func(ann_t ann, int layerIndex);
 /**
- *	@fn		int ann_get_transfer_func(ann_t ann);
+ *	@fn		int ann_get_transfer_func(ann_t ann, int layerIndex);
  *	@brief	Get transfer (activation) function index of target neural network.
- *	@param	ann: Target ann_t type variable.
+ *	@param	ann:		Target ann_t type variable.
+ *	@param	layerIndex:	Target layer index of neural network.
  *	@return Transfer (activation) function index of target neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
  *	@since	0.1.0
  */
@@ -426,14 +427,14 @@ int ann_config_set_outputs(ann_config_t config, int outputs);
  *	@since	0.1.0
  */
 
-int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
+int ann_config_set_transfer_func_all(ann_config_t config, int tFuncIndex);
 /**
- *	@fn		int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
- *	@brief	Set transfer (activation) function index of target neural network configuration.
+ *	@fn		int ann_config_set_transfer_func_all(ann_config_t config, int tFuncIndex);
+ *	@brief	Set transfer (activation) function index for all layers of target neural network configuration.
  *	@param	config:		Target ann_config_t variable.
  *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
  *	@return If argument less then zero or greater then the highest transfer function index, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 void ann_config_set_learning_rate(ann_config_t config, double learningRate);
@@ -491,13 +492,14 @@ int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex);
  *	@since	0.1.0
  */
 
-int ann_config_get_transfer_func(ann_config_t config);
+int ann_config_get_transfer_func(ann_config_t config, int layerIndex);
 /**
- *	@fn		int ann_config_get_transfer_func(ann_config_t config);
+ *	@fn		int ann_config_get_transfer_func(ann_config_t config, int layerIndex);
  *	@brief	Get transfer (activation) function index of target neural network configuration.
- *	@param	config:	Target ann_config_t type variable.
+ *	@param	config:		Target ann_config_t type variable.
+ *	@param	layerIndex:	Target layer index of neural netwrok.
  *	@return Transfer (activation) function index of target neural network configuration. Transfer function index is described by #ANN_TRANSFER_FUNC.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 double ann_config_get_learning_rate(ann_config_t config);

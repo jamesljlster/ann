@@ -147,8 +147,9 @@ int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int n
 	return ANN_NO_ERROR;
 }
 
-int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
+int ann_config_set_transfer_func_all(ann_config_t config, int tFuncIndex)
 {
+	int i;
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
 	// Checking
@@ -157,7 +158,10 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 		return ANN_INVALID_ARG;
 	}
 	
-	cfgRef->transferFuncIndex = tFuncIndex;
+	for(i = 0; i < cfgRef->layers; i++)
+	{
+		cfgRef->tFuncList[i] = tFuncIndex;
+	}
 
 	return ANN_NO_ERROR;
 }
