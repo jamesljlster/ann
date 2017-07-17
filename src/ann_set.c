@@ -121,6 +121,14 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 		retValue = ANN_MEM_FAILED;
 		goto ERR;
 	}
+	else
+	{
+		// Set default values
+		for(i = 0; i < tmpLayerCount; i++)
+		{
+			tmpTFuncList[i] = cfgRef->tFuncRoot;
+		}
+	}
 
 	// Copy old values
 	preLayerCount = cfgRef->layers;
@@ -142,13 +150,6 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 		}
 
 		free(cfgRef->tFuncList);
-	}
-	else
-	{
-		// Set default values
-		tmpTFuncList[0] = ANN_IDENTITY;
-
-		cfgRef->tFuncRoot = ANN_TFUNC_MULTIPLE;
 	}
 
 	// Assign values
@@ -206,6 +207,7 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 		return ANN_INVALID_ARG;
 	}
 	
+	cfgRef->tFuncRoot = tFuncIndex;
 	for(i = 0; i < cfgRef->layers; i++)
 	{
 		cfgRef->tFuncList[i] = tFuncIndex;

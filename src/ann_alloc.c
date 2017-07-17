@@ -43,10 +43,10 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	for(i = 0; i < layers; i++)
 	{
-		// Check transfer funciont setting
+		// Check transfer function setting
 		if(tFuncList[i] < 0 || tFuncList[i] >= ANN_TFUNC_AMOUNT)
 		{
-			LOG("Checking failed");
+			LOG("Checking failed, invalid transfer function id: %d", tFuncList[i]);
 			retValue = ANN_INVALID_ARG;
 			goto ERR;
 		}
