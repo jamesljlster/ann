@@ -30,7 +30,7 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	assert(asPtr->config.inputs > 0);
 	assert(asPtr->config.outputs > 0);
 	assert(asPtr->config.layers >= 2);
-	assert(asPtr->config.transferFuncIndex >= 0 && asPtr->config.transferFuncIndex < ANN_TFUNC_AMOUNT);
+	assert(asPtr->config.tFuncList != NULL);
 	assert(asPtr->config.nodeList != NULL);
 
 	// Allocate network

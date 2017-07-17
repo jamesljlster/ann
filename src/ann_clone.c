@@ -41,17 +41,37 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 	dst->inputs = src->inputs;
 	dst->outputs = src->outputs;
 	dst->layers = src->layers;
-	dst->transferFuncIndex = src->transferFuncIndex;
 
 	dst->learningRate = src->learningRate;
 	dst->momentumCoef = src->momentumCoef;
 
+	// Clone transfer function list
+	dst->tFuncList = calloc(dst->layers, sizeof(int));
+	if(dst->tFuncList == NULL)
+	{
+		return ANN_MEM_FAILED;
+	}
+	else
+	{
+		for(i = 0; i < dst->layers; i++)
+		{
+			dst->tFuncList[i] = src->nodeList[i];
+		}
+	}
+
+	// Clone nodes list
 	dst->nodeList = calloc(dst->layers, sizeof(int));
 	if(dst->nodeList == NULL)
+	{
 		return ANN_MEM_FAILED;
-	
-	for(i = 0; i < dst->layers; i++)
-		dst->nodeList[i] = src->nodeList[i];
+	}
+	else
+	{
+		for(i = 0; i < dst->layers; i++)
+		{
+			dst->nodeList[i] = src->nodeList[i];
+		}
+	}
 
 	return ANN_NO_ERROR;
 }

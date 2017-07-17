@@ -11,9 +11,9 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	int i, j;
 	int retValue = ANN_NO_ERROR;
 
-	int tfunc;
 	int layers;
 	int* nodeList;
+	int* tFuncList;
 	
 	void* allocTmp = NULL;
 
@@ -23,9 +23,9 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	// Checking
 	layers = sptr->config.layers;
-	tfunc = sptr->config.transferFuncIndex;
 	nodeList = sptr->config.nodeList;
-	if(layers < 2 || nodeList == NULL || tfunc >= ANN_TFUNC_AMOUNT || tfunc < 0)
+	tFuncList = sptr->config.tFuncList;
+	if(layers < 2 || nodeList == NULL || tFuncList == NULL)
 	{
 		LOG("Checking failed");
 		retValue = ANN_INVALID_ARG;
@@ -43,8 +43,16 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	for(i = 0; i < layers; i++)
 	{
-		tmpLayer[i].activeFunc = ann_transfer_list[tfunc];
-		tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tfunc];
+		// Check transfer funciont setting
+		if(tFuncList[i] < 0 || tFuncList[i] >= ANN_TFUNC_AMOUNT)
+		{
+			LOG("Checking failed");
+			retValue = ANN_INVALID_ARG;
+			goto ERR;
+		}
+
+		tmpLayer[i].activeFunc = ann_transfer_list[tFuncList[i]];
+		tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncList[i]];
 		tmpLayer[i].nodeCount = nodeList[i];
 
 		allocTmp = calloc(nodeList[i], sizeof(struct ANN_NODE));
