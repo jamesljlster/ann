@@ -48,7 +48,10 @@ char* ann_transfer_func_name[] = {
 	"Sinc",
 	"Sinusoid",
 	"Identity",
-	"Rectifier Linear Unit"
+	"Rectifier Linear Unit",
+	NULL,						// Reserve for ANN_TFUNC_AMOUNT
+	"Multiple",					// Reserve for ANN_TFUNC_MULTIPLE
+	"Custom"					// Reserve for ANN_TFUNC_CUSTOM
 };
 
 int ann_get_transfer_func_id(char* tFuncName)

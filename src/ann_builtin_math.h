@@ -1,7 +1,12 @@
 #ifndef __ANN_BUILTIN_MATH_H__
 #define __ANN_BUILTIN_MATH_H__
 
-#define ANN_TFUNC_AMOUNT	12
+enum ANN_TFUNC_PRIVDEF	// Ann transfer function private definition
+{
+	ANN_TFUNC_AMOUNT	= 12,
+	ANN_TFUNC_MULTIPLE,
+	ANN_TFUNC_CUSTOM
+};
 
 extern double (*ann_transfer_list[])(double);
 extern double (*ann_transfer_derivative_list[])(double);
