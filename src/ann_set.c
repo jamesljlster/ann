@@ -80,6 +80,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	int tmpLayerCount;
 	int preLayerCount;
 	int* tmpList = NULL;
+	int* tmpTFuncList = NULL;
 
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
@@ -94,35 +95,82 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 
 	tmpLayerCount = hiddenLayers + 2;
 	
-	// Memory allocation
+	// Memory allocation: Node list
 	tmpList = calloc(tmpLayerCount, sizeof(int));
 	if(tmpList == NULL)
 	{
 		retValue = ANN_MEM_FAILED;
-		goto RET;
+		goto ERR;
 	}
 	else
 	{
+		// Set default values
 		tmpList[0] = cfgRef->inputs;
 		tmpList[tmpLayerCount - 1] = cfgRef->outputs;
 
 		for(i = 1; i < tmpLayerCount - 1; i++)
+		{
 			tmpList[i] = INIT_NODES;
+		}
 	}
 
+	// Memory allocation: Transfer function list
+	tmpTFuncList = calloc(tmpLayerCount, sizeof(int));
+	if(tmpTFuncList == NULL)
+	{
+		retValue = ANN_MEM_FAILED;
+		goto ERR;
+	}
+
+	// Copy old values
+	preLayerCount = cfgRef->layers;
 	if(cfgRef->nodeList != NULL)
 	{
-		preLayerCount = cfgRef->layers;
-
 		for(i = 1; i < preLayerCount - 1; i++)
+		{
 			tmpList[i] = cfgRef->nodeList[i];
+		}
 		
 		free(cfgRef->nodeList);
 	}
 
+	if(cfgRef->tFuncList != NULL)
+	{
+		for(i = 0; i < preLayerCount; i++)
+		{
+			tmpTFuncList[i] = cfgRef->tFuncList[i];
+		}
+
+		free(cfgRef->tFuncList);
+	}
+	else
+	{
+		// Set default values
+		tmpTFuncList[0] = ANN_IDENTITY;
+
+		cfgRef->tFuncRoot = ANN_TFUNC_MULTIPLE;
+	}
+
 	// Assign values
 	cfgRef->nodeList = tmpList;
+	cfgRef->tFuncList = tmpTFuncList;
 	cfgRef->layers = tmpLayerCount;
+
+	tmpList = NULL;
+	tmpTFuncList = NULL;
+
+	goto RET;
+
+ERR:
+	if(tmpList != NULL)
+	{
+		free(tmpList);
+	}
+
+	if(tmpTFuncList != NULL)
+	{
+		free(tmpTFuncList);
+	}
 
 RET:
 	LOG("exit");
