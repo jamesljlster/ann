@@ -131,7 +131,7 @@ void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 	fprintf(fptr, "%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_INPUTS], cfgPtr->inputs);
 	fprintf(fptr, "%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_OUTPUTS], cfgPtr->outputs);
 	fprintf(fptr, "%s= %d\n", ann_header_topology[ANN_HEADER_TOPOLOGY_LAYERS], cfgPtr->layers);
-	fprintf(fptr, "%s=%s\n", ann_header_topology[ANN_HEADER_TOPOLOGY_TRANSFER_FUNC], ann_transfer_func_name[cfgPtr->transferFuncIndex]);
+	fprintf(fptr, "%s=%s\n", ann_header_topology[ANN_HEADER_TOPOLOGY_TRANSFER_FUNC], ann_transfer_func_name[cfgPtr->tFuncRoot]);
 	fprintf(fptr, "\n");
 
 	LOG("exit");

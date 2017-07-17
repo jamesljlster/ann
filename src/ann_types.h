@@ -40,8 +40,8 @@ struct ANN_CONFIG_STRUCT
 	int outputs;
 	int layers;	
 
-	int tFuncTmp;	// Temp for parsing file
-	int* tFuncList;
+	int tFuncRoot;	// Transfer function root setting
+	int* tFuncList;	// Transfer function setting of each layers
 	
 	double learningRate;
 	double momentumCoef;
