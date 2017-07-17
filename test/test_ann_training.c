@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
 				printf("ann_training_gradient() failed with error: %d\n", iResult);
 				return -1;
 			}
-			
+
 			for(j = 0; j < OUTPUTS; j++)
 				iterErr[j] += err[j];
 		}

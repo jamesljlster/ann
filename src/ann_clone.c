@@ -46,6 +46,7 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 	dst->momentumCoef = src->momentumCoef;
 
 	// Clone transfer function list
+	dst->tFuncRoot = src->tFuncRoot;
 	dst->tFuncList = calloc(dst->layers, sizeof(int));
 	if(dst->tFuncList == NULL)
 	{
@@ -55,7 +56,7 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 	{
 		for(i = 0; i < dst->layers; i++)
 		{
-			dst->tFuncList[i] = src->nodeList[i];
+			dst->tFuncList[i] = src->tFuncList[i];
 		}
 	}
 
