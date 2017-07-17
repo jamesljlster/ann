@@ -49,7 +49,7 @@ char* ann_transfer_func_name[] = {
 	"Sinusoid",
 	"Identity",
 	"Rectifier Linear Unit",
-	NULL,						// Reserve for ANN_TFUNC_AMOUNT
+	"",							// Reserve for ANN_TFUNC_AMOUNT
 	"Multiple",					// Reserve for ANN_TFUNC_MULTIPLE
 	"Custom"					// Reserve for ANN_TFUNC_CUSTOM
 };
@@ -62,7 +62,8 @@ int ann_get_transfer_func_id(char* tFuncName)
 
 	LOG("enter");
 
-	for(i = 0; i < ANN_TFUNC_AMOUNT; i++)
+	//for(i = 0; i < ANN_TFUNC_AMOUNT; i++)
+	for(i = 0; i < ANN_TFUNC_RESERVED; i++)
 	{
 		iResult = ann_strcmp(tFuncName, ann_transfer_func_name[i]);
 		if(iResult == ANN_NO_ERROR)

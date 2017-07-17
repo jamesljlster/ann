@@ -5,7 +5,9 @@ enum ANN_TFUNC_PRIVDEF	// Ann transfer function private definition
 {
 	ANN_TFUNC_AMOUNT	= 12,
 	ANN_TFUNC_MULTIPLE,
-	ANN_TFUNC_CUSTOM
+	ANN_TFUNC_CUSTOM,
+
+	ANN_TFUNC_RESERVED	// Reserve for parsing ann model file
 };
 
 extern double (*ann_transfer_list[])(double);

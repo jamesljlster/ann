@@ -924,7 +924,7 @@ int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_
 				}
 				else
 				{
-					cfgPtr->transferFuncIndex = tmpValue;
+					cfgPtr->tFuncTmp = tmpValue;
 				}
 				break;
 

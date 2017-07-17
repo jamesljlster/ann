@@ -39,6 +39,8 @@ struct ANN_CONFIG_STRUCT
 	int inputs;
 	int outputs;
 	int layers;	
+
+	int tFuncTmp;	// Temp for parsing file
 	int* tFuncList;
 	
 	double learningRate;
