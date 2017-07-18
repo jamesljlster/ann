@@ -85,12 +85,15 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 	// Parse recurrent weight
 	if(asPtr->config.layers > 2)
 	{
+		ann_parse_recurrent_weight(asPtr, fbPtr);
+		/*
 		iResult = ann_parse_recurrent_weight(asPtr, fbPtr);
 		if(iResult != ANN_NO_ERROR)
 		{
 			retValue = iResult;
 			goto RET;
 		}
+		*/
 	}
 
 RET:
