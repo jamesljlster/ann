@@ -38,6 +38,8 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 {
 	int i;
 
+	LOG("enter");
+
 	dst->inputs = src->inputs;
 	dst->outputs = src->outputs;
 	dst->layers = src->layers;
@@ -54,9 +56,12 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 	}
 	else
 	{
-		for(i = 0; i < dst->layers; i++)
+		if(src->tFuncList != NULL)
 		{
-			dst->tFuncList[i] = src->tFuncList[i];
+			for(i = 0; i < dst->layers; i++)
+			{
+				dst->tFuncList[i] = src->tFuncList[i];
+			}
 		}
 	}
 
@@ -73,6 +78,8 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 			dst->nodeList[i] = src->nodeList[i];
 		}
 	}
+
+	LOG("exit");
 
 	return ANN_NO_ERROR;
 }
