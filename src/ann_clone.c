@@ -49,14 +49,14 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 
 	// Clone transfer function list
 	dst->tFuncRoot = src->tFuncRoot;
-	dst->tFuncList = calloc(dst->layers, sizeof(int));
-	if(dst->tFuncList == NULL)
+	if(src->tFuncList != NULL)
 	{
-		return ANN_MEM_FAILED;
-	}
-	else
-	{
-		if(src->tFuncList != NULL)
+		dst->tFuncList = calloc(dst->layers, sizeof(int));
+		if(dst->tFuncList == NULL)
+		{
+			return ANN_MEM_FAILED;
+		}
+		else
 		{
 			for(i = 0; i < dst->layers; i++)
 			{

@@ -13,6 +13,8 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	int layers;
 	int* nodeList;
+
+	int tFuncRoot;
 	int* tFuncList;
 	
 	void* allocTmp = NULL;
@@ -24,13 +26,16 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	// Checking
 	layers = sptr->config.layers;
 	nodeList = sptr->config.nodeList;
-	tFuncList = sptr->config.tFuncList;
-	if(layers < 2 || nodeList == NULL || tFuncList == NULL)
+	if(layers < 2 || nodeList == NULL)
 	{
 		LOG("Checking failed");
 		retValue = ANN_INVALID_ARG;
 		goto RET;
 	}
+
+	// Assign transfer function setting
+	tFuncRoot = sptr->config.tFuncRoot;
+	tFuncList = sptr->config.tFuncList;
 
 	// Allocate network
 	tmpLayer = calloc(layers, sizeof(struct ANN_LAYER));
@@ -43,6 +48,38 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	for(i = 0; i < layers; i++)
 	{
+		// Assing transfer function setting
+		if(tFuncRoot < ANN_TFUNC_AMOUNT && tFuncRoot > 0)
+		{
+			tmpLayer[i].activeFunc = ann_transfer_list[tFuncRoot];
+			tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncRoot];
+		}
+		else if(tFuncRoot == ANN_TFUNC_MULTIPLE)
+		{
+			if(tFuncList == NULL)
+			{
+				retValue = ANN_INFO_NOT_FOUND;
+				goto ERR;
+			}
+			
+			// Check transfer function setting
+			if(tFuncList[i] < 0 || tFuncList[i] >= ANN_TFUNC_AMOUNT)
+			{
+				LOG("Checking failed, invalid transfer function id: %d", tFuncList[i]);
+				retValue = ANN_INVALID_ARG;
+				goto ERR;
+			}
+
+			tmpLayer[i].activeFunc = ann_transfer_list[tFuncList[i]];
+			tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncList[i]];
+		}
+		else if(tFuncRoot != ANN_TFUNC_CUSTOM)
+		{
+			retValue = ANN_INVALID_ARG;
+			goto ERR;
+		}
+
+		/*
 		// Check transfer function setting
 		if(tFuncList[i] < 0 || tFuncList[i] >= ANN_TFUNC_AMOUNT)
 		{
@@ -53,6 +90,8 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 		tmpLayer[i].activeFunc = ann_transfer_list[tFuncList[i]];
 		tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncList[i]];
+		*/
+
 		tmpLayer[i].nodeCount = nodeList[i];
 
 		allocTmp = calloc(nodeList[i], sizeof(struct ANN_NODE));
