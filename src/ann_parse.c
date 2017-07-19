@@ -10,6 +10,7 @@
 
 #include "debug.h"
 
+int ann_parse_config_tfunc(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_config_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr);
@@ -558,6 +559,26 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 		goto RET;
 	}
 
+	// Check transfer function
+	if(cfgTmp.tFuncRoot == ANN_TFUNC_MULTIPLE)
+	{
+		// Get Transfer function
+		fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_TFUNC);
+		if(fbPtr == NULL)
+		{
+			retValue = ANN_INFO_NOT_FOUND;
+			goto RET;
+		}
+
+		// Parse Transfer function
+		iResult = ann_parse_config_tfunc(&cfgTmp, fbPtr);
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+	}
+
 	// Get Training info
 	fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_TRAINING_INFO);
 	if(fbPtr == NULL)
@@ -604,6 +625,116 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 
 RET:
 	ann_config_delete_struct(&cfgTmp);
+	LOG("exit");
+	return retValue;
+}
+
+int ann_parse_config_tfunc(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLOCK* fbPtr)
+{
+	int i, j;
+	int iResult;
+	int retValue = ANN_NO_ERROR;
+	
+	int tmpIndex;
+	int tmpValue;
+
+	int* tFuncList = NULL;
+	void* allocTmp = NULL;
+
+	char** strList = NULL;
+	int strCount = 0;
+
+	char* tmpPtr = NULL;
+	
+	LOG("enter");
+
+	// Checking
+	if(cfgPtr->layers <= 0)
+	{
+		retValue = ANN_INVALID_ARG;
+		goto RET;
+	}
+
+	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_TFUNC]);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = ANN_INFO_NOT_FOUND;
+		goto RET;
+	}
+
+	tFuncList = calloc(cfgPtr->layers, sizeof(int));
+	if(tFuncList == NULL)
+	{
+		retValue = ANN_MEM_FAILED;
+		goto RET;
+	}
+
+	for(i = 1; i < fbPtr->strCount; i++)
+	{
+		// Extract string
+		iResult = ann_str_extract(&strList, &strCount, fbPtr->strList[i], '=');
+		if(iResult != ANN_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
+		}
+
+		// Checking
+		if(strCount != 2)
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+		
+		// Parsing
+		tmpIndex = strtol(strList[0], &tmpPtr, 10);
+		if(tmpPtr == strList[0])
+		{
+			retValue = ANN_SYNTAX_ERROR;
+			goto RET;
+		}
+
+		tmpValue = ann_get_transfer_func_id(strList[1]);
+		if(tmpValue < 0)
+		{
+			retValue = tmpValue;
+			goto RET;
+		}
+
+		// Set transfer function
+		tFuncList[tmpIndex - 1] = tmpValue;
+		
+		// Cleanup
+		for(j = 0; j < strCount; j++)
+		{
+			free(strList[j]);
+		}
+		free(strList);
+		strList = NULL;
+	}
+
+	// Assign values
+	cfgPtr->tFuncList = tFuncList;
+	
+	tFuncList = NULL;
+
+RET:
+	if(allocTmp != NULL)
+		free(allocTmp);
+
+	if(tFuncList != NULL)
+		free(tFuncList);
+
+	if(strList != NULL)
+	{
+		for(i = 0; i < strCount; i++)
+		{
+			if(strList[i] != NULL)
+				free(strList[i]);
+		}
+		free(strList);
+	}
+	
 	LOG("exit");
 	return retValue;
 }
