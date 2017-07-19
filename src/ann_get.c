@@ -142,7 +142,23 @@ int ann_config_get_transfer_func_of_layer(ann_config_t config, int layerIndex)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->tFuncList[layerIndex];
+	if(cfgRef->tFuncRoot < ANN_TFUNC_AMOUNT)
+	{
+		return cfgRef->tFuncRoot;
+	}
+	else if(cfgRef->tFuncRoot == ANN_TFUNC_MULTIPLE)
+	{
+		assert(cfgRef->tFuncList != NULL);
+		return cfgRef->tFuncList[layerIndex];
+	}
+	else if(cfgRef->tFuncRoot == ANN_TFUNC_CUSTOM)
+	{
+		return ANN_TFUNC_CUSTOM;
+	}
+	else
+	{
+		return ANN_INFO_NOT_FOUND;
+	}
 }
 
 double ann_config_get_learning_rate(ann_config_t config)

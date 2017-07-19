@@ -448,6 +448,17 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
  *	@since	0.1.0
  */
 
+int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, int tFuncIndex);
+/**
+ *	@fn		int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, int tFuncIndex);
+ *	@brief	Set transfer (activation) function index for target layer of neural network configuration.
+ *	@param	config:		Target ann_config_t variable.
+ *	@param	layerIndex:	Layer index of neural network.
+ *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
+ *	@return If argument less then zero or greater then the highest transfer function index, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
+ *	@since	0.1.0
+ */
+
 void ann_config_set_learning_rate(ann_config_t config, double learningRate);
 /**
  *	@fn		void ann_config_set_learning_rate(ann_config_t config, double learningRate);
