@@ -49,7 +49,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	for(i = 0; i < layers; i++)
 	{
 		// Assing transfer function setting
-		if(tFuncRoot < ANN_TFUNC_AMOUNT && tFuncRoot > 0)
+		if(tFuncRoot < ANN_TFUNC_AMOUNT && tFuncRoot >= 0)
 		{
 			tmpLayer[i].activeFunc = ann_transfer_list[tFuncRoot];
 			tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncRoot];

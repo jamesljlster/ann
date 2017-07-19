@@ -24,14 +24,14 @@ void ann_set_momentum_coef(ann_t ann, double momentumCoef)
 void ann_config_set_learning_rate(ann_config_t config, double learningRate)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-
+	
 	cfgRef->learningRate = learningRate;
 }
 
 void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-
+	
 	cfgRef->momentumCoef = momentumCoef;
 }
 
@@ -43,9 +43,9 @@ int ann_config_set_inputs(ann_config_t config, int inputs)
 	{
 		return ANN_INVALID_ARG;
 	}
-
+	
 	cfgRef->inputs = inputs;
-
+	
 	if(cfgRef->nodeList != NULL)
 	{
 		cfgRef->nodeList[0] = inputs;
@@ -62,7 +62,7 @@ int ann_config_set_outputs(ann_config_t config, int outputs)
 	{
 		return ANN_INVALID_ARG;
 	}
-
+	
 	cfgRef->outputs = outputs;
 
 	if(cfgRef->nodeList != NULL)
@@ -80,10 +80,9 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	int tmpLayerCount;
 	int preLayerCount;
 	int* tmpList = NULL;
-	int* tmpTFuncList = NULL;
 
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-
+	
 	LOG("enter");
 
 	// Checking
@@ -94,81 +93,36 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	}
 
 	tmpLayerCount = hiddenLayers + 2;
-
-	// Memory allocation: Node list
+	
+	// Memory allocation
 	tmpList = calloc(tmpLayerCount, sizeof(int));
 	if(tmpList == NULL)
 	{
 		retValue = ANN_MEM_FAILED;
-		goto ERR;
+		goto RET;
 	}
 	else
 	{
-		// Set default values
 		tmpList[0] = cfgRef->inputs;
 		tmpList[tmpLayerCount - 1] = cfgRef->outputs;
 
 		for(i = 1; i < tmpLayerCount - 1; i++)
-		{
 			tmpList[i] = INIT_NODES;
-		}
 	}
 
-	// Memory allocation: Transfer function list
-	tmpTFuncList = calloc(tmpLayerCount, sizeof(int));
-	if(tmpTFuncList == NULL)
-	{
-		retValue = ANN_MEM_FAILED;
-		goto ERR;
-	}
-	else
-	{
-		// Set default values
-		for(i = 0; i < tmpLayerCount; i++)
-		{
-			tmpTFuncList[i] = cfgRef->tFuncRoot;
-		}
-	}
-
-	// Copy old values
-	preLayerCount = cfgRef->layers;
 	if(cfgRef->nodeList != NULL)
 	{
+		preLayerCount = cfgRef->layers;
+
 		for(i = 1; i < preLayerCount - 1; i++)
-		{
 			tmpList[i] = cfgRef->nodeList[i];
-		}
-
+		
 		free(cfgRef->nodeList);
-	}
-
-	if(cfgRef->tFuncList != NULL)
-	{
-		for(i = 0; i < preLayerCount; i++)
-		{
-			tmpTFuncList[i] = cfgRef->tFuncList[i];
-		}
-
-		free(cfgRef->tFuncList);
 	}
 
 	// Assign values
 	cfgRef->nodeList = tmpList;
-	cfgRef->tFuncList = tmpTFuncList;
 	cfgRef->layers = tmpLayerCount;
-
-	goto RET;
-
-ERR:
-	if(tmpList != NULL)
-	{
-		free(tmpList);
-	}
-
-	if(tmpTFuncList != NULL)
-	{
-		free(tmpTFuncList);
-	}
 
 RET:
 	LOG("exit");
@@ -195,7 +149,6 @@ int ann_config_set_hidden_nodes(ann_config_t config, int hiddenLayerIndex, int n
 
 int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 {
-	int i;
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
 	// Checking
@@ -203,12 +156,8 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 	{
 		return ANN_INVALID_ARG;
 	}
-
+	
 	cfgRef->tFuncRoot = tFuncIndex;
-	for(i = 0; i < cfgRef->layers; i++)
-	{
-		cfgRef->tFuncList[i] = tFuncIndex;
-	}
 
 	return ANN_NO_ERROR;
 }
@@ -235,7 +184,7 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 
 	if(layerIndex >= sptr->config.layers || layerIndex <= 0)
 		return ANN_OUT_OF_RANGE;
-
+	
 	preLayerRef = &sptr->layerList[layerIndex - 1];
 	layerRef = &sptr->layerList[layerIndex];
 
@@ -284,10 +233,10 @@ int ann_set_threshold_struct(struct ANN_STRUCT* sptr, int layerIndex, int nodeIn
 
 	// Checking
 	assert(sptr->layerList != NULL);
-
+	
 	if(layerIndex >= sptr->config.layers || layerIndex < 0)
 		return ANN_OUT_OF_RANGE;
-
+	
 	layerRef = &sptr->layerList[layerIndex];
 
 	if(nodeIndex < 0 || nodeIndex >= layerRef->nodeCount)
