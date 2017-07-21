@@ -46,7 +46,7 @@ void ann_rand_weight(ann_t ann)
 	}
 }
 
-void ann_rand_recurrent_weight(ann_t ann)
+void rnn_rand_recurrent_weight(ann_t ann)
 {
 	int i, j;
 

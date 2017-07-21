@@ -221,6 +221,12 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value)
 	return ann_set_threshold_struct(annRef, layerIndex, nodeIndex, value);
 }
 
+int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, double value)
+{
+	struct ANN_STRUCT* annRef = ann;
+	return ann_set_recurrent_weight_struct(annRef, preNodeIndex, nodeIndex, value);
+}
+
 int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* preLayerRef;

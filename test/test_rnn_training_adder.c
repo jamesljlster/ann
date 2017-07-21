@@ -109,6 +109,7 @@ int main(int argc, char* argv[])
 		// Random weight and threshold
 		ann_rand_weight(ann);
 		ann_rand_threshold(ann);
+		rnn_rand_recurrent_weight(ann);
 	}
 
 	// Prepare dataset

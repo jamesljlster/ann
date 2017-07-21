@@ -163,6 +163,18 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
  *	@since	0.1.0
  */
 
+int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, double value);
+/**
+ *	@fn		int rnn_set_recurrent_weight(ann_t ann, int nodeIndex, int preNodeIndex, double value);
+ *	@brief	Set target recurrent weight of neural network.
+ *	@param	ann:			Target ann_t type variable.
+ *	@param	nodeIndex:		Start node index of recurrent weight.
+ *	@param	preNodeIndex:	End node index of recurrent weight.
+ *	@param	value:			Recurrent weight value.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	1.0.0
+ */
+
 void ann_set_learning_rate(ann_t ann, double learningRate);
 /**
  *	@fn		void ann_set_learning_rate(ann_t ann, double learningRate);
@@ -197,6 +209,14 @@ void ann_zero_threshold(ann_t ann);
  *	@since	0.1.0
  */
 
+void rnn_zero_recurrent_weight(ann_t ann);
+/**
+ *	@fn		void rnn_zero_recurrent_weight(ann_t ann);
+ *	@brief	Zero all recurrent weight in neural netwrok.
+ *	@param	ann:	Target ann_t type variable.
+ *	@since	1.0.0
+ */
+
 void ann_rand_weight(ann_t ann);
 /**
  *	@fn		void ann_rand_weight(ann_t ann);
@@ -205,9 +225,9 @@ void ann_rand_weight(ann_t ann);
  *	@since	0.1.0
  */
 
-void ann_rand_recurrent_weight(ann_t ann);
+void rnn_rand_recurrent_weight(ann_t ann);
 /**
- *	@fn		void ann_rand_recurrent_weight(ann_t ann);
+ *	@fn		void rnn_rand_recurrent_weight(ann_t ann);
  *	@brief	Random all recurrent weight in neural network.
  *	@param	ann:	Target ann_t type variable.
  *	@since	1.0.0
@@ -232,6 +252,18 @@ double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex
  *	@return	Target weight value.
  *	@since	0.1.0
  */
+
+double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
+/**
+ *	@fn		double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
+ *	@brief	Get target recurrent weight of neural network.
+ *	@param	ann:			Target ann_t type variable.
+ *	@param	nodeIndex:		Start node index of recurrent weight.
+ *	@param	preNodeIndex:	End node index of recurrent weight.
+ *	@return	Target recurrent weight value.
+ *	@since	1.0.0
+ */
+
 
 double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
 /**

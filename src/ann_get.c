@@ -198,6 +198,31 @@ double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex
 	return layerRef->nodeList[nodeIndex].weight[preNodeIndex];
 }
 
+double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex)
+{
+	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* preLayer;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+	
+	annRef = ann;
+	cfgRef = &annRef->config;
+
+	// Checking
+	assert(annRef->layerList != NULL);
+	assert(cfgRef->layers > 2);
+	
+	// Set layer reference
+	preLayerRef = &sptr->layerList[layers - 2];
+	layerRef = &sptr->layerList[1];
+	
+	assert(preNodeIndex >= 0 && preNodeIndex < preLayer->nodeCount);
+	assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
+	assert(layerRef->nodeList[nodeIndex].rWeight != NULL);
+
+	return layerRef->nodeList[nodeIndex].rWeight[preNodeIndex];
+}
+
 double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex)
 {
 	struct ANN_STRUCT* annRef;
