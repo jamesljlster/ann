@@ -170,7 +170,7 @@ void ann_fprint_tfunc(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 		for(i = 0; i < cfgPtr->layers; i++)
 		{
 			indexTmp = cfgPtr->tFuncList[i];
-			fprintf(fptr, "%02d= %s\n", i + 1, ann_transfer_func_name[indexTmp]);
+			fprintf(fptr, "%02d=%s\n", i + 1, ann_transfer_func_name[indexTmp]);
 		}
 	}
 	fprintf(fptr, "\n");
