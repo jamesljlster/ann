@@ -213,8 +213,8 @@ double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex)
 	assert(cfgRef->layers > 2);
 	
 	// Set layer reference
-	preLayerRef = &sptr->layerList[layers - 2];
-	layerRef = &sptr->layerList[1];
+	preLayer = &annRef->layerList[cfgRef->layers - 2];
+	layerRef = &annRef->layerList[1];
 	
 	assert(preNodeIndex >= 0 && preNodeIndex < preLayer->nodeCount);
 	assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
