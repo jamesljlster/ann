@@ -11,6 +11,7 @@ file(GLOB PROJECT_SRCS
 file(GLOB TEST_TXT
 	${CMAKE_CURRENT_SOURCE_DIR}/*.vgn
 	${CMAKE_CURRENT_SOURCE_DIR}/*.rnn
+	${CMAKE_CURRENT_SOURCE_DIR}/*.csv
 	)
 
 # Set dependences

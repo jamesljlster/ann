@@ -7,6 +7,7 @@
 char* ann_file_header[] = {
 	"Application",
 	"Topology",
+	"Transfer function",
 	"Training information",
 	"Total node",
 	"Threshold value",
@@ -23,6 +24,10 @@ char* ann_header_topology[] = {
 	"Total output",
 	"Total layer",
 	"Transfer function"
+};
+
+char* ann_header_tfunc[] = {
+	"layer=transfer function"
 };
 
 char* ann_header_training_info[] = {

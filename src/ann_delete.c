@@ -24,6 +24,12 @@ void ann_config_delete_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	LOG("enter");
 
+	if(cfgPtr->tFuncList != NULL)
+	{
+		free(cfgPtr->tFuncList);
+		cfgPtr->tFuncList = NULL;
+	}
+
 	if(cfgPtr->nodeList != NULL)
 	{
 		free(cfgPtr->nodeList);

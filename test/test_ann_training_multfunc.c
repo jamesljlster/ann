@@ -64,6 +64,13 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
+		iResult = ann_config_set_transfer_func_of_layer(cfg, 0, ANN_IDENTITY);
+		if(iResult != ANN_NO_ERROR)
+		{
+			printf("ann_config_set_nodes() failed with error: %s\n", ann_get_error_msg(iResult));
+			return -1;
+		}
+
 		// Create neural network
 		iResult = ann_create(&ann, cfg);
 		if(iResult != ANN_NO_ERROR)

@@ -62,6 +62,15 @@ int ann_get_transfer_func(ann_t ann)
 	return ann_config_get_transfer_func(annCfg);
 }
 
+int ann_get_transfer_func_of_layer(ann_t ann, int layerIndex)
+{
+	ann_config_t annCfg;
+
+	annCfg = ann_get_config(ann);
+
+	return ann_config_get_transfer_func_of_layer(annCfg, layerIndex);
+}
+
 double ann_get_learning_rate(ann_t ann)
 {
 	ann_config_t annCfg;
@@ -126,7 +135,30 @@ int ann_config_get_transfer_func(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->transferFuncIndex;
+	return cfgRef->tFuncRoot;
+}
+
+int ann_config_get_transfer_func_of_layer(ann_config_t config, int layerIndex)
+{
+	struct ANN_CONFIG_STRUCT* cfgRef = config;
+
+	if(cfgRef->tFuncRoot < ANN_TFUNC_AMOUNT)
+	{
+		return cfgRef->tFuncRoot;
+	}
+	else if(cfgRef->tFuncRoot == ANN_TFUNC_MULTIPLE)
+	{
+		assert(cfgRef->tFuncList != NULL);
+		return cfgRef->tFuncList[layerIndex];
+	}
+	else if(cfgRef->tFuncRoot == ANN_TFUNC_CUSTOM)
+	{
+		return ANN_TFUNC_CUSTOM;
+	}
+	else
+	{
+		return ANN_INFO_NOT_FOUND;
+	}
 }
 
 double ann_config_get_learning_rate(ann_config_t config)
