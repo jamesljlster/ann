@@ -6,6 +6,10 @@
 #include "ann_file_proc.h"
 #include "ann_file_header.h"
 
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
 #include "debug.h"
 
 int ann_str_extract(char*** strListPtr, int* strCountPtr, char* src, char sepCh)

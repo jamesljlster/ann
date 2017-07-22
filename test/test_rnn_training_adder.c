@@ -83,12 +83,19 @@ int main(int argc, char* argv[])
 
 		for(i = 0; i < HIDDEN_LAYER; i++)
 		{
-			iResult = ann_config_set_hidden_nodes(cfg, 0, HIDDEN_SIZE);
+			iResult = ann_config_set_hidden_nodes(cfg, i, HIDDEN_SIZE);
 			if(iResult != ANN_NO_ERROR)
 			{
 				printf("ann_config_set_nodes() failed with error: %d\n", iResult);
 				return -1;
 			}
+		}
+
+		iResult = ann_config_set_transfer_func_of_layer(cfg, 0, ANN_IDENTITY);
+		if(iResult != ANN_NO_ERROR)
+		{
+			printf("ann_config_set_hidden_layers() failed with error: %d\n", iResult);
+			return -1;
 		}
 
 		// Create neural network
@@ -102,6 +109,7 @@ int main(int argc, char* argv[])
 		// Random weight and threshold
 		ann_rand_weight(ann);
 		ann_rand_threshold(ann);
+		rnn_rand_recurrent_weight(ann);
 	}
 
 	// Prepare dataset

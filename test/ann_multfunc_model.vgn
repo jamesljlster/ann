@@ -1,0 +1,33 @@
+[Application]
+Name=Visual Gene Developer - Neural Network
+
+[Topology]
+Total input= 1
+Total output= 1
+Total layer= 3
+Transfer function=Multiple
+
+[Transfer function]
+layer=transfer function
+01=Identity
+02=Sigmoid
+03=Sigmoid
+
+[Training information]
+learning rate= .01
+momentum coefficient= .1
+
+[Total node]
+layer=total node
+02= 4
+
+[Threshold value]
+layer-node=threshold value
+01-01= 0
+02-01=-4.0
+03-01=-3.5
+
+[Weight factor]
+layer-node(layer n-1)-node(layer n)=weight factor
+02-01-01=-5.0
+03-01-01=-6.0

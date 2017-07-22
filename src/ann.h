@@ -32,7 +32,9 @@ enum ANN_TRANSFER_FUNC
 	ANN_SINC				= 8,	/*!< Sinc function. @since 0.2.2 */
 	ANN_SINUSOID			= 9,	/*!< Sinusoid (sine) function. @since 0.2.2 */
 	ANN_IDENTITY			= 10,	/*!< Identity function. @since 0.2.2 */
-	ANN_RELU				= 11	/*!< Rectifier linear unit function. @since 0.2.2 */
+	ANN_RELU				= 11,	/*!< Rectifier linear unit function. @since 0.2.2 */
+	ANN_TFUNC_MULTIPLE,				/*!< Each neural layer has its own transfer function. @since 1.0.0 */
+	ANN_TFUNC_CUSTOM				/*!< Using user defined transfer function. @since 1.0.0 */
 };
 
 /** Type definition of ann. @since 0.2.0 */
@@ -161,6 +163,18 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
  *	@since	0.1.0
  */
 
+int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, double value);
+/**
+ *	@fn		int rnn_set_recurrent_weight(ann_t ann, int nodeIndex, int preNodeIndex, double value);
+ *	@brief	Set target recurrent weight of neural network.
+ *	@param	ann:			Target ann_t type variable.
+ *	@param	nodeIndex:		Start node index of recurrent weight.
+ *	@param	preNodeIndex:	End node index of recurrent weight.
+ *	@param	value:			Recurrent weight value.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	1.0.0
+ */
+
 void ann_set_learning_rate(ann_t ann, double learningRate);
 /**
  *	@fn		void ann_set_learning_rate(ann_t ann, double learningRate);
@@ -195,6 +209,14 @@ void ann_zero_threshold(ann_t ann);
  *	@since	0.1.0
  */
 
+void rnn_zero_recurrent_weight(ann_t ann);
+/**
+ *	@fn		void rnn_zero_recurrent_weight(ann_t ann);
+ *	@brief	Zero all recurrent weight in neural netwrok.
+ *	@param	ann:	Target ann_t type variable.
+ *	@since	1.0.0
+ */
+
 void ann_rand_weight(ann_t ann);
 /**
  *	@fn		void ann_rand_weight(ann_t ann);
@@ -203,9 +225,9 @@ void ann_rand_weight(ann_t ann);
  *	@since	0.1.0
  */
 
-void ann_rand_recurrent_weight(ann_t ann);
+void rnn_rand_recurrent_weight(ann_t ann);
 /**
- *	@fn		void ann_rand_recurrent_weight(ann_t ann);
+ *	@fn		void rnn_rand_recurrent_weight(ann_t ann);
  *	@brief	Random all recurrent weight in neural network.
  *	@param	ann:	Target ann_t type variable.
  *	@since	1.0.0
@@ -230,6 +252,18 @@ double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex
  *	@return	Target weight value.
  *	@since	0.1.0
  */
+
+double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
+/**
+ *	@fn		double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
+ *	@brief	Get target recurrent weight of neural network.
+ *	@param	ann:			Target ann_t type variable.
+ *	@param	nodeIndex:		Start node index of recurrent weight.
+ *	@param	preNodeIndex:	End node index of recurrent weight.
+ *	@return	Target recurrent weight value.
+ *	@since	1.0.0
+ */
+
 
 double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
 /**
@@ -286,6 +320,16 @@ int ann_get_transfer_func(ann_t ann);
  *	@param	ann: Target ann_t type variable.
  *	@return Transfer (activation) function index of target neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
  *	@since	0.1.0
+ */
+
+int ann_get_transfer_func_of_layer(ann_t ann, int layerIndex);
+/**
+ *	@fn		int ann_get_transfer_func_of_layer(ann_t ann, int layerIndex);
+ *	@brief	Get transfer (activation) function index of target neural network.
+ *	@param	ann:		Target ann_t type variable.
+ *	@param	layerIndex:	Target layer index of neural network.
+ *	@return Transfer (activation) function index of target neural network. Transfer function index is described by #ANN_TRANSFER_FUNC.
+ *	@since	1.0.0
  */
 
 const char* ann_get_transfer_func_name(int tFuncIndex);
@@ -429,8 +473,19 @@ int ann_config_set_outputs(ann_config_t config, int outputs);
 int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
 /**
  *	@fn		int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex);
- *	@brief	Set transfer (activation) function index of target neural network configuration.
+ *	@brief	Set transfer (activation) function index for all layers of target neural network configuration.
  *	@param	config:		Target ann_config_t variable.
+ *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
+ *	@return If argument less then zero or greater then the highest transfer function index, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
+ *	@since	0.1.0
+ */
+
+int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, int tFuncIndex);
+/**
+ *	@fn		int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, int tFuncIndex);
+ *	@brief	Set transfer (activation) function index for target layer of neural network configuration.
+ *	@param	config:		Target ann_config_t variable.
+ *	@param	layerIndex:	Layer index of neural network.
  *	@param	tFuncIndex:	Transfer (activation) function index of target neural network configuration.
  *	@return If argument less then zero or greater then the highest transfer function index, the function would return #ANN_INVALID_ARG, else return #ANN_NO_ERROR.
  *	@since	0.1.0
@@ -498,6 +553,16 @@ int ann_config_get_transfer_func(ann_config_t config);
  *	@param	config:	Target ann_config_t type variable.
  *	@return Transfer (activation) function index of target neural network configuration. Transfer function index is described by #ANN_TRANSFER_FUNC.
  *	@since	0.1.0
+ */
+
+int ann_config_get_transfer_func_of_layer(ann_config_t config, int layerIndex);
+/**
+ *	@fn		int ann_config_get_transfer_func_of_layer(ann_config_t config, int layerIndex);
+ *	@brief	Get transfer (activation) function index of target neural network configuration.
+ *	@param	config:		Target ann_config_t type variable.
+ *	@param	layerIndex:	Target layer index of neural netwrok.
+ *	@return Transfer (activation) function index of target neural network configuration. Transfer function index is described by #ANN_TRANSFER_FUNC.
+ *	@since	1.0.0
  */
 
 double ann_config_get_learning_rate(ann_config_t config);

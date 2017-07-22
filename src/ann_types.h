@@ -39,7 +39,9 @@ struct ANN_CONFIG_STRUCT
 	int inputs;
 	int outputs;
 	int layers;	
-	int transferFuncIndex;
+
+	int tFuncRoot;	// Transfer function root setting
+	int* tFuncList;	// Transfer function setting of each layers
 	
 	double learningRate;
 	double momentumCoef;

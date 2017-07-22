@@ -157,7 +157,54 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 		return ANN_INVALID_ARG;
 	}
 	
-	cfgRef->transferFuncIndex = tFuncIndex;
+	cfgRef->tFuncRoot = tFuncIndex;
+
+	return ANN_NO_ERROR;
+}
+
+int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, int tFuncIndex)
+{
+	int i;
+	struct ANN_CONFIG_STRUCT* cfgRef = config;
+
+	// Checking argument
+	if(layerIndex < 0 || layerIndex >= cfgRef->layers)
+	{
+		return ANN_OUT_OF_RANGE;
+	}
+
+	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_AMOUNT)
+	{
+		return ANN_INVALID_ARG;
+	}
+
+	// Checking transfer function setting
+	if(tFuncIndex == cfgRef->tFuncRoot)
+	{
+		return ANN_NO_ERROR;
+	}
+
+	// Memory allocation
+	if(cfgRef->tFuncList == NULL)
+	{
+		cfgRef->tFuncList = calloc(cfgRef->layers, sizeof(int));
+		if(cfgRef->tFuncList == NULL)
+		{
+			return ANN_MEM_FAILED;
+		}
+		else
+		{
+			// Copy transfer function setting
+			for(i = 0; i < cfgRef->layers; i++)
+			{
+				cfgRef->tFuncList[i] = cfgRef->tFuncRoot;
+			}
+		}
+	}
+
+	// Set transfer function
+	cfgRef->tFuncRoot = ANN_TFUNC_MULTIPLE;
+	cfgRef->tFuncList[layerIndex] = tFuncIndex;
 
 	return ANN_NO_ERROR;
 }
@@ -172,6 +219,12 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value)
 {
 	struct ANN_STRUCT* annRef = ann;
 	return ann_set_threshold_struct(annRef, layerIndex, nodeIndex, value);
+}
+
+int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, double value)
+{
+	struct ANN_STRUCT* annRef = ann;
+	return ann_set_recurrent_weight_struct(annRef, preNodeIndex, nodeIndex, value);
 }
 
 int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, int nodeIndex, double value)
