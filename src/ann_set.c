@@ -192,13 +192,15 @@ int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, i
 		{
 			return ANN_MEM_FAILED;
 		}
-		else
+	}
+
+	// Copy transfer function setting
+	if(cfgRef->tFuncRoot < ANN_TFUNC_AMOUNT)
+	{
+		// Copy transfer function setting
+		for(i = 0; i < cfgRef->layers; i++)
 		{
-			// Copy transfer function setting
-			for(i = 0; i < cfgRef->layers; i++)
-			{
-				cfgRef->tFuncList[i] = cfgRef->tFuncRoot;
-			}
+			cfgRef->tFuncList[i] = cfgRef->tFuncRoot;
 		}
 	}
 

@@ -7,7 +7,7 @@
 
 const char* ann_get_transfer_func_name(int tFuncIndex)
 {
-	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_AMOUNT)
+	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_RESERVED)
 	{
 		return NULL;
 	}
