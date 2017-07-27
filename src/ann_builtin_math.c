@@ -53,7 +53,7 @@ char* ann_transfer_func_name[] = {
 	"Custom"					// Reserve for ANN_TFUNC_CUSTOM
 };
 
-int ann_get_transfer_func_id(char* tFuncName)
+int ann_get_transfer_func_id(const char* tFuncName)
 {
 	int i;
 	int iResult;
@@ -64,7 +64,7 @@ int ann_get_transfer_func_id(char* tFuncName)
 	//for(i = 0; i < ANN_TFUNC_AMOUNT; i++)
 	for(i = 0; i < ANN_TFUNC_RESERVED; i++)
 	{
-		iResult = ann_strcmp(tFuncName, ann_transfer_func_name[i]);
+		iResult = ann_strcmp((char*)tFuncName, ann_transfer_func_name[i]);
 		if(iResult == ANN_NO_ERROR)
 		{
 			retValue = i;

@@ -341,7 +341,7 @@ const char* ann_get_transfer_func_name(int tFuncIndex);
  *	@since	0.2.5
  */
 
-int ann_get_transfer_func_id(char* tFuncName);
+int ann_get_transfer_func_id(const char* tFuncName);
 /**
  *	@fn		int ann_get_transfer_func_id(char* tFuncName);
  *	@brief	Get transfer function id with given transfer function name.
