@@ -55,14 +55,12 @@ extern "C" {
 
 /**
  *	\~English @defgroup Config Configuration
+ *	@brief Configuration of neural netwrok.
+ *
+ *@{
+ *
  *	\~Chinese-Traditional @defgroup Config 配置
- *
- *	@brief
- *	\~English
- * Configuration of neural netwrok.
- *
- *	\~Chinese-Traditional
- * 類神經網路配置
+ *	@brief 類神經網路配置
  *
  *@{
  */
@@ -417,14 +415,12 @@ void ann_set_momentum_coef(ann_t ann, double momentumCoef);
 
 /**
  *	\~English @defgroup CommonFunc Common Function
+ *	@brief Common function for Neural Network.
+ *
+ *@{
+ *
  *	\~Chinese-Traditional @defgroup CommonFunc 通用函式
- *
- *	@brief
- *	\~English
- * Common function for Neural Network.
- *
- *	\~Chinese-Traditional
- * 類神經網路通用函式
+ *	@brief 類神經網路通用函式
  *
  *@{
  */
@@ -615,14 +611,12 @@ const char* ann_get_error_msg(int retValue);
 
 /**
  *	\~English @defgroup ANN ANN Specific
+ *	@brief For Artificial Neural Network only.
+ *
+ *@{
+ *
  *	\~Chinese-Traditional @defgroup ANN ANN 專用
- *
- *	@brief
- *	\~English
- * For Artificial Neural Network only.
- *
- *	\~Chinese-Traditional
- * Artificial Neural Network 專用功能
+ *	@brief Artificial Neural Network 專用功能
  *
  *@{
  */
@@ -710,14 +704,12 @@ void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, do
 
 /**
  *	\~English @defgroup RNN RNN Specific
+ *	@brief For Recurrent Neural Network only.
+ *
+ *@{
+ *
  *	\~Chinese-Traditional @defgroup RNN RNN 專用
- *
- *	@brief
- *	\~English
- * For Rrtificial Neural Network only.
- *
- *	\~Chinese-Traditional
- * Rrtificial Neural Network 專用功能
+ *	@brief Recurrent Neural Network 專用功能
  *
  *@{
  */
