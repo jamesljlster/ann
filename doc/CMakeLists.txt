@@ -3,6 +3,10 @@ find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
 
 if(BUILD_DOCUMENTATION)
+	set(DOC_LANGUAGE "" CACHE STRING "Documentation language")
+	set(DOC_LANG_LIST "English;Chinese-Traditional" CACHE STRING "Documentation language" FORCE)
+	set_property(CACHE DOC_LANGUAGE PROPERTY STRINGS ${DOC_LANG_LIST})
+
     if(NOT DOXYGEN_FOUND)
         message(FATAL_ERROR "Doxygen is needed to build the documentation.")
     endif()
