@@ -6,7 +6,13 @@
 #ifndef __ANN_H__
 #define __ANN_H__
 
-/** Return value definitions of ann library. */
+/** 
+ *	\~English 
+ *		Return value definitions of ANN library.
+ *
+ *	\~Chinese-Traditional
+ *		ANN 函式庫回傳值定義
+ */
 enum ANN_RETUEN_VALUE
 {
 	ANN_NO_ERROR		= 0,	/*!< No error occured while running called function. @since 0.1.0 */
@@ -343,7 +349,7 @@ const char* ann_get_transfer_func_name(int tFuncIndex);
 
 int ann_get_transfer_func_id(const char* tFuncName);
 /**
- *	@fn		int ann_get_transfer_func_id(char* tFuncName);
+ *	@fn		int ann_get_transfer_func_id(const char* tFuncName);
  *	@brief	Get transfer function id with given transfer function name.
  *	@param	tFuncName: Transfer (activeation) function name.
  *	@return	ID of the transfer funciton. The function would return #ANN_INFO_NOT_FOUND if no any transfer function was corresponding with the given name.
