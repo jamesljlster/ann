@@ -80,6 +80,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	int tmpLayerCount;
 	int preLayerCount;
 	int* tmpList = NULL;
+	int* tmpTFuncList = NULL;
 
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 	
@@ -94,7 +95,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 
 	tmpLayerCount = hiddenLayers + 2;
 	
-	// Memory allocation
+	// Memory allocation: Temp node list
 	tmpList = calloc(tmpLayerCount, sizeof(int));
 	if(tmpList == NULL)
 	{
@@ -107,21 +108,58 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 		tmpList[tmpLayerCount - 1] = cfgRef->outputs;
 
 		for(i = 1; i < tmpLayerCount - 1; i++)
+		{
 			tmpList[i] = INIT_NODES;
+		}
 	}
 
+	// Copy old node setting
 	if(cfgRef->nodeList != NULL)
 	{
 		preLayerCount = cfgRef->layers;
 
 		for(i = 1; i < preLayerCount - 1; i++)
+		{
 			tmpList[i] = cfgRef->nodeList[i];
-		
+		}
+	}
+
+	// Resize transfer function list
+	if(cfgRef->tFuncRoot == ANN_TFUNC_MULTIPLE)
+	{
+		// Memory allocation: Temp transfer function list
+		tmpTFuncList = calloc(tmpLayerCount, sizeof(int));
+		if(tmpTFuncList == NULL)
+		{
+			retValue = ANN_MEM_FAILED;
+			goto RET;
+		}
+
+		// Copy old transfer function setting
+		preLayerCount = cfgRef->layers;
+		if(cfgRef->tFuncList != NULL)
+		{
+			for(i = 0; i < preLayerCount; i++)
+			{
+				tmpTFuncList[i] = cfgRef->tFuncList[i];
+			}
+		}
+	}
+
+	// Free old setting
+	if(cfgRef->nodeList != NULL)
+	{
 		free(cfgRef->nodeList);
+	}
+
+	if(cfgRef->tFuncList != NULL)
+	{
+		free(cfgRef->tFuncList);
 	}
 
 	// Assign values
 	cfgRef->nodeList = tmpList;
+	cfgRef->tFuncList = tmpTFuncList;
 	cfgRef->layers = tmpLayerCount;
 
 RET:
@@ -192,13 +230,15 @@ int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, i
 		{
 			return ANN_MEM_FAILED;
 		}
-		else
+	}
+
+	// Copy transfer function setting
+	if(cfgRef->tFuncRoot < ANN_TFUNC_AMOUNT)
+	{
+		// Copy transfer function setting
+		for(i = 0; i < cfgRef->layers; i++)
 		{
-			// Copy transfer function setting
-			for(i = 0; i < cfgRef->layers; i++)
-			{
-				cfgRef->tFuncList[i] = cfgRef->tFuncRoot;
-			}
+			cfgRef->tFuncList[i] = cfgRef->tFuncRoot;
 		}
 	}
 

@@ -40,6 +40,10 @@ int ann_clone_config_struct(struct ANN_CONFIG_STRUCT* dst, struct ANN_CONFIG_STR
 
 	LOG("enter");
 
+	// Zero memory
+	ann_config_zeromem(dst);
+
+	// Copy setting
 	dst->inputs = src->inputs;
 	dst->outputs = src->outputs;
 	dst->layers = src->layers;

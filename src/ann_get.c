@@ -7,7 +7,7 @@
 
 const char* ann_get_transfer_func_name(int tFuncIndex)
 {
-	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_AMOUNT)
+	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_RESERVED)
 	{
 		return NULL;
 	}
@@ -114,7 +114,14 @@ int ann_config_get_hidden_layers(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->layers - 2;
+	if(cfgRef->layers > 0)
+	{
+		return cfgRef->layers - 2;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex)
