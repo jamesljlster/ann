@@ -18,7 +18,7 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
 int ann_parse_recurrent_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr);
 
-int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
+int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr, int type)
 {
 	int iResult;
 	int retValue = ANN_NO_ERROR;
@@ -75,28 +75,18 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 		goto RET;
 	}
 
-	// Parse recurrent weight
-	if(asPtr->config.layers > 2)
+	// For recurrent neural network
+	if(type == ANN_NETWORK_RNN)
 	{
+		// Get recurrent weight
 		fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_RECURRENT_WEIGHT);
-		if(fbPtr != NULL)
+		if(fbPtr == NULL)
 		{
-			ann_parse_recurrent_weight(asPtr, fbPtr);
+			retValue = ANN_INFO_NOT_FOUND;
+			goto RET;
 		}
-	}
 
-	/*
-	// Get recurrent weight
-	fbPtr = ann_find_fblock(fsPtr, ANN_HEADER_RECURRENT_WEIGHT);
-	if(fbPtr == NULL)
-	{
-		retValue = ANN_INFO_NOT_FOUND;
-		goto RET;
-	}
-
-	// Parse recurrent weight
-	if(asPtr->config.layers > 2)
-	{
+		// Parse recurrent weight
 		iResult = ann_parse_recurrent_weight(asPtr, fbPtr);
 		if(iResult != ANN_NO_ERROR)
 		{
@@ -104,7 +94,6 @@ int ann_parse_network(struct ANN_STRUCT* asPtr, struct ANN_FILE_STRUCT* fsPtr)
 			goto RET;
 		}
 	}
-	*/
 
 RET:
 	LOG("exit");

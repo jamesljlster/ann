@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 
 	if(argc > 1)
 	{
-		iResult = ann_import(&ann, argv[1]);
+		iResult = rnn_import(&ann, argv[1]);
 		if(iResult != ANN_NO_ERROR)
 		{
 			printf("Failed to import neural network\n");
@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 		for(i = 0; i < DATA_AMOUNT; i++)
 		{
 			// Forward computation
-			ann_forward_computation(ann, &dataset[i * (INPUTS + OUTPUTS)], outputList);
+			rnn_forward_computation(ann, &dataset[i * (INPUTS + OUTPUTS)], outputList);
 
 			// Find error
 			for(j = 0; j < OUTPUTS; j++)
@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
 		rnn_forward_computation_erase(ann);
 
 #ifdef DEBUG
-		ann_print(ann);
+		rnn_print(ann);
 		getchar();
 #endif
 
@@ -165,11 +165,11 @@ int main(int argc, char* argv[])
 
 	timeHold = clock() - timeHold;
 
-	ann_print(ann);
+	rnn_print(ann);
 
 	printf("\nTime cost: %lf secs\n\n", (double)timeHold / (double)CLOCKS_PER_SEC);
 
-	iResult = ann_export(ann, "./test.vgn");
+	iResult = rnn_export(ann, "./test.vgn");
 	if(iResult != ANN_NO_ERROR)
 	{
 		printf("ann_export() failed!\n");

@@ -3,6 +3,12 @@
 
 #include "ann_types.h"
 
+enum ANN_NETWORK_TYPE
+{
+	ANN_NETWORK_ANN,
+	ANN_NETWORK_RNN
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif

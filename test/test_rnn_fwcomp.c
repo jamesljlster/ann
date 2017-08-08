@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	iResult = ann_import(&ann, argv[1]);
+	iResult = rnn_import(&ann, argv[1]);
 	if(iResult != ANN_NO_ERROR)
 	{
 		printf("ann_import() failed with error: %d\n", iResult);

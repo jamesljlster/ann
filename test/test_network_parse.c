@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	iResult = ann_parse_network(&annStruct, &fStruct);
+	iResult = ann_parse_network(&annStruct, &fStruct, ANN_NETWORK_ANN);
 	if(iResult != ANN_NO_ERROR)
 	{
 		printf("ann_parse_network() failed with error: %d\n", iResult);
