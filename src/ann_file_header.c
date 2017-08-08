@@ -16,7 +16,8 @@ char* ann_file_header[] = {
 };
 
 char* ann_header_application[] = {
-	"Name=Visual Gene Developer - Neural Network"
+	"Name=Visual Gene Developer - Neural Network",
+	"Name=Recurrent Neural Network"
 };
 
 char* ann_header_topology[] = {

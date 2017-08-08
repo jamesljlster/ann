@@ -13,10 +13,10 @@ void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_fprint_training_info(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 
-void ann_fprint_header(FILE* fptr)
+void ann_fprint_header(FILE* fptr, int type)
 {
-	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_APPLICATION_MSG]);
-	fprintf(fptr, "%s\n", ann_header_application[0]);
+	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_APPLICATION]);
+	fprintf(fptr, "%s\n", ann_header_application[type]);
 	fprintf(fptr, "\n");
 }
 
