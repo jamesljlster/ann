@@ -26,7 +26,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	// Checking
 	layers = sptr->config.layers;
 	nodeList = sptr->config.nodeList;
-	if(layers < 2 || nodeList == NULL)
+	if(layers <= 2 || nodeList == NULL)
 	{
 		LOG("Checking failed");
 		retValue = ANN_INVALID_ARG;
