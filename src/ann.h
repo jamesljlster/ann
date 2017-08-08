@@ -714,6 +714,25 @@ void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, do
  *@{
  */
 
+int rnn_import(ann_t* annPtr, const char* filePath);
+/**
+ *	@fn		int rnn_import(ann_t* annPtr, const char* filePath);
+ *	@brief	Import recurrent neural network with given file path.
+ *	@param	annPtr:		Pointer of ann_t type variable.
+ *	@param	filePath:	Input file path of neural network file.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	1.0.0
+ */
+ 
+int rnn_export(ann_t ann, const char* filePath);
+/**
+ *	@fn		int rnn_export(ann_t ann, const char* filePath);
+ *	@brief	Export recurrent neural network with given file path.
+ *	@param	ann:		ann_t type variable.
+ *	@param	filePath:	Output file path of neural network file.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	1.0.0
+ */
 
 void rnn_forward_computation(ann_t ann, double* input, double* output);
 /**
@@ -722,7 +741,7 @@ void rnn_forward_computation(ann_t ann, double* input, double* output);
  *	@param	ann:	Target ann_t type variable.
  *	@param	input:	Input array.
  *	@param	output:	Array for storing outputs.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 void rnn_forward_computation_erase(ann_t ann);
@@ -730,7 +749,7 @@ void rnn_forward_computation_erase(ann_t ann);
  *	@fn		void rnn_forward_computation_erase(ann_t ann);
  *	@brief	Erase memory of recurrent neural network.
  *	@param	ann:	Target ann_t type variable.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 void rnn_bptt_erase(ann_t ann);
@@ -738,7 +757,7 @@ void rnn_bptt_erase(ann_t ann);
  *	@fn		void rnn_bptt_erase(ann_t ann);
  *	@brief	Erase memory of backpropagation through time.
  *	@param	ann:	Target ann_t type variable.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double gradLimit);
@@ -749,7 +768,7 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
  *	@param	learningRate:	Custom learning rate.
  *	@param	momentumCoef:	Custom momentum coefficient.
  *	@param	gradLimit:	Gradient limit for recurrent training.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 int rnn_bptt_sum_gradient(ann_t ann, double* dError);
@@ -774,7 +793,7 @@ int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, do
  *	@param	timeStep:	Time step of recurrent training.
  *	@param	gradLimit:	Gradient limit for recurrent training.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
@@ -791,7 +810,7 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
  *	@param	timeStep:	Time step of recurrent training.
  *	@param	gradLimit:	Gradient limit for recurrent training.
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
- *	@since	0.1.0
+ *	@since	1.0.0
  */
 
 /**
