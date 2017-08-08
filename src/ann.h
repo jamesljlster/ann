@@ -734,6 +734,14 @@ int rnn_export(ann_t ann, const char* filePath);
  *	@since	1.0.0
  */
 
+void rnn_print(ann_t ann);
+/**
+ *	@fn		void rnn_print(ann_t ann);
+ *	@brief	Print target recurrent neural network.
+ *	@param	ann:	Target ann_t type variable.
+ *	@since	1.0.0
+ */
+
 void rnn_forward_computation(ann_t ann, double* input, double* output);
 /**
  *	@fn		void rnn_forward_computation(ann_t ann, double* input, double* output);

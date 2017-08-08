@@ -13,6 +13,8 @@ void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_fprint_training_info(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 
+void ann_print_struct(ann_t ann, int type);
+
 void ann_fprint_header(FILE* fptr, int type)
 {
 	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_APPLICATION]);
@@ -22,13 +24,23 @@ void ann_fprint_header(FILE* fptr, int type)
 
 void ann_print(ann_t ann)
 {
+	ann_print_struct(ann, ANN_NETWORK_ANN);
+}
+
+void rnn_print(ann_t ann)
+{
+	ann_print_struct(ann, ANN_NETWORK_RNN);
+}
+
+void ann_print_struct(ann_t ann, int type)
+{
 	struct ANN_STRUCT* annRef = ann;
 
 	ann_fprint_config(stdout, &annRef->config);
 	ann_fprint_threshold(stdout, annRef);
 	ann_fprint_weight(stdout, annRef);
 
-	if(annRef->config.layers > 2)
+	if(type == ANN_NETWORK_RNN)
 	{
 		ann_fprint_recurrent_weight(stdout, annRef);
 	}
