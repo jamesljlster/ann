@@ -12,14 +12,14 @@ int main(int argc, char* argv[])
 	// Checking
 	if(argc <= 1)
 	{
-		printf("Assign a rnn model file to run the program\n");
+		printf("Assign a .vgn file to run the program\n");
 		return -1;
 	}
 
-	iResult = rnn_import(&ann, argv[1]);
+	iResult = ann_import(&ann, argv[1]);
 	if(iResult != ANN_NO_ERROR)
 	{
-		printf("rnn_import() failed with error: %d\n", iResult);
+		printf("ann_import() failed with error: %d\n", iResult);
 		return -1;
 	}
 
@@ -30,15 +30,15 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	iResult = rnn_export(annClone, "./test_rnn_clone.rnn");
+	iResult = ann_export(annClone, "./test_clone.vgn");
 	if(iResult != ANN_NO_ERROR)
 	{
-		printf("rnn_export() failed with error: %d\n", iResult);
+		printf("ann_export() failed with error: %d\n", iResult);
 		return -1;
 	}
 
-	printf("Cloned rnn:\n");
-	rnn_print(annClone);
+	printf("Cloned ann:\n");
+	ann_print(annClone);
 
 	ann_delete(annClone);
 	ann_delete(ann);
