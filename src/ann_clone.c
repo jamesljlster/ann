@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "ann.h"
 #include "ann_private.h"
@@ -97,6 +98,11 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 	int layers;
 	double tmp;
 
+	struct ANN_STRUCT* annRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+	struct ANN_LAYER* dstLayerRef;
+	struct ANN_LAYER* srcLayerRef;
+
 	ann_t ann = NULL;
 	ann_config_t srcCfg = NULL;
 
@@ -111,12 +117,44 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 		goto RET;
 	}
 
+	// Set reference
+	annRef = ann;
+	cfgRef = &annRef->config;
+	dstLayerRef = annRef->layerList;
+	srcLayerRef = ((struct ANN_STRUCT*)srcAnn)->layerList;
+
 	// Copy weight and threshold
+	for(i = 1; i < cfgRef->layers; i++)
+	{
+		for(j = 0; j < dstLayerRef[i].nodeCount; j++)
+		{
+			dstLayerRef[i].nodeList[j].threshold = srcLayerRef[i].nodeList[j].threshold;
+			memcpy(dstLayerRef[i].nodeList[j].weight,
+					srcLayerRef[i].nodeList[j].weight,
+					sizeof(double) * dstLayerRef[i - 1].nodeCount
+				  );
+		}
+	}
+
+	// Copy recurrent weight
+	if(cfgRef->layers > 2)
+	{
+		for(j = 0; j < dstLayerRef[1].nodeCount; j++)
+		{
+			memcpy(dstLayerRef[1].nodeList[j].rWeight,
+					srcLayerRef[1].nodeList[j].rWeight,
+					sizeof(double) * dstLayerRef[cfgRef->layers - 2].nodeCount
+				  );
+		}
+	}
+
+	/*
 	inputs = ann_config_get_inputs(srcCfg);
 	outputs = ann_config_get_outputs(srcCfg);
 	layers = ann_config_get_hidden_layers(srcCfg) + 2;
 	for(i = 1; i < layers; i++)
 	{
+		
 		if(i == layers - 1)
 		{
 			for(j = 0; j < outputs; j++)
@@ -157,6 +195,7 @@ int ann_clone(ann_t* dstAnnPtr, ann_t srcAnn)
 			}
 		}
 	}
+	*/
 
 	// Assign value
 	*dstAnnPtr = ann;
