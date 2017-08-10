@@ -13,14 +13,26 @@ void ann_fprint_topology(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_fprint_training_info(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 void ann_fprint_total_node(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr);
 
-void ann_fprint_header(FILE* fptr)
+void ann_print_struct(ann_t ann, int type);
+
+void ann_fprint_header(FILE* fptr, int type)
 {
-	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_APPLICATION_MSG]);
-	fprintf(fptr, "%s\n", ann_header_application[0]);
+	fprintf(fptr, "[%s]\n", ann_file_header[ANN_HEADER_APPLICATION]);
+	fprintf(fptr, "%s\n", ann_header_application[type]);
 	fprintf(fptr, "\n");
 }
 
 void ann_print(ann_t ann)
+{
+	ann_print_struct(ann, ANN_NETWORK_ANN);
+}
+
+void rnn_print(ann_t ann)
+{
+	ann_print_struct(ann, ANN_NETWORK_RNN);
+}
+
+void ann_print_struct(ann_t ann, int type)
 {
 	struct ANN_STRUCT* annRef = ann;
 
@@ -28,7 +40,7 @@ void ann_print(ann_t ann)
 	ann_fprint_threshold(stdout, annRef);
 	ann_fprint_weight(stdout, annRef);
 
-	if(annRef->config.layers > 2)
+	if(type == ANN_NETWORK_RNN)
 	{
 		ann_fprint_recurrent_weight(stdout, annRef);
 	}
@@ -90,6 +102,7 @@ void ann_fprint_recurrent_weight(FILE* fptr, struct ANN_STRUCT* asPtr)
 				fprintf(fptr, "%02d-%02d=%.32G\n", i + 1, j + 1, layerRef->nodeList[j].rWeight[i]);
 			}
 		}
+		fprintf(fptr, "\n");
 	}
 }
 
