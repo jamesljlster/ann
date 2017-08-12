@@ -53,9 +53,19 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 		rnn_forward_computation(ann, inputList[i], &outputStore[i * cfgRef->outputs]);
 
 		// Find error
-		for(j = 0; j < cfgRef->outputs; j++)
+		if(desireList[i] != NULL)
 		{
-			errorStore[i * cfgRef->outputs + j] = desireList[i][j] - outputStore[i * cfgRef->outputs + j];
+			for(j = 0; j < cfgRef->outputs; j++)
+			{
+				errorStore[i * cfgRef->outputs + j] = desireList[i][j] - outputStore[i * cfgRef->outputs + j];
+			}
+		}
+		else
+		{
+			for(j = 0; j < cfgRef->outputs; j++)
+			{
+				errorStore[i * cfgRef->outputs + j] = 0;
+			}
 		}
 
 		// Backpropagation
