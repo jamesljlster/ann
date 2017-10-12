@@ -132,7 +132,8 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 	}
 
 	ann_config_delete_struct(&structPtr->config);
-	structPtr->queueLen = 0;
+	structPtr->queueHead = 0;
+	structPtr->queueTail = 0;
 
 	LOG("exit");
 }
