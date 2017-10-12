@@ -761,6 +761,14 @@ void rnn_forward_computation_erase(ann_t ann);
  */
 
 int rnn_bptt_set_max_timestep(ann_t ann, int timeStep);
+/**
+ *	@fn		int rnn_bptt_set_max_timestep(ann_t ann, int timeStep);
+ *	@brief	Set maximum time step of rnn.
+ *	@param	ann:		Target ann_t type variable.
+ *	@param	timeStep:	Time step.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	1.0.0
+ */
 
 void rnn_bptt_erase(ann_t ann);
 /**
@@ -787,7 +795,6 @@ void rnn_bptt_sum_gradient(ann_t ann, double* dError);
  *	@brief	Summation gradients into neural nodes.
  *	@param	ann:	Target ann_t type variable.
  *	@param	dError:	Differential value of error value in cost function.
- *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	1.0.0
  */
 
