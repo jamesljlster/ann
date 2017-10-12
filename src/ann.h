@@ -760,6 +760,8 @@ void rnn_forward_computation_erase(ann_t ann);
  *	@since	1.0.0
  */
 
+int rnn_bptt_set_max_timestep(ann_t ann, int timeStep);
+
 void rnn_bptt_erase(ann_t ann);
 /**
  *	@fn		void rnn_bptt_erase(ann_t ann);
@@ -779,9 +781,9 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
  *	@since	1.0.0
  */
 
-int rnn_bptt_sum_gradient(ann_t ann, double* dError);
+void rnn_bptt_sum_gradient(ann_t ann, double* dError);
 /**
- *	@fn		int rnn_bptt_sum_gradient(ann_t ann, double* dError);
+ *	@fn		void rnn_bptt_sum_gradient(ann_t ann, double* dError);
  *	@brief	Summation gradients into neural nodes.
  *	@param	ann:	Target ann_t type variable.
  *	@param	dError:	Differential value of error value in cost function.

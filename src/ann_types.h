@@ -19,6 +19,7 @@ struct ANN_NODE
 	double deltaTh;			// Momentum of threshold
 
 	double delta;		// For bp calculation
+	double deltaHold;	// Gradient hold for bp calculation
 
 	double rHold;		// For recurrent forward computation.
 	double sCalc;
