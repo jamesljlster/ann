@@ -53,6 +53,7 @@ struct ANN_CONFIG_STRUCT
 struct ANN_STRUCT
 {
 	int queueLen;			// Recurrent queue length
+	int queueSize;			// Memory length of recurrent queue
     struct ANN_LAYER* layerList;
 
 	struct ANN_CONFIG_STRUCT config;
