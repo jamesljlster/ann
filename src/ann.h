@@ -6,8 +6,8 @@
 #ifndef __ANN_H__
 #define __ANN_H__
 
-/** 
- *	\~English 
+/**
+ *	\~English
  *		Return value definitions of ANN library.
  *
  *	\~Chinese-Traditional
@@ -99,7 +99,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	0.1.0
  */
- 
+
 int ann_config_export(ann_config_t config, const char* filePath);
 /**
  *	@fn		int ann_config_export(ann_config_t config, const char* filePath);
@@ -630,7 +630,7 @@ int ann_import(ann_t* annPtr, const char* filePath);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	0.1.0
  */
- 
+
 int ann_export(ann_t ann, const char* filePath);
 /**
  *	@fn		int ann_export(ann_t ann, const char* filePath);
@@ -723,7 +723,7 @@ int rnn_import(ann_t* annPtr, const char* filePath);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	1.0.0
  */
- 
+
 int rnn_export(ann_t ann, const char* filePath);
 /**
  *	@fn		int rnn_export(ann_t ann, const char* filePath);

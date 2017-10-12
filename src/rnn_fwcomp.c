@@ -60,7 +60,7 @@ void rnn_forward_computation(ann_t ann, double* input, double* output)
 	{
 		layerRef[indexTmp].nodeList[i].rHold = layerRef[indexTmp].nodeList[i].output;
 	}
-	
+
 	// Calculation
 	for(i = 1; i < cfgRef->layers; i++)
 	{

@@ -21,7 +21,7 @@ void rnn_bptt_erase(ann_t ann)
 
 	// Reset queue length
 	annRef->queueLen = 0;
-	
+
 	// Clear common delta
 	for(i = cfgRef->layers - 1; i > 0; i--)
 	{

@@ -85,7 +85,7 @@ ERR:
 
 RET:
 	ann_fstruct_delete(&fStruct);
-	
+
 	LOG("exit");
 
 	return retValue;
@@ -95,7 +95,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 {
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	struct ANN_FILE_STRUCT fStruct;
 	struct ANN_CONFIG_STRUCT* cfgRef = NULL;
 
@@ -103,7 +103,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 
 	// Zero memory
 	ann_fstruct_zeromem(&fStruct);
-	
+
 	// Create file struct
 	iResult = ann_fstruct_create(&fStruct, filePath);
 	if(iResult != ANN_NO_ERROR)

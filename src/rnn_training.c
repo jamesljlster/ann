@@ -24,7 +24,7 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 	int i, j;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	double* outputStore = NULL;
 	double* errorStore = NULL;
 
