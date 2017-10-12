@@ -131,6 +131,7 @@ int rnn_bptt_set_max_timestep(ann_t ann, int timeStep)
 {
 	int i, j;
 	int retValue = ANN_NO_ERROR;
+	int tmpSize;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
@@ -145,12 +146,15 @@ int rnn_bptt_set_max_timestep(ann_t ann, int timeStep)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
+	// Set queue memory size
+	tmpSize = timeStep + 1;
+
 	// Re-Allocate queue space
 	for(i = 0; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
-			tmpPtr = realloc(layerRef[i].nodeList[j].outputQueue, timeStep * sizeof(double));
+			tmpPtr = realloc(layerRef[i].nodeList[j].outputQueue, tmpSize * sizeof(double));
 			if(tmpPtr == NULL)
 			{
 				retValue = ANN_MEM_FAILED;
@@ -161,7 +165,7 @@ int rnn_bptt_set_max_timestep(ann_t ann, int timeStep)
 				layerRef[i].nodeList[j].outputQueue = tmpPtr;
 			}
 
-			tmpPtr = realloc(layerRef[i].nodeList[j].sCalcQueue, timeStep * sizeof(double));
+			tmpPtr = realloc(layerRef[i].nodeList[j].sCalcQueue, tmpSize * sizeof(double));
 			if(tmpPtr == NULL)
 			{
 				retValue = ANN_MEM_FAILED;
@@ -175,7 +179,7 @@ int rnn_bptt_set_max_timestep(ann_t ann, int timeStep)
 	}
 
 	// Set queue size
-	annRef->queueSize = timeStep;
+	annRef->queueSize = tmpSize;
 
 RET:
 	LOG("exit");
@@ -209,7 +213,7 @@ void rnn_bptt_sum_gradient(ann_t ann, double* dError)
 	}
 
 	// Find queue length
-	queueLen = annRef->queueHead - annRef->queueTail + 1;
+	queueLen = annRef->queueHead - annRef->queueTail;
 	if(queueLen <= 0)
 	{
 		queueLen = queueLen + annRef->queueSize;
@@ -246,7 +250,8 @@ void rnn_bptt_sum_gradient(ann_t ann, double* dError)
 	for(re = queueLen - 1; re >= 0; re--)
 	{
 		// Set queue index
-		queIndex = (re - annRef->queueTail + annRef->queueSize) % annRef->queueSize;
+		queIndex = (re + annRef->queueTail + 1) % annRef->queueSize;
+		quePreIndex = (re + annRef->queueTail) % annRef->queueSize;
 		if(re == queueLen - 1)
 		{
 			// Backpropagation form output layer
@@ -318,7 +323,6 @@ void rnn_bptt_sum_gradient(ann_t ann, double* dError)
 				}
 
 				// Find recurrent weight adjust amount
-				quePreIndex = (re - 1 - annRef->queueTail + annRef->queueSize) % annRef->queueSize;
 				if(i == 1 && re > 0)
 				{
 					indexTmp = cfgRef->layers - 2;
