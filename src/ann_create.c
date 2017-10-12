@@ -6,6 +6,8 @@
 
 #include "debug.h"
 
+#define DEFAULT_MAX_TIMESTEP	5
+
 int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...)
 {
 	int i;
@@ -182,6 +184,14 @@ int ann_create(ann_t* annPtr, ann_config_t config)
 
 	// Create nerwork
 	iResult = ann_allocate_network(annRef);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
+	}
+
+	// Set default max timestep
+	iResult = rnn_bptt_set_max_timestep(annRef, DEFAULT_MAX_TIMESTEP);
 	if(iResult != ANN_NO_ERROR)
 	{
 		retValue = iResult;
