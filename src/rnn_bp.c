@@ -201,28 +201,33 @@ void rnn_bptt_sum_gradient(ann_t ann, double* dError)
 	cfgRef = &annRef->config;
 
 	// Update bptt queue
+	if(annRef->queueLen >= annRef->queueSize)
+	{
+		for(i = 0; i < cfgRef->layers; i++)
+		{
+			for(j = 0; j < layerRef[i].nodeCount; j++)
+			{
+				// Shift queue element
+				memmove(layerRef[i].nodeList[j].outputQueue, layerRef[i].nodeList[j].outputQueue + 1, sizeof(double) * (annRef->queueSize - 1));
+				memmove(layerRef[i].nodeList[j].sCalcQueue, layerRef[i].nodeList[j].sCalcQueue + 1, sizeof(double) * (annRef->queueSize - 1));
+			}
+		}
+	}
+	else
+	{
+		// Update queue length
+		annRef->queueLen++;
+	}
+
+	// Set queue value
 	queueLen = annRef->queueLen;
 	for(i = 0; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
-			// Shift queue element
-			if(queueLen >= annRef->queueSize)
-			{
-				memmove(layerRef[i].nodeList[j].outputQueue, layerRef[i].nodeList[j].outputQueue + 1, sizeof(double) * annRef->queueSize - 1);
-				memmove(layerRef[i].nodeList[j].sCalcQueue, layerRef[i].nodeList[j].sCalcQueue + 1, sizeof(double) * annRef->queueSize - 1);
-			}
-
-			// Set queue value
-			layerRef[i].nodeList[j].outputQueue[queueLen] = layerRef[i].nodeList[j].output;
-			layerRef[i].nodeList[j].sCalcQueue[queueLen] = layerRef[i].nodeList[j].sCalc;
+			layerRef[i].nodeList[j].outputQueue[queueLen - 1] = layerRef[i].nodeList[j].output;
+			layerRef[i].nodeList[j].sCalcQueue[queueLen - 1] = layerRef[i].nodeList[j].sCalc;
 		}
-	}
-
-	// Update queue length
-	if(queueLen < annRef->queueSize)
-	{
-		annRef->queueLen++;
 	}
 
 	// Find network adjust delta: Output layer
@@ -243,9 +248,9 @@ void rnn_bptt_sum_gradient(ann_t ann, double* dError)
 	}
 
 	// Find delta: hidden layer
-	for(re = annRef->queueLen - 1; re >= 0; re--)
+	for(re = queueLen - 1; re >= 0; re--)
 	{
-		if(re == annRef->queueLen - 1)
+		if(re == queueLen - 1)
 		{
 			// Backpropagation form output layer
 			for(i = cfgRef->layers - 2; i > 0; i--)
