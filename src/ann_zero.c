@@ -46,7 +46,7 @@ void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr)
 	cfgPtr->outputs = 0;
 	cfgPtr->layers = 0;
 	cfgPtr->tFuncRoot = 0;
-	
+
 	cfgPtr->learningRate = 0;
 	cfgPtr->momentumCoef = 0;
 

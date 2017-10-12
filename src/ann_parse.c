@@ -105,7 +105,7 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 	int i, j;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	int layerIndex;
 	int nodeIndex;
 	double tmpValue;
@@ -117,9 +117,9 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 	int childStrCount = 0;
 
 	char* tmpPtr = NULL;
-	
+
 	LOG("enter");
-	
+
 	// Checking
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_THRESHOLD_VALUE]);
 	if(iResult != ANN_NO_ERROR)
@@ -213,7 +213,7 @@ int ann_parse_threshold(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 		free(childStrList);
 		childStrList = NULL;
 	}
-	
+
 RET:
 	if(strList != NULL)
 	{
@@ -234,7 +234,7 @@ RET:
 		}
 		free(childStrList);
 	}
-	
+
 	LOG("exit");
 	return retValue;
 }
@@ -244,7 +244,7 @@ int ann_parse_recurrent_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* 
 	int i, j;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	int preNodeIndex;
 	int nodeIndex;
 	double tmpValue;
@@ -256,9 +256,9 @@ int ann_parse_recurrent_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* 
 	int childStrCount = 0;
 
 	char* tmpPtr = NULL;
-	
+
 	LOG("enter");
-	
+
 	// Checking
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_RECURRENT_WEIGHT]);
 	if(iResult != ANN_NO_ERROR)
@@ -344,7 +344,7 @@ int ann_parse_recurrent_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* 
 		free(childStrList);
 		childStrList = NULL;
 	}
-	
+
 RET:
 	if(strList != NULL)
 	{
@@ -365,7 +365,7 @@ RET:
 		}
 		free(childStrList);
 	}
-	
+
 	LOG("exit");
 	return retValue;
 }
@@ -375,7 +375,7 @@ int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 	int i, j;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	int layerIndex;
 	int preNodeIndex;
 	int nodeIndex;
@@ -388,9 +388,9 @@ int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 	int childStrCount = 0;
 
 	char* tmpPtr = NULL;
-	
+
 	LOG("enter");
-	
+
 	// Checking
 	iResult = ann_strcmp(fbPtr->header, ann_file_header[ANN_HEADER_WEIGHT_FACTOR]);
 	if(iResult != ANN_NO_ERROR)
@@ -483,7 +483,7 @@ int ann_parse_weight(struct ANN_STRUCT* asPtr, struct ANN_FILE_BLOCK* fbPtr)
 		free(childStrList);
 		childStrList = NULL;
 	}
-	
+
 RET:
 	if(strList != NULL)
 	{
@@ -504,7 +504,7 @@ RET:
 		}
 		free(childStrList);
 	}
-	
+
 	LOG("exit");
 	return retValue;
 }
@@ -513,11 +513,11 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 {
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	struct ANN_CONFIG_STRUCT cfgTmp;
 
 	struct ANN_FILE_BLOCK* fbPtr = NULL;
-	
+
 	LOG("enter");
 
 	// Zero memory
@@ -539,7 +539,7 @@ int ann_parse_config(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_STRUCT* f
 			goto RET;
 		}
 	}
-	
+
 	// Parse Topology
 	iResult = ann_parse_config_topology(&cfgTmp, fbPtr);
 	if(iResult != ANN_NO_ERROR)
@@ -623,7 +623,7 @@ int ann_parse_config_tfunc(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLO
 	int i, j;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	int tmpIndex;
 	int tmpValue;
 
@@ -634,7 +634,7 @@ int ann_parse_config_tfunc(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLO
 	int strCount = 0;
 
 	char* tmpPtr = NULL;
-	
+
 	LOG("enter");
 
 	// Checking
@@ -674,7 +674,7 @@ int ann_parse_config_tfunc(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLO
 			retValue = ANN_SYNTAX_ERROR;
 			goto RET;
 		}
-		
+
 		// Parsing
 		tmpIndex = strtol(strList[0], &tmpPtr, 10);
 		if(tmpPtr == strList[0])
@@ -692,7 +692,7 @@ int ann_parse_config_tfunc(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLO
 
 		// Set transfer function
 		tFuncList[tmpIndex - 1] = tmpValue;
-		
+
 		// Cleanup
 		for(j = 0; j < strCount; j++)
 		{
@@ -704,7 +704,7 @@ int ann_parse_config_tfunc(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_BLO
 
 	// Assign values
 	cfgPtr->tFuncList = tFuncList;
-	
+
 	tFuncList = NULL;
 
 RET:
@@ -723,7 +723,7 @@ RET:
 		}
 		free(strList);
 	}
-	
+
 	LOG("exit");
 	return retValue;
 }
@@ -733,7 +733,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 	int i, j;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	int tmpIndex;
 	int tmpValue;
 
@@ -744,7 +744,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 	int strCount = 0;
 
 	char* tmpPtr = NULL;
-	
+
 	LOG("enter");
 
 	// Checking
@@ -784,7 +784,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 			retValue = ANN_SYNTAX_ERROR;
 			goto RET;
 		}
-		
+
 		// Parsing
 		tmpIndex = strtol(strList[0], &tmpPtr, 10);
 		if(tmpPtr == strList[0])
@@ -802,7 +802,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 
 		// Set node
 		nodeList[tmpIndex - 1] = tmpValue;
-		
+
 		// Cleanup
 		for(j = 0; j < strCount; j++)
 		{
@@ -827,7 +827,7 @@ int ann_parse_config_total_node(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FIL
 
 	// Assign values
 	cfgPtr->nodeList = nodeList;
-	
+
 	nodeList = NULL;
 
 RET:
@@ -846,7 +846,7 @@ RET:
 		}
 		free(strList);
 	}
-	
+
 	LOG("exit");
 	return retValue;
 }
@@ -857,14 +857,14 @@ int ann_parse_config_training_info(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_
 	int iResult;
 	int strID;
 	int retValue = ANN_NO_ERROR;
-	
+
 	double tmpValue;
 
 	char** strList = NULL;
 	int strCount = 0;
 
 	char* tmpPtr = NULL;
-	
+
 	LOG("enter");
 
 	// Checking
@@ -952,7 +952,7 @@ RET:
 		}
 		free(strList);
 	}
-	
+
 	LOG("exit");
 	return retValue;
 }
@@ -964,12 +964,12 @@ int ann_parse_config_topology(struct ANN_CONFIG_STRUCT* cfgPtr, struct ANN_FILE_
 	int strID;
 	int tmpValue;
 	int retValue = ANN_NO_ERROR;
-	
+
 	char** strList = NULL;
 	int strCount = 0;
 
 	char* tmpPtr = NULL;
-	
+
 	LOG("enter");
 
 	// Checking
@@ -1085,7 +1085,7 @@ RET:
 		}
 		free(strList);
 	}
-	
+
 	LOG("exit");
 	return retValue;
 }

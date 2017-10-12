@@ -19,6 +19,7 @@ struct ANN_NODE
 	double deltaTh;			// Momentum of threshold
 
 	double delta;		// For bp calculation
+	double deltaHold;	// Gradient hold for bp calculation
 
 	double rHold;		// For recurrent forward computation.
 	double sCalc;
@@ -38,11 +39,11 @@ struct ANN_CONFIG_STRUCT
 {
 	int inputs;
 	int outputs;
-	int layers;	
+	int layers;
 
 	int tFuncRoot;	// Transfer function root setting
 	int* tFuncList;	// Transfer function setting of each layers
-	
+
 	double learningRate;
 	double momentumCoef;
 
@@ -52,6 +53,7 @@ struct ANN_CONFIG_STRUCT
 struct ANN_STRUCT
 {
 	int queueLen;			// Recurrent queue length
+	int queueSize;			// Memory length of recurrent queue
     struct ANN_LAYER* layerList;
 
 	struct ANN_CONFIG_STRUCT config;

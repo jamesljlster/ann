@@ -16,7 +16,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	int tFuncRoot;
 	int* tFuncList;
-	
+
 	void* allocTmp = NULL;
 
 	struct ANN_LAYER* tmpLayer = NULL;
@@ -61,7 +61,7 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 				retValue = ANN_INFO_NOT_FOUND;
 				goto ERR;
 			}
-			
+
 			// Check transfer function setting
 			if(tFuncList[i] < 0 || tFuncList[i] >= ANN_TFUNC_AMOUNT)
 			{

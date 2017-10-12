@@ -81,6 +81,14 @@ int main(int argc, char* argv[])
 		ann_rand_threshold(ann);
 	}
 
+	// Set time step
+	iResult = rnn_bptt_set_max_timestep(ann, DATA_AMOUNT);
+	if(iResult != ANN_NO_ERROR)
+	{
+		printf("rnn_set_max_timestep() failed with error: %d\n", iResult);
+		return -1;
+	}
+
 	// Training
 	timeHold = 0;
 	iterCount = 0;
@@ -118,12 +126,7 @@ int main(int argc, char* argv[])
 #endif
 
 			// Backpropagation
-			iResult = rnn_bptt_sum_gradient(ann, err);
-			if(iResult != ANN_NO_ERROR)
-			{
-				printf("rnn_bptt_sum_delta() failed with error: %d\n", iResult);
-				return -1;
-			}
+			rnn_bptt_sum_gradient(ann, err);
 
 			// Find iteration error
 			for(j = 0; j < OUTPUTS; j++)

@@ -6,8 +6,8 @@
 #ifndef __ANN_H__
 #define __ANN_H__
 
-/** 
- *	\~English 
+/**
+ *	\~English
  *		Return value definitions of ANN library.
  *
  *	\~Chinese-Traditional
@@ -99,7 +99,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	0.1.0
  */
- 
+
 int ann_config_export(ann_config_t config, const char* filePath);
 /**
  *	@fn		int ann_config_export(ann_config_t config, const char* filePath);
@@ -630,7 +630,7 @@ int ann_import(ann_t* annPtr, const char* filePath);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	0.1.0
  */
- 
+
 int ann_export(ann_t ann, const char* filePath);
 /**
  *	@fn		int ann_export(ann_t ann, const char* filePath);
@@ -723,7 +723,7 @@ int rnn_import(ann_t* annPtr, const char* filePath);
  *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	1.0.0
  */
- 
+
 int rnn_export(ann_t ann, const char* filePath);
 /**
  *	@fn		int rnn_export(ann_t ann, const char* filePath);
@@ -760,6 +760,16 @@ void rnn_forward_computation_erase(ann_t ann);
  *	@since	1.0.0
  */
 
+int rnn_bptt_set_max_timestep(ann_t ann, int timeStep);
+/**
+ *	@fn		int rnn_bptt_set_max_timestep(ann_t ann, int timeStep);
+ *	@brief	Set maximum time step of rnn.
+ *	@param	ann:		Target ann_t type variable.
+ *	@param	timeStep:	Time step.
+ *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
+ *	@since	1.0.0
+ */
+
 void rnn_bptt_erase(ann_t ann);
 /**
  *	@fn		void rnn_bptt_erase(ann_t ann);
@@ -779,13 +789,12 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
  *	@since	1.0.0
  */
 
-int rnn_bptt_sum_gradient(ann_t ann, double* dError);
+void rnn_bptt_sum_gradient(ann_t ann, double* dError);
 /**
- *	@fn		int rnn_bptt_sum_gradient(ann_t ann, double* dError);
+ *	@fn		void rnn_bptt_sum_gradient(ann_t ann, double* dError);
  *	@brief	Summation gradients into neural nodes.
  *	@param	ann:	Target ann_t type variable.
  *	@param	dError:	Differential value of error value in cost function.
- *	@return	Return value could be describe by #ANN_RETUEN_VALUE.
  *	@since	1.0.0
  */
 

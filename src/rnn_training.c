@@ -24,7 +24,7 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 	int i, j;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	double* outputStore = NULL;
 	double* errorStore = NULL;
 
@@ -43,6 +43,14 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 	if(outputStore == NULL || errorStore == NULL)
 	{
 		retValue = ANN_MEM_FAILED;
+		goto RET;
+	}
+
+	// Set max time step
+	iResult = rnn_bptt_set_max_timestep(ann, timeStep);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
 		goto RET;
 	}
 
@@ -69,12 +77,7 @@ int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentum
 		}
 
 		// Backpropagation
-		iResult = rnn_bptt_sum_gradient(ann, &errorStore[i * cfgRef->outputs]);
-		if(iResult != ANN_NO_ERROR)
-		{
-			retValue = iResult;
-			goto RET;
-		}
+		rnn_bptt_sum_gradient(ann, &errorStore[i * cfgRef->outputs]);
 	}
 
 	// Adjust network

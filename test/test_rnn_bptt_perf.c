@@ -66,14 +66,12 @@ int main(int argc, char* argv[])
 	}
 
 	// Set time step
-	/*
 	iResult = rnn_bptt_set_max_timestep(ann, 1);
 	if(iResult != ANN_NO_ERROR)
 	{
 		printf("rnn_set_max_timestep() failed with error: %d\n", iResult);
 		return -1;
 	}
-	*/
 
 	// Test performance
 	timeHold = clock();

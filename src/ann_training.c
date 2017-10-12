@@ -10,7 +10,7 @@ int ann_training_gradient_custom(ann_t ann, double learningRate, double momentum
 {
 	int i;
 	int retValue = ANN_NO_ERROR;
-	
+
 	double* outputStore = NULL;
 	double* errorStore = NULL;
 
@@ -65,7 +65,7 @@ int ann_training_gradient(ann_t ann, double* input, double* desire, double* outp
 {
 	int i;
 	int retValue = ANN_NO_ERROR;
-	
+
 	double* outputStore = NULL;
 	double* errorStore = NULL;
 
