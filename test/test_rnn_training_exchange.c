@@ -172,7 +172,7 @@ int main(int argc, char* argv[])
 		printf("Iter. %5d, mse: %lf\n", iterCount, mse);
 
 		// Adjust netwrok
-		rnn_bptt_adjust_network(ann, 0.1, 0.0, DELTA_LIMIT);
+		rnn_bptt_adjust_network(ann, L_RATE, M_COEF, DELTA_LIMIT);
 
 		// Erase rnn
 		rnn_bptt_erase(ann);

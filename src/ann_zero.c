@@ -36,7 +36,8 @@ void ann_clear_momentum(ann_t ann)
 void ann_zeromem(struct ANN_STRUCT* asPtr)
 {
 	asPtr->layerList = NULL;
-	asPtr->queueLen = 0;
+	asPtr->queueHead = 0;
+	asPtr->queueTail = 0;
 	ann_config_zeromem(&asPtr->config);
 }
 
@@ -52,6 +53,13 @@ void ann_config_zeromem(struct ANN_CONFIG_STRUCT* cfgPtr)
 
 	cfgPtr->tFuncList = NULL;
 	cfgPtr->nodeList = NULL;
+}
+
+void ann_zero_network(ann_t ann)
+{
+	ann_zero_weight(ann);
+	ann_zero_threshold(ann);
+	rnn_zero_recurrent_weight(ann);
 }
 
 void ann_zero_weight(ann_t ann)

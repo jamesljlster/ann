@@ -18,6 +18,13 @@ double ann_rand()
 	return (double)(rand() % randRange) / (double)(NUM_PRECISION) + (double)NUM_MIN;
 }
 
+void ann_rand_network(ann_t ann)
+{
+	ann_rand_weight(ann);
+	ann_rand_threshold(ann);
+	rnn_rand_recurrent_weight(ann);
+}
+
 void ann_rand_weight(ann_t ann)
 {
 	int i, j, k;
