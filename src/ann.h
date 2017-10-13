@@ -540,6 +540,14 @@ int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, double 
  *	@since	1.0.0
  */
 
+void ann_zero_network(ann_t ann);
+/**
+ * 	@fn		void ann_zero_network(ann_t ann);
+ * 	@brief	Set all weight and threshold value to zero in neural network.
+ * 	@param	ann:	Target ann_t type variable.
+ * 	@since	1.0.0
+ */
+
 void ann_zero_threshold(ann_t ann);
 /**
  *	@fn		void ann_zero_threshold(ann_t ann);
@@ -560,6 +568,14 @@ void rnn_zero_recurrent_weight(ann_t ann);
 /**
  *	@fn		void rnn_zero_recurrent_weight(ann_t ann);
  *	@brief	Zero all recurrent weight in neural netwrok.
+ *	@param	ann:	Target ann_t type variable.
+ *	@since	1.0.0
+ */
+
+void ann_rand_network(ann_t ann);
+/**
+ *	@fn		void ann_rand_network(ann_t ann);
+ *	@brief	Random all weight and threshold in neural network.
  *	@param	ann:	Target ann_t type variable.
  *	@since	1.0.0
  */
