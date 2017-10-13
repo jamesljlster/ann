@@ -141,6 +141,13 @@ int rnn_bptt_set_max_timestep(ann_t ann, int timeStep)
 
 	LOG("enter");
 
+	// Checking
+	if(timeStep <= 0)
+	{
+		retValue = ANN_INVALID_ARG;
+		goto RET;
+	}
+
 	// Get reference
 	annRef = ann;
 	layerRef = annRef->layerList;
