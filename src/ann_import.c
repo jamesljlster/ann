@@ -74,6 +74,14 @@ int ann_import_struct(ann_t* annPtr, const char* filePath, int type)
 		goto ERR;
 	}
 
+	// Set default max timestep
+	iResult = rnn_bptt_set_max_timestep(annRef, DEFAULT_MAX_TIMESTEP);
+	if(iResult != ANN_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
+	}
+
 	// Assign value
 	*annPtr = annRef;
 

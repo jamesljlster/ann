@@ -6,8 +6,6 @@
 
 #include "debug.h"
 
-#define DEFAULT_MAX_TIMESTEP	5
-
 int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...)
 {
 	int i;
