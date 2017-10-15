@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "ann.h"
 #include "ann_private.h"
@@ -20,8 +21,9 @@ void rnn_bptt_erase(ann_t ann)
 	cfgRef = &annRef->config;
 
 	// Reset queue length
-	annRef->queueLen = 0;
-	
+	annRef->queueHead = 0;
+	annRef->queueTail = 0;
+
 	// Clear common delta
 	for(i = cfgRef->layers - 1; i > 0; i--)
 	{
@@ -125,19 +127,82 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
 	LOG("exit");
 }
 
-int rnn_bptt_sum_gradient(ann_t ann, double* dError)
+int rnn_bptt_set_max_timestep(ann_t ann, int timeStep)
+{
+	int i, j;
+	int retValue = ANN_NO_ERROR;
+	int tmpSize;
+
+	struct ANN_STRUCT* annRef;
+	struct ANN_LAYER* layerRef;
+	struct ANN_CONFIG_STRUCT* cfgRef;
+
+	double* tmpPtr = NULL;
+
+	LOG("enter");
+
+	// Checking
+	if(timeStep <= 0)
+	{
+		retValue = ANN_INVALID_ARG;
+		goto RET;
+	}
+
+	// Get reference
+	annRef = ann;
+	layerRef = annRef->layerList;
+	cfgRef = &annRef->config;
+
+	// Set queue memory size
+	tmpSize = timeStep + 1;
+
+	// Re-Allocate queue space
+	for(i = 0; i < cfgRef->layers; i++)
+	{
+		for(j = 0; j < layerRef[i].nodeCount; j++)
+		{
+			tmpPtr = realloc(layerRef[i].nodeList[j].outputQueue, tmpSize * sizeof(double));
+			if(tmpPtr == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto RET;
+			}
+			else
+			{
+				layerRef[i].nodeList[j].outputQueue = tmpPtr;
+			}
+
+			tmpPtr = realloc(layerRef[i].nodeList[j].sCalcQueue, tmpSize * sizeof(double));
+			if(tmpPtr == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto RET;
+			}
+			else
+			{
+				layerRef[i].nodeList[j].sCalcQueue = tmpPtr;
+			}
+		}
+	}
+
+	// Set queue size
+	annRef->queueSize = tmpSize;
+
+RET:
+	LOG("exit");
+	return retValue;
+}
+
+void rnn_bptt_sum_gradient(ann_t ann, double* dError)
 {
 	int i, j, k, re;
-	int retValue = ANN_NO_ERROR;
-	int indexTmp;
+	int indexTmp, queIndex, quePreIndex;
 	double calcTmp;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
 
-	double* deltaHold = NULL;
-	double* tmpPtr = NULL;
 	int queueLen = 0;
 
 	LOG("enter");
@@ -147,49 +212,29 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 	layerRef = annRef->layerList;
 	cfgRef = &annRef->config;
 
-	// Allocate delta hold list
-	LOG("Allocate delta hold list");
-	deltaHold = calloc(layerRef[1].nodeCount, sizeof(double));
-	if(deltaHold == NULL)
+	// Update bptt queue
+	annRef->queueHead = (annRef->queueHead + 1) % annRef->queueSize;
+	if(annRef->queueHead == annRef->queueTail)
 	{
-		retValue = ANN_MEM_FAILED;
-		goto RET;
+		annRef->queueTail = (annRef->queueTail + 1) % annRef->queueSize;
 	}
 
-	// Re-Allocate queue space
-	queueLen = annRef->queueLen;
+	// Find queue length
+	queueLen = annRef->queueHead - annRef->queueTail;
+	if(queueLen <= 0)
+	{
+		queueLen = queueLen + annRef->queueSize;
+	}
+
+	// Set queue value
 	for(i = 0; i < cfgRef->layers; i++)
 	{
 		for(j = 0; j < layerRef[i].nodeCount; j++)
 		{
-			tmpPtr = realloc(layerRef[i].nodeList[j].outputQueue, (queueLen + 1) * sizeof(double));
-			if(tmpPtr == NULL)
-			{
-				retValue = ANN_MEM_FAILED;
-				goto RET;
-			}
-			else
-			{
-				tmpPtr[queueLen] = layerRef[i].nodeList[j].output;
-				layerRef[i].nodeList[j].outputQueue = tmpPtr;
-			}
-
-			tmpPtr = realloc(layerRef[i].nodeList[j].sCalcQueue, (queueLen + 1) * sizeof(double));
-			if(tmpPtr == NULL)
-			{
-				retValue = ANN_MEM_FAILED;
-				goto RET;
-			}
-			else
-			{
-				tmpPtr[queueLen] = layerRef[i].nodeList[j].sCalc;
-				layerRef[i].nodeList[j].sCalcQueue = tmpPtr;
-			}
+			layerRef[i].nodeList[j].outputQueue[annRef->queueHead] = layerRef[i].nodeList[j].output;
+			layerRef[i].nodeList[j].sCalcQueue[annRef->queueHead] = layerRef[i].nodeList[j].sCalc;
 		}
 	}
-
-	// Update queue length
-	annRef->queueLen++;
 
 	// Find network adjust delta: Output layer
 	indexTmp = cfgRef->layers - 1;
@@ -209,9 +254,12 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 	}
 
 	// Find delta: hidden layer
-	for(re = annRef->queueLen - 1; re >= 0; re--)
+	for(re = queueLen - 1; re >= 0; re--)
 	{
-		if(re == annRef->queueLen - 1)
+		// Set queue index
+		queIndex = (re + annRef->queueTail + 1) % annRef->queueSize;
+		quePreIndex = (re + annRef->queueTail) % annRef->queueSize;
+		if(re == queueLen - 1)
 		{
 			// Backpropagation form output layer
 			for(i = cfgRef->layers - 2; i > 0; i--)
@@ -223,7 +271,7 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 					{
 						calcTmp += layerRef[i + 1].nodeList[k].delta * layerRef[i + 1].nodeList[k].weight[j];
 					}
-					layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[re]);
+					layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[queIndex]);
 				}
 			}
 
@@ -233,7 +281,8 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 			// Backup recurrent delta
 			for(j = 0; j < layerRef[1].nodeCount; j++)
 			{
-				deltaHold[j] = layerRef[1].nodeList[j].delta;
+				layerRef[1].nodeList[j].deltaHold = layerRef[1].nodeList[j].delta;
+				//deltaHold[j] = layerRef[1].nodeList[j].delta;
 			}
 
 			// Backpropagation form recurrent factor
@@ -247,9 +296,10 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 						calcTmp = 0;
 						for(k = 0; k < layerRef[1].nodeCount; k++)
 						{
-							calcTmp += deltaHold[k] * layerRef[1].nodeList[k].rWeight[j];
+							calcTmp += layerRef[1].nodeList[k].deltaHold * layerRef[1].nodeList[k].rWeight[j];
+							//calcTmp += deltaHold[k] * layerRef[1].nodeList[k].rWeight[j];
 						}
-						layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[re]);
+						layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[queIndex]);
 					}
 					else
 					{
@@ -259,7 +309,7 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 						{
 							calcTmp += layerRef[i + 1].nodeList[k].delta * layerRef[i + 1].nodeList[k].weight[j];
 						}
-						layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[re]);
+						layerRef[i].nodeList[j].delta = calcTmp * layerRef[i].dActiveFunc(layerRef[i].nodeList[j].sCalcQueue[queIndex]);
 					}
 				}
 			}
@@ -276,7 +326,7 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 				// Find weight adjust amount
 				for(k = 0; k < layerRef[i - 1].nodeCount; k++)
 				{
-					layerRef[i].nodeList[j].weightDelta[k] += layerRef[i].nodeList[j].delta * layerRef[i - 1].nodeList[k].outputQueue[re];
+					layerRef[i].nodeList[j].weightDelta[k] += layerRef[i].nodeList[j].delta * layerRef[i - 1].nodeList[k].outputQueue[queIndex];
 				}
 
 				// Find recurrent weight adjust amount
@@ -285,19 +335,13 @@ int rnn_bptt_sum_gradient(ann_t ann, double* dError)
 					indexTmp = cfgRef->layers - 2;
 					for(k = 0; k < layerRef[indexTmp].nodeCount; k++)
 					{
-						layerRef[i].nodeList[j].rWeightDelta[k] += layerRef[i].nodeList[j].delta * layerRef[indexTmp].nodeList[k].outputQueue[re - 1];
+						layerRef[i].nodeList[j].rWeightDelta[k] += layerRef[i].nodeList[j].delta * layerRef[indexTmp].nodeList[k].outputQueue[quePreIndex];
 					}
 				}
 			}
 		}
 	}
 
-RET:
-	// Cleanup
-	if(deltaHold != NULL)
-		free(deltaHold);
-
 	LOG("exit");
-	return retValue;
 }
 

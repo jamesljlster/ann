@@ -18,14 +18,14 @@ int ann_str_extract(char*** strListPtr, int* strCountPtr, char* src, char sepCh)
 	int finish;
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	char** strList = NULL;
 	int strCount = 0;
 
 	void* allocTmp = NULL;
 
 	struct ANN_STR tmpStr;
-	
+
 	LOG("enter");
 
 	// Zero memory
@@ -82,10 +82,10 @@ int ann_str_extract(char*** strListPtr, int* strCountPtr, char* src, char sepCh)
 	// Assign values
 	*strListPtr = strList;
 	*strCountPtr = strCount;
-	
+
 	goto RET;
 
-ERR:	
+ERR:
 	if(strList != NULL)
 	{
 		for(procIndex = 0; procIndex < strCount; procIndex++)
@@ -108,7 +108,7 @@ struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int h
 {
 	int i;
 	struct ANN_FILE_BLOCK* fptr = NULL;
-	
+
 	LOG("enter");
 
 	for(i = 0; i < fStructPtr->blockCount; i++)
@@ -119,7 +119,7 @@ struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int h
 			break;
 		}
 	}
-	
+
 	LOG("exit");
 
 	return fptr;
@@ -160,9 +160,9 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 	struct ANN_STR tmpStr;
 	struct ANN_FILE_BLOCK tmpBlock;
 	struct ANN_FILE_STRUCT tmpStruct;
-	
+
 	struct ANN_FILE_BLOCK* tmpBlockPtr = NULL;
-	
+
 	FILE* fileRead = NULL;
 
 	LOG("enter");
@@ -171,7 +171,7 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 	ann_str_zeromem(&tmpStr);
 	ann_fstruct_zeromem(&tmpStruct);
 	ann_fblock_zeromem(&tmpBlock);
-	
+
 	// Open file
 	fileRead = fopen(filePath, "rb");
 	if(fileRead == NULL)
@@ -270,7 +270,7 @@ int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 
 	// Assign value
 	*fStructPtr = tmpStruct;
-	
+
 	goto RET;
 
 ERR:
@@ -282,7 +282,7 @@ RET:
 
 	if(fileRead != NULL)
 		fclose(fileRead);
-	
+
 	LOG("exit");
 	return retValue;
 }
@@ -331,7 +331,7 @@ void ann_fblock_zeromem(struct ANN_FILE_BLOCK* fBlockPtr)
 void ann_fblock_delete(struct ANN_FILE_BLOCK* fBlockPtr)
 {
 	int i;
-	
+
 	LOG("enter");
 
 	if(fBlockPtr->strList != NULL)
@@ -408,7 +408,7 @@ int ann_fstruct_append(struct ANN_FILE_STRUCT* dst, struct ANN_FILE_BLOCK* src)
 		src->strCount = 0;
 		src->strList = NULL;
 	}
-	
+
 	LOG("exit");
 	return ANN_NO_ERROR;
 }
@@ -443,7 +443,7 @@ int ann_is_sigchar(char ch)
 
 	if(ch >= ASCII_MIN_SIG && ch <= ASCII_MAX_SIG)
 		retValue = 1;
-	
+
 	LOG("exit");
 
 	return retValue;
@@ -498,7 +498,7 @@ int ann_str_append(struct ANN_STR* strPtr, char ch)
 	void* allocTmp = NULL;
 
 	LOG("enter");
-	
+
 	allocTmp = realloc(strPtr->str, sizeof(char) * (strPtr->size + 1));
 	if(allocTmp == NULL)
 	{

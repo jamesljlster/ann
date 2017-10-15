@@ -24,14 +24,14 @@ void ann_set_momentum_coef(ann_t ann, double momentumCoef)
 void ann_config_set_learning_rate(ann_config_t config, double learningRate)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-	
+
 	cfgRef->learningRate = learningRate;
 }
 
 void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-	
+
 	cfgRef->momentumCoef = momentumCoef;
 }
 
@@ -43,9 +43,9 @@ int ann_config_set_inputs(ann_config_t config, int inputs)
 	{
 		return ANN_INVALID_ARG;
 	}
-	
+
 	cfgRef->inputs = inputs;
-	
+
 	if(cfgRef->nodeList != NULL)
 	{
 		cfgRef->nodeList[0] = inputs;
@@ -62,7 +62,7 @@ int ann_config_set_outputs(ann_config_t config, int outputs)
 	{
 		return ANN_INVALID_ARG;
 	}
-	
+
 	cfgRef->outputs = outputs;
 
 	if(cfgRef->nodeList != NULL)
@@ -83,7 +83,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	int* tmpTFuncList = NULL;
 
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-	
+
 	LOG("enter");
 
 	// Checking
@@ -94,7 +94,7 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	}
 
 	tmpLayerCount = hiddenLayers + 2;
-	
+
 	// Memory allocation: Temp node list
 	tmpList = calloc(tmpLayerCount, sizeof(int));
 	if(tmpList == NULL)
@@ -194,7 +194,7 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 	{
 		return ANN_INVALID_ARG;
 	}
-	
+
 	cfgRef->tFuncRoot = tFuncIndex;
 
 	return ANN_NO_ERROR;
@@ -277,7 +277,7 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 
 	if(layerIndex >= sptr->config.layers || layerIndex <= 0)
 		return ANN_OUT_OF_RANGE;
-	
+
 	preLayerRef = &sptr->layerList[layerIndex - 1];
 	layerRef = &sptr->layerList[layerIndex];
 
@@ -326,10 +326,10 @@ int ann_set_threshold_struct(struct ANN_STRUCT* sptr, int layerIndex, int nodeIn
 
 	// Checking
 	assert(sptr->layerList != NULL);
-	
+
 	if(layerIndex >= sptr->config.layers || layerIndex < 0)
 		return ANN_OUT_OF_RANGE;
-	
+
 	layerRef = &sptr->layerList[layerIndex];
 
 	if(nodeIndex < 0 || nodeIndex >= layerRef->nodeCount)

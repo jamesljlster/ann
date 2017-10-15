@@ -8,7 +8,7 @@
 void ann_config_delete(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgPtr = config;
-	
+
 	LOG("enter");
 
 	if(config != NULL)
@@ -50,13 +50,13 @@ void ann_delete_node(struct ANN_NODE* nodePtr)
 		free(nodePtr->weight);
 		nodePtr->weight = NULL;
 	}
-	
+
 	if(nodePtr->weightDelta != NULL)
 	{
 		free(nodePtr->weightDelta);
 		nodePtr->weightDelta = NULL;
 	}
-	
+
 	if(nodePtr->deltaW != NULL)
 	{
 		free(nodePtr->deltaW);
@@ -130,9 +130,10 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 		free(structPtr->layerList);
 		structPtr->layerList = NULL;
 	}
-	
+
 	ann_config_delete_struct(&structPtr->config);
-	structPtr->queueLen = 0;
+	structPtr->queueHead = 0;
+	structPtr->queueTail = 0;
 
 	LOG("exit");
 }
@@ -140,7 +141,7 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 void ann_delete(ann_t ann)
 {
 	struct ANN_STRUCT* annRef = ann;
-	
+
 	LOG("enter");
 
 	if(annRef != NULL)

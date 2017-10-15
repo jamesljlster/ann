@@ -132,7 +132,7 @@ int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex)
 	assert(cfgRef->nodeList != NULL);
 
 	layerIndex = hiddenLayerIndex + 1;
-	
+
 	assert(layerIndex > 0 && layerIndex < cfgRef->layers - 1);
 
 	return cfgRef->nodeList[layerIndex];
@@ -188,14 +188,14 @@ double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex
 	struct ANN_LAYER* preLayer;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
-	
+
 	annRef = ann;
 	cfgRef = &annRef->config;
 
 	// Checking
 	assert(annRef->layerList != NULL);
 	assert(layerIndex > 0 && layerIndex < cfgRef->layers);
-	
+
 	preLayer = &annRef->layerList[layerIndex - 1];
 	layerRef = &annRef->layerList[layerIndex];
 
@@ -211,18 +211,18 @@ double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex)
 	struct ANN_LAYER* preLayer;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
-	
+
 	annRef = ann;
 	cfgRef = &annRef->config;
 
 	// Checking
 	assert(annRef->layerList != NULL);
 	assert(cfgRef->layers > 2);
-	
+
 	// Set layer reference
 	preLayer = &annRef->layerList[cfgRef->layers - 2];
 	layerRef = &annRef->layerList[1];
-	
+
 	assert(preNodeIndex >= 0 && preNodeIndex < preLayer->nodeCount);
 	assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
 	assert(layerRef->nodeList[nodeIndex].rWeight != NULL);
@@ -235,14 +235,14 @@ double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex)
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
-	
+
 	annRef = ann;
 	cfgRef = &annRef->config;
 
 	// Checking
 	assert(annRef->layerList != NULL);
 	assert(layerIndex >= 0 && layerIndex < cfgRef->layers);
-	
+
 	layerRef = &annRef->layerList[layerIndex];
 
 	assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);

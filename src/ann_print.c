@@ -49,7 +49,7 @@ void ann_print_struct(ann_t ann, int type)
 void ann_config_print(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = (struct ANN_CONFIG_STRUCT*)config;
-	
+
 	ann_fprint_config(stdout, cfgRef);
 }
 
@@ -119,9 +119,9 @@ void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
 		for(j = 0; j < asPtr->layerList[i].nodeCount; j++)
 		{
 			fprintf(fptr, "%02d-%02d=%.32G\n", i + 1, j + 1, asPtr->layerList[i].nodeList[j].threshold);
-		}	
+		}
 	}
-	fprintf(fptr, "\n"); 
+	fprintf(fptr, "\n");
 
 	LOG("exit");
 }
@@ -129,7 +129,7 @@ void ann_fprint_threshold(FILE* fptr, struct ANN_STRUCT* asPtr)
 void ann_fprint_config(FILE* fptr, struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	LOG("enter");
-	
+
 	ann_fprint_topology(fptr, cfgPtr);
 
 	if(cfgPtr->tFuncRoot == ANN_TFUNC_MULTIPLE)

@@ -8,13 +8,13 @@
 void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError)
 {
 	int i, j, k;
-	
+
 	double calcTmp;
 
 	struct ANN_STRUCT* annRef;
 	struct ANN_LAYER* layerRef;
 	struct ANN_CONFIG_STRUCT* cfgRef;
-	
+
 	LOG("enter");
 
 	// Get reference

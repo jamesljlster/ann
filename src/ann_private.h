@@ -3,6 +3,8 @@
 
 #include "ann_types.h"
 
+#define DEFAULT_MAX_TIMESTEP	5
+
 enum ANN_NETWORK_TYPE
 {
 	ANN_NETWORK_ANN,

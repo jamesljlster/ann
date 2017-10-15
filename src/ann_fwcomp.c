@@ -25,7 +25,7 @@ void ann_forward_computation(ann_t ann, double* input, double* output)
 	{
 		layerRef[0].nodeList[i].output = layerRef[0].activeFunc(input[i]);
 	}
-	
+
 	// Calculation
 	for(i = 1; i < cfgRef->layers; i++)
 	{
