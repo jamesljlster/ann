@@ -24,14 +24,14 @@ void ann_set_momentum_coef(ann_t ann, double momentumCoef)
 void ann_config_set_learning_rate(ann_config_t config, double learningRate)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-	
+
 	cfgRef->learningRate = learningRate;
 }
 
 void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef)
 {
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-	
+
 	cfgRef->momentumCoef = momentumCoef;
 }
 
@@ -43,9 +43,9 @@ int ann_config_set_inputs(ann_config_t config, int inputs)
 	{
 		return ANN_INVALID_ARG;
 	}
-	
+
 	cfgRef->inputs = inputs;
-	
+
 	if(cfgRef->nodeList != NULL)
 	{
 		cfgRef->nodeList[0] = inputs;
@@ -62,7 +62,7 @@ int ann_config_set_outputs(ann_config_t config, int outputs)
 	{
 		return ANN_INVALID_ARG;
 	}
-	
+
 	cfgRef->outputs = outputs;
 
 	if(cfgRef->nodeList != NULL)
@@ -80,9 +80,10 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	int tmpLayerCount;
 	int preLayerCount;
 	int* tmpList = NULL;
+	int* tmpTFuncList = NULL;
 
 	struct ANN_CONFIG_STRUCT* cfgRef = config;
-	
+
 	LOG("enter");
 
 	// Checking
@@ -93,8 +94,8 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 	}
 
 	tmpLayerCount = hiddenLayers + 2;
-	
-	// Memory allocation
+
+	// Memory allocation: Temp node list
 	tmpList = calloc(tmpLayerCount, sizeof(int));
 	if(tmpList == NULL)
 	{
@@ -107,21 +108,58 @@ int ann_config_set_hidden_layers(ann_config_t config, int hiddenLayers)
 		tmpList[tmpLayerCount - 1] = cfgRef->outputs;
 
 		for(i = 1; i < tmpLayerCount - 1; i++)
+		{
 			tmpList[i] = INIT_NODES;
+		}
 	}
 
+	// Copy old node setting
 	if(cfgRef->nodeList != NULL)
 	{
 		preLayerCount = cfgRef->layers;
 
 		for(i = 1; i < preLayerCount - 1; i++)
+		{
 			tmpList[i] = cfgRef->nodeList[i];
-		
+		}
+	}
+
+	// Resize transfer function list
+	if(cfgRef->tFuncRoot == ANN_TFUNC_MULTIPLE)
+	{
+		// Memory allocation: Temp transfer function list
+		tmpTFuncList = calloc(tmpLayerCount, sizeof(int));
+		if(tmpTFuncList == NULL)
+		{
+			retValue = ANN_MEM_FAILED;
+			goto RET;
+		}
+
+		// Copy old transfer function setting
+		preLayerCount = cfgRef->layers;
+		if(cfgRef->tFuncList != NULL)
+		{
+			for(i = 0; i < preLayerCount; i++)
+			{
+				tmpTFuncList[i] = cfgRef->tFuncList[i];
+			}
+		}
+	}
+
+	// Free old setting
+	if(cfgRef->nodeList != NULL)
+	{
 		free(cfgRef->nodeList);
+	}
+
+	if(cfgRef->tFuncList != NULL)
+	{
+		free(cfgRef->tFuncList);
 	}
 
 	// Assign values
 	cfgRef->nodeList = tmpList;
+	cfgRef->tFuncList = tmpTFuncList;
 	cfgRef->layers = tmpLayerCount;
 
 RET:
@@ -156,8 +194,57 @@ int ann_config_set_transfer_func(ann_config_t config, int tFuncIndex)
 	{
 		return ANN_INVALID_ARG;
 	}
-	
-	cfgRef->transferFuncIndex = tFuncIndex;
+
+	cfgRef->tFuncRoot = tFuncIndex;
+
+	return ANN_NO_ERROR;
+}
+
+int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, int tFuncIndex)
+{
+	int i;
+	struct ANN_CONFIG_STRUCT* cfgRef = config;
+
+	// Checking argument
+	if(layerIndex < 0 || layerIndex >= cfgRef->layers)
+	{
+		return ANN_OUT_OF_RANGE;
+	}
+
+	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_AMOUNT)
+	{
+		return ANN_INVALID_ARG;
+	}
+
+	// Checking transfer function setting
+	if(tFuncIndex == cfgRef->tFuncRoot)
+	{
+		return ANN_NO_ERROR;
+	}
+
+	// Memory allocation
+	if(cfgRef->tFuncList == NULL)
+	{
+		cfgRef->tFuncList = calloc(cfgRef->layers, sizeof(int));
+		if(cfgRef->tFuncList == NULL)
+		{
+			return ANN_MEM_FAILED;
+		}
+	}
+
+	// Copy transfer function setting
+	if(cfgRef->tFuncRoot < ANN_TFUNC_AMOUNT)
+	{
+		// Copy transfer function setting
+		for(i = 0; i < cfgRef->layers; i++)
+		{
+			cfgRef->tFuncList[i] = cfgRef->tFuncRoot;
+		}
+	}
+
+	// Set transfer function
+	cfgRef->tFuncRoot = ANN_TFUNC_MULTIPLE;
+	cfgRef->tFuncList[layerIndex] = tFuncIndex;
 
 	return ANN_NO_ERROR;
 }
@@ -174,6 +261,12 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value)
 	return ann_set_threshold_struct(annRef, layerIndex, nodeIndex, value);
 }
 
+int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, double value)
+{
+	struct ANN_STRUCT* annRef = ann;
+	return ann_set_recurrent_weight_struct(annRef, preNodeIndex, nodeIndex, value);
+}
+
 int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* preLayerRef;
@@ -184,7 +277,7 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 
 	if(layerIndex >= sptr->config.layers || layerIndex <= 0)
 		return ANN_OUT_OF_RANGE;
-	
+
 	preLayerRef = &sptr->layerList[layerIndex - 1];
 	layerRef = &sptr->layerList[layerIndex];
 
@@ -198,16 +291,45 @@ int ann_set_weight_struct(struct ANN_STRUCT* sptr, int layerIndex, int preNodeIn
 	return ANN_NO_ERROR;
 }
 
+int ann_set_recurrent_weight_struct(struct ANN_STRUCT* sptr, int preNodeIndex, int nodeIndex, double value)
+{
+	struct ANN_LAYER* preLayerRef;
+	struct ANN_LAYER* layerRef;
+	int layers;
+
+	// Checking
+	assert(sptr->layerList != NULL);
+	layers = sptr->config.layers;
+	if(layers <= 2)
+	{
+		return ANN_INVALID_ARG;
+	}
+
+	// Set layer reference
+	preLayerRef = &sptr->layerList[layers - 2];
+	layerRef = &sptr->layerList[1];
+
+	if(preNodeIndex < 0 || preNodeIndex >= preLayerRef->nodeCount)
+		return ANN_OUT_OF_RANGE;
+	if(nodeIndex < 0 || nodeIndex >= layerRef->nodeCount)
+		return ANN_OUT_OF_RANGE;
+
+	assert(layerRef->nodeList[nodeIndex].rWeight != NULL);
+	layerRef->nodeList[nodeIndex].rWeight[preNodeIndex] = value;
+
+	return ANN_NO_ERROR;
+}
+
 int ann_set_threshold_struct(struct ANN_STRUCT* sptr, int layerIndex, int nodeIndex, double value)
 {
 	struct ANN_LAYER* layerRef;
 
 	// Checking
 	assert(sptr->layerList != NULL);
-	
+
 	if(layerIndex >= sptr->config.layers || layerIndex < 0)
 		return ANN_OUT_OF_RANGE;
-	
+
 	layerRef = &sptr->layerList[layerIndex];
 
 	if(nodeIndex < 0 || nodeIndex >= layerRef->nodeCount)

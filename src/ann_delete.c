@@ -8,7 +8,7 @@
 void ann_config_delete(ann_config_t config)
 {
 	struct ANN_CONFIG_STRUCT* cfgPtr = config;
-	
+
 	LOG("enter");
 
 	if(config != NULL)
@@ -24,8 +24,16 @@ void ann_config_delete_struct(struct ANN_CONFIG_STRUCT* cfgPtr)
 {
 	LOG("enter");
 
+	if(cfgPtr->tFuncList != NULL)
+	{
+		LOG("Free tFuncList");
+		free(cfgPtr->tFuncList);
+		cfgPtr->tFuncList = NULL;
+	}
+
 	if(cfgPtr->nodeList != NULL)
 	{
+		LOG("Free nodeList");
 		free(cfgPtr->nodeList);
 		cfgPtr->nodeList = NULL;
 	}
@@ -42,11 +50,47 @@ void ann_delete_node(struct ANN_NODE* nodePtr)
 		free(nodePtr->weight);
 		nodePtr->weight = NULL;
 	}
-	
+
+	if(nodePtr->weightDelta != NULL)
+	{
+		free(nodePtr->weightDelta);
+		nodePtr->weightDelta = NULL;
+	}
+
 	if(nodePtr->deltaW != NULL)
 	{
 		free(nodePtr->deltaW);
 		nodePtr->deltaW = NULL;
+	}
+
+	if(nodePtr->rWeight != NULL)
+	{
+		free(nodePtr->rWeight);
+		nodePtr->rWeight = NULL;
+	}
+
+	if(nodePtr->rWeightDelta != NULL)
+	{
+		free(nodePtr->rWeightDelta);
+		nodePtr->rWeightDelta = NULL;
+	}
+
+	if(nodePtr->deltaRW != NULL)
+	{
+		free(nodePtr->deltaRW);
+		nodePtr->deltaRW = NULL;
+	}
+
+	if(nodePtr->outputQueue != NULL)
+	{
+		free(nodePtr->outputQueue);
+		nodePtr->outputQueue = NULL;
+	}
+
+	if(nodePtr->sCalcQueue != NULL)
+	{
+		free(nodePtr->sCalcQueue);
+		nodePtr->sCalcQueue = NULL;
 	}
 
 	LOG("exit");
@@ -86,8 +130,10 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 		free(structPtr->layerList);
 		structPtr->layerList = NULL;
 	}
-	
+
 	ann_config_delete_struct(&structPtr->config);
+	structPtr->queueHead = 0;
+	structPtr->queueTail = 0;
 
 	LOG("exit");
 }
@@ -95,7 +141,7 @@ void ann_delete_struct(struct ANN_STRUCT* structPtr)
 void ann_delete(ann_t ann)
 {
 	struct ANN_STRUCT* annRef = ann;
-	
+
 	LOG("enter");
 
 	if(annRef != NULL)

@@ -3,14 +3,25 @@
 
 struct ANN_NODE
 {
-	double* weight;
-	double* deltaW;
+	double* rWeight;		// Recurrent weight list
+	double* rWeightDelta;	// Adjust delta summation of recurrent weight
+	double* deltaRW;		// Momentum of recurrent weight
 
-	double threshold;
-	double deltaTh;
+	double* weight;			// Weight list
+	double* weightDelta;	// Adjust delta summation of weight
+	double* deltaW;			// Momentum of weight
 
-	double delta;
+	double* outputQueue;	// Output queue
+	double* sCalcQueue;		// sCalc queue
 
+	double threshold;		// Threshold of the node
+	double thresholdDelta;	// Adjust delta summation of threshold
+	double deltaTh;			// Momentum of threshold
+
+	double delta;		// For bp calculation
+	double deltaHold;	// Gradient hold for bp calculation
+
+	double rHold;		// For recurrent forward computation.
 	double sCalc;
 	double output;
 };
@@ -28,9 +39,11 @@ struct ANN_CONFIG_STRUCT
 {
 	int inputs;
 	int outputs;
-	int layers;	
-	int transferFuncIndex;
-	
+	int layers;
+
+	int tFuncRoot;	// Transfer function root setting
+	int* tFuncList;	// Transfer function setting of each layers
+
 	double learningRate;
 	double momentumCoef;
 
@@ -39,6 +52,9 @@ struct ANN_CONFIG_STRUCT
 
 struct ANN_STRUCT
 {
+	int queueHead;
+	int queueTail;
+	int queueSize;			// Memory length of recurrent queue
     struct ANN_LAYER* layerList;
 
 	struct ANN_CONFIG_STRUCT config;

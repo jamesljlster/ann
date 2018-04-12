@@ -5,8 +5,8 @@ set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation 
 set(BUILD_TEST OFF CACHE BOOL "Enable building test")
 
 set(VERSION_MAJOR 0)
-set(VERSION_MINOR 2)
-set(VERSION_PATCH 7)
+set(VERSION_MINOR 3)
+set(VERSION_PATCH 0)
 
 # Set project
 project(ann C)

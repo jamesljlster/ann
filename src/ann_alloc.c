@@ -11,10 +11,12 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 	int i, j;
 	int retValue = ANN_NO_ERROR;
 
-	int tfunc;
 	int layers;
 	int* nodeList;
-	
+
+	int tFuncRoot;
+	int* tFuncList;
+
 	void* allocTmp = NULL;
 
 	struct ANN_LAYER* tmpLayer = NULL;
@@ -23,14 +25,17 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	// Checking
 	layers = sptr->config.layers;
-	tfunc = sptr->config.transferFuncIndex;
 	nodeList = sptr->config.nodeList;
-	if(layers <= 0 || nodeList == NULL || tfunc >= ANN_TFUNC_AMOUNT || tfunc < 0)
+	if(layers <= 2 || nodeList == NULL)
 	{
 		LOG("Checking failed");
-		retValue = ANN_INFO_NOT_FOUND;
+		retValue = ANN_INVALID_ARG;
 		goto RET;
 	}
+
+	// Assign transfer function setting
+	tFuncRoot = sptr->config.tFuncRoot;
+	tFuncList = sptr->config.tFuncList;
 
 	// Allocate network
 	tmpLayer = calloc(layers, sizeof(struct ANN_LAYER));
@@ -43,8 +48,50 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 
 	for(i = 0; i < layers; i++)
 	{
-		tmpLayer[i].activeFunc = ann_transfer_list[tfunc];
-		tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tfunc];
+		// Assing transfer function setting
+		if(tFuncRoot < ANN_TFUNC_AMOUNT && tFuncRoot >= 0)
+		{
+			tmpLayer[i].activeFunc = ann_transfer_list[tFuncRoot];
+			tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncRoot];
+		}
+		else if(tFuncRoot == ANN_TFUNC_MULTIPLE)
+		{
+			if(tFuncList == NULL)
+			{
+				retValue = ANN_INFO_NOT_FOUND;
+				goto ERR;
+			}
+
+			// Check transfer function setting
+			if(tFuncList[i] < 0 || tFuncList[i] >= ANN_TFUNC_AMOUNT)
+			{
+				LOG("Checking failed, invalid transfer function id: %d", tFuncList[i]);
+				retValue = ANN_INVALID_ARG;
+				goto ERR;
+			}
+
+			tmpLayer[i].activeFunc = ann_transfer_list[tFuncList[i]];
+			tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncList[i]];
+		}
+		else if(tFuncRoot != ANN_TFUNC_CUSTOM)
+		{
+			retValue = ANN_INVALID_ARG;
+			goto ERR;
+		}
+
+		/*
+		// Check transfer function setting
+		if(tFuncList[i] < 0 || tFuncList[i] >= ANN_TFUNC_AMOUNT)
+		{
+			LOG("Checking failed, invalid transfer function id: %d", tFuncList[i]);
+			retValue = ANN_INVALID_ARG;
+			goto ERR;
+		}
+
+		tmpLayer[i].activeFunc = ann_transfer_list[tFuncList[i]];
+		tmpLayer[i].dActiveFunc = ann_transfer_derivative_list[tFuncList[i]];
+		*/
+
 		tmpLayer[i].nodeCount = nodeList[i];
 
 		allocTmp = calloc(nodeList[i], sizeof(struct ANN_NODE));
@@ -83,9 +130,61 @@ int ann_allocate_network(struct ANN_STRUCT* sptr)
 					}
 					else
 					{
+						tmpLayer[i].nodeList[j].weightDelta = allocTmp;
+					}
+
+					allocTmp = calloc(nodeList[i - 1], sizeof(double));
+					if(allocTmp == NULL)
+					{
+						LOG("calloc failed with arg: nodeList[%d] = %d", i - 1, nodeList[i - 1]);
+						retValue = ANN_MEM_FAILED;
+						goto ERR;
+					}
+					else
+					{
 						tmpLayer[i].nodeList[j].deltaW = allocTmp;
 					}
 				}
+			}
+		}
+	}
+
+	// Allocate recurrent weight
+	if(layers > 2)
+	{
+		for(i = 0; i < nodeList[1]; i++)
+		{
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+			else
+			{
+				tmpLayer[1].nodeList[i].rWeight = allocTmp;
+			}
+
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+			else
+			{
+				tmpLayer[1].nodeList[i].rWeightDelta = allocTmp;
+			}
+
+			allocTmp = calloc(nodeList[layers - 2], sizeof(double));
+			if(allocTmp == NULL)
+			{
+				retValue = ANN_MEM_FAILED;
+				goto ERR;
+			}
+			else
+			{
+				tmpLayer[1].nodeList[i].deltaRW = allocTmp;
 			}
 		}
 	}

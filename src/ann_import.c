@@ -7,7 +7,19 @@
 
 #include "debug.h"
 
+int ann_import_struct(ann_t* annPtr, const char* filePath, int type);
+
 int ann_import(ann_t* annPtr, const char* filePath)
+{
+	return ann_import_struct(annPtr, filePath, ANN_NETWORK_ANN);
+}
+
+int rnn_import(ann_t* annPtr, const char* filePath)
+{
+	return ann_import_struct(annPtr, filePath, ANN_NETWORK_RNN);
+}
+
+int ann_import_struct(ann_t* annPtr, const char* filePath, int type)
 {
 	int iResult;
 	int retValue = ANN_NO_ERROR;
@@ -54,10 +66,18 @@ int ann_import(ann_t* annPtr, const char* filePath)
 	}
 
 	// Parse network
-	iResult = ann_parse_network(annRef, &fStruct);
+	iResult = ann_parse_network(annRef, &fStruct, type);
 	if(iResult != ANN_NO_ERROR)
 	{
 		LOG("ann_parse_network() failed");
+		retValue = iResult;
+		goto ERR;
+	}
+
+	// Set default max timestep
+	iResult = rnn_bptt_set_max_timestep(annRef, DEFAULT_MAX_TIMESTEP);
+	if(iResult != ANN_NO_ERROR)
+	{
 		retValue = iResult;
 		goto ERR;
 	}
@@ -73,7 +93,7 @@ ERR:
 
 RET:
 	ann_fstruct_delete(&fStruct);
-	
+
 	LOG("exit");
 
 	return retValue;
@@ -83,7 +103,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 {
 	int iResult;
 	int retValue = ANN_NO_ERROR;
-	
+
 	struct ANN_FILE_STRUCT fStruct;
 	struct ANN_CONFIG_STRUCT* cfgRef = NULL;
 
@@ -91,7 +111,7 @@ int ann_config_import(ann_config_t* configPtr, const char* filePath)
 
 	// Zero memory
 	ann_fstruct_zeromem(&fStruct);
-	
+
 	// Create file struct
 	iResult = ann_fstruct_create(&fStruct, filePath);
 	if(iResult != ANN_NO_ERROR)

@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	// Checking
 	if(argc <= 1)
 	{
-		printf("Assign a .vgn file to run the program\n");
+		printf("Assign a .rnn file to run the program\n");
 		return -1;
 	}
 
