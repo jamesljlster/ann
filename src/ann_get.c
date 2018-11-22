@@ -1,252 +1,251 @@
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 
 #include "ann.h"
-#include "ann_private.h"
 #include "ann_builtin_math.h"
+#include "ann_private.h"
 
 const char* ann_get_transfer_func_name(int tFuncIndex)
 {
-	if(tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_RESERVED)
-	{
-		return NULL;
-	}
-	else
-	{
-		return ann_transfer_func_name[tFuncIndex];
-	}
+    if (tFuncIndex < 0 || tFuncIndex >= ANN_TFUNC_RESERVED)
+    {
+        return NULL;
+    }
+    else
+    {
+        return ann_transfer_func_name[tFuncIndex];
+    }
 }
 
 int ann_get_inputs(ann_t ann)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_inputs(annCfg);
+    return ann_config_get_inputs(annCfg);
 }
 
 int ann_get_outputs(ann_t ann)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_outputs(annCfg);
+    return ann_config_get_outputs(annCfg);
 }
 
 int ann_get_hidden_layers(ann_t ann)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_hidden_layers(annCfg);
+    return ann_config_get_hidden_layers(annCfg);
 }
 
 int ann_get_hidden_nodes(ann_t ann, int hiddenLayerIndex)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_hidden_nodes(annCfg, hiddenLayerIndex);
+    return ann_config_get_hidden_nodes(annCfg, hiddenLayerIndex);
 }
 
 int ann_get_transfer_func(ann_t ann)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_transfer_func(annCfg);
+    return ann_config_get_transfer_func(annCfg);
 }
 
 int ann_get_transfer_func_of_layer(ann_t ann, int layerIndex)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_transfer_func_of_layer(annCfg, layerIndex);
+    return ann_config_get_transfer_func_of_layer(annCfg, layerIndex);
 }
 
-double ann_get_learning_rate(ann_t ann)
+float ann_get_learning_rate(ann_t ann)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_learning_rate(annCfg);
+    return ann_config_get_learning_rate(annCfg);
 }
 
-double ann_get_momentum_coef(ann_t ann)
+float ann_get_momentum_coef(ann_t ann)
 {
-	ann_config_t annCfg;
+    ann_config_t annCfg;
 
-	annCfg = ann_get_config(ann);
+    annCfg = ann_get_config(ann);
 
-	return ann_config_get_momentum_coef(annCfg);
+    return ann_config_get_momentum_coef(annCfg);
 }
 
 ann_config_t ann_get_config(ann_t ann)
 {
-	struct ANN_STRUCT* annRef = ann;
+    struct ANN_STRUCT* annRef = ann;
 
-	return &annRef->config;
+    return &annRef->config;
 }
 
 int ann_config_get_inputs(ann_config_t config)
 {
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->inputs;
+    return cfgRef->inputs;
 }
 
 int ann_config_get_outputs(ann_config_t config)
 {
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->outputs;
+    return cfgRef->outputs;
 }
 
 int ann_config_get_hidden_layers(ann_config_t config)
 {
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	if(cfgRef->layers > 0)
-	{
-		return cfgRef->layers - 2;
-	}
-	else
-	{
-		return 0;
-	}
+    if (cfgRef->layers > 0)
+    {
+        return cfgRef->layers - 2;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 int ann_config_get_hidden_nodes(ann_config_t config, int hiddenLayerIndex)
 {
-	int layerIndex;
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    int layerIndex;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	assert(cfgRef->nodeList != NULL);
+    assert(cfgRef->nodeList != NULL);
 
-	layerIndex = hiddenLayerIndex + 1;
+    layerIndex = hiddenLayerIndex + 1;
 
-	assert(layerIndex > 0 && layerIndex < cfgRef->layers - 1);
+    assert(layerIndex > 0 && layerIndex < cfgRef->layers - 1);
 
-	return cfgRef->nodeList[layerIndex];
+    return cfgRef->nodeList[layerIndex];
 }
 
 int ann_config_get_transfer_func(ann_config_t config)
 {
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->tFuncRoot;
+    return cfgRef->tFuncRoot;
 }
 
 int ann_config_get_transfer_func_of_layer(ann_config_t config, int layerIndex)
 {
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	if(cfgRef->tFuncRoot < ANN_TFUNC_AMOUNT)
-	{
-		return cfgRef->tFuncRoot;
-	}
-	else if(cfgRef->tFuncRoot == ANN_TFUNC_MULTIPLE)
-	{
-		assert(cfgRef->tFuncList != NULL);
-		return cfgRef->tFuncList[layerIndex];
-	}
-	else if(cfgRef->tFuncRoot == ANN_TFUNC_CUSTOM)
-	{
-		return ANN_TFUNC_CUSTOM;
-	}
-	else
-	{
-		return ANN_INFO_NOT_FOUND;
-	}
+    if (cfgRef->tFuncRoot < ANN_TFUNC_AMOUNT)
+    {
+        return cfgRef->tFuncRoot;
+    }
+    else if (cfgRef->tFuncRoot == ANN_TFUNC_MULTIPLE)
+    {
+        assert(cfgRef->tFuncList != NULL);
+        return cfgRef->tFuncList[layerIndex];
+    }
+    else if (cfgRef->tFuncRoot == ANN_TFUNC_CUSTOM)
+    {
+        return ANN_TFUNC_CUSTOM;
+    }
+    else
+    {
+        return ANN_INFO_NOT_FOUND;
+    }
 }
 
-double ann_config_get_learning_rate(ann_config_t config)
+float ann_config_get_learning_rate(ann_config_t config)
 {
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->learningRate;
+    return cfgRef->learningRate;
 }
 
-double ann_config_get_momentum_coef(ann_config_t config)
+float ann_config_get_momentum_coef(ann_config_t config)
 {
-	struct ANN_CONFIG_STRUCT* cfgRef = config;
+    struct ANN_CONFIG_STRUCT* cfgRef = config;
 
-	return cfgRef->momentumCoef;
+    return cfgRef->momentumCoef;
 }
 
-double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex)
+float ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex)
 {
-	struct ANN_STRUCT* annRef;
-	struct ANN_LAYER* preLayer;
-	struct ANN_LAYER* layerRef;
-	struct ANN_CONFIG_STRUCT* cfgRef;
+    struct ANN_STRUCT* annRef;
+    struct ANN_LAYER* preLayer;
+    struct ANN_LAYER* layerRef;
+    struct ANN_CONFIG_STRUCT* cfgRef;
 
-	annRef = ann;
-	cfgRef = &annRef->config;
+    annRef = ann;
+    cfgRef = &annRef->config;
 
-	// Checking
-	assert(annRef->layerList != NULL);
-	assert(layerIndex > 0 && layerIndex < cfgRef->layers);
+    // Checking
+    assert(annRef->layerList != NULL);
+    assert(layerIndex > 0 && layerIndex < cfgRef->layers);
 
-	preLayer = &annRef->layerList[layerIndex - 1];
-	layerRef = &annRef->layerList[layerIndex];
+    preLayer = &annRef->layerList[layerIndex - 1];
+    layerRef = &annRef->layerList[layerIndex];
 
-	assert(preNodeIndex >= 0 && preNodeIndex < preLayer->nodeCount);
-	assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
+    assert(preNodeIndex >= 0 && preNodeIndex < preLayer->nodeCount);
+    assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
 
-	return layerRef->nodeList[nodeIndex].weight[preNodeIndex];
+    return layerRef->nodeList[nodeIndex].weight[preNodeIndex];
 }
 
-double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex)
+float rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex)
 {
-	struct ANN_STRUCT* annRef;
-	struct ANN_LAYER* preLayer;
-	struct ANN_LAYER* layerRef;
-	struct ANN_CONFIG_STRUCT* cfgRef;
+    struct ANN_STRUCT* annRef;
+    struct ANN_LAYER* preLayer;
+    struct ANN_LAYER* layerRef;
+    struct ANN_CONFIG_STRUCT* cfgRef;
 
-	annRef = ann;
-	cfgRef = &annRef->config;
+    annRef = ann;
+    cfgRef = &annRef->config;
 
-	// Checking
-	assert(annRef->layerList != NULL);
-	assert(cfgRef->layers > 2);
+    // Checking
+    assert(annRef->layerList != NULL);
+    assert(cfgRef->layers > 2);
 
-	// Set layer reference
-	preLayer = &annRef->layerList[cfgRef->layers - 2];
-	layerRef = &annRef->layerList[1];
+    // Set layer reference
+    preLayer = &annRef->layerList[cfgRef->layers - 2];
+    layerRef = &annRef->layerList[1];
 
-	assert(preNodeIndex >= 0 && preNodeIndex < preLayer->nodeCount);
-	assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
-	assert(layerRef->nodeList[nodeIndex].rWeight != NULL);
+    assert(preNodeIndex >= 0 && preNodeIndex < preLayer->nodeCount);
+    assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
+    assert(layerRef->nodeList[nodeIndex].rWeight != NULL);
 
-	return layerRef->nodeList[nodeIndex].rWeight[preNodeIndex];
+    return layerRef->nodeList[nodeIndex].rWeight[preNodeIndex];
 }
 
-double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex)
+float ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex)
 {
-	struct ANN_STRUCT* annRef;
-	struct ANN_LAYER* layerRef;
-	struct ANN_CONFIG_STRUCT* cfgRef;
+    struct ANN_STRUCT* annRef;
+    struct ANN_LAYER* layerRef;
+    struct ANN_CONFIG_STRUCT* cfgRef;
 
-	annRef = ann;
-	cfgRef = &annRef->config;
+    annRef = ann;
+    cfgRef = &annRef->config;
 
-	// Checking
-	assert(annRef->layerList != NULL);
-	assert(layerIndex >= 0 && layerIndex < cfgRef->layers);
+    // Checking
+    assert(annRef->layerList != NULL);
+    assert(layerIndex >= 0 && layerIndex < cfgRef->layers);
 
-	layerRef = &annRef->layerList[layerIndex];
+    layerRef = &annRef->layerList[layerIndex];
 
-	assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
+    assert(nodeIndex >= 0 && nodeIndex < layerRef->nodeCount);
 
-	return layerRef->nodeList[nodeIndex].threshold;
+    return layerRef->nodeList[nodeIndex].threshold;
 }
-

@@ -3,33 +3,33 @@
 
 struct ANN_NODE
 {
-	double* rWeight;		// Recurrent weight list
-	double* rWeightDelta;	// Adjust delta summation of recurrent weight
-	double* deltaRW;		// Momentum of recurrent weight
+    float* rWeight;       // Recurrent weight list
+    float* rWeightDelta;  // Adjust delta summation of recurrent weight
+    float* deltaRW;       // Momentum of recurrent weight
 
-	double* weight;			// Weight list
-	double* weightDelta;	// Adjust delta summation of weight
-	double* deltaW;			// Momentum of weight
+    float* weight;       // Weight list
+    float* weightDelta;  // Adjust delta summation of weight
+    float* deltaW;       // Momentum of weight
 
-	double* outputQueue;	// Output queue
-	double* sCalcQueue;		// sCalc queue
+    float* outputQueue;  // Output queue
+    float* sCalcQueue;   // sCalc queue
 
-	double threshold;		// Threshold of the node
-	double thresholdDelta;	// Adjust delta summation of threshold
-	double deltaTh;			// Momentum of threshold
+    float threshold;       // Threshold of the node
+    float thresholdDelta;  // Adjust delta summation of threshold
+    float deltaTh;         // Momentum of threshold
 
-	double delta;		// For bp calculation
-	double deltaHold;	// Gradient hold for bp calculation
+    float delta;      // For bp calculation
+    float deltaHold;  // Gradient hold for bp calculation
 
-	double rHold;		// For recurrent forward computation.
-	double sCalc;
-	double output;
+    float rHold;  // For recurrent forward computation.
+    float sCalc;
+    float output;
 };
 
 struct ANN_LAYER
 {
-    double (*activeFunc)(double);
-    double (*dActiveFunc)(double);
+    float (*activeFunc)(float);
+    float (*dActiveFunc)(float);
 
     struct ANN_NODE* nodeList;
     int nodeCount;
@@ -37,27 +37,27 @@ struct ANN_LAYER
 
 struct ANN_CONFIG_STRUCT
 {
-	int inputs;
-	int outputs;
-	int layers;
+    int inputs;
+    int outputs;
+    int layers;
 
-	int tFuncRoot;	// Transfer function root setting
-	int* tFuncList;	// Transfer function setting of each layers
+    int tFuncRoot;   // Transfer function root setting
+    int* tFuncList;  // Transfer function setting of each layers
 
-	double learningRate;
-	double momentumCoef;
+    float learningRate;
+    float momentumCoef;
 
-	int* nodeList;
+    int* nodeList;
 };
 
 struct ANN_STRUCT
 {
-	int queueHead;
-	int queueTail;
-	int queueSize;			// Memory length of recurrent queue
+    int queueHead;
+    int queueTail;
+    int queueSize;  // Memory length of recurrent queue
     struct ANN_LAYER* layerList;
 
-	struct ANN_CONFIG_STRUCT config;
+    struct ANN_CONFIG_STRUCT config;
 };
 
 #endif
