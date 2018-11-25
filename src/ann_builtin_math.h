@@ -2,52 +2,53 @@
 #define __ANN_BUILTIN_MATH_H__
 
 // Ann transfer function private definition
-#define ANN_TFUNC_AMOUNT	12
-#define ANN_TFUNC_RESERVED	14	// Reserve for parsing ann model file
+#define ANN_TFUNC_AMOUNT 12
+#define ANN_TFUNC_RESERVED 14  // Reserve for parsing ann model file
 
-extern double (*ann_transfer_list[])(double);
-extern double (*ann_transfer_derivative_list[])(double);
+extern float (*ann_transfer_list[])(float);
+extern float (*ann_transfer_derivative_list[])(float);
 extern char* ann_transfer_func_name[];
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-double ann_sigmoid(double x);
-double ann_sigmoid_derivative(double x);
+    float ann_sigmoid(float x);
+    float ann_sigmoid_derivative(float x);
 
-double ann_modified_sigmoid(double x);
-double ann_modified_sigmoid_derivative(double x);
+    float ann_modified_sigmoid(float x);
+    float ann_modified_sigmoid_derivative(float x);
 
-double ann_tanh(double x);
-double ann_tanh_derivative(double x);
+    float ann_tanh(float x);
+    float ann_tanh_derivative(float x);
 
-double ann_gaussian(double x);
-double ann_gaussian_derivative(double x);
+    float ann_gaussian(float x);
+    float ann_gaussian_derivative(float x);
 
-double ann_modified_gaussian(double x);
-double ann_modified_gaussian_derivative(double x);
+    float ann_modified_gaussian(float x);
+    float ann_modified_gaussian_derivative(float x);
 
-double ann_bent_identity(double x);
-double ann_bent_identity_derivative(double x);
+    float ann_bent_identity(float x);
+    float ann_bent_identity_derivative(float x);
 
-double ann_softplus(double x);
-double ann_softplus_derivative(double x);
+    float ann_softplus(float x);
+    float ann_softplus_derivative(float x);
 
-double ann_softsign(double x);
-double ann_softsign_derivative(double x);
+    float ann_softsign(float x);
+    float ann_softsign_derivative(float x);
 
-double ann_sinc(double x);
-double ann_sinc_derivative(double x);
+    float ann_sinc(float x);
+    float ann_sinc_derivative(float x);
 
-double ann_sinusoid(double x);
-double ann_sinusoid_derivative(double x);
+    float ann_sinusoid(float x);
+    float ann_sinusoid_derivative(float x);
 
-double ann_identity(double x);
-double ann_identity_derivative(double x);
+    float ann_identity(float x);
+    float ann_identity_derivative(float x);
 
-double ann_relu(double x);
-double ann_relu_derivative(double x);
+    float ann_relu(float x);
+    float ann_relu_derivative(float x);
 
 #ifdef __cplusplus
 }

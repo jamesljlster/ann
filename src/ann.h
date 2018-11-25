@@ -65,9 +65,9 @@ extern "C" {
  *@{
  */
 
-int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
+int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, float learningRate, float momentumCoef, int hiddenLayers, ...);
 /**
- *	@fn		int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
+ *	@fn		int ann_config_create_args(ann_config_t* configPtr, int inputs, int outputs, int tFuncIndex, float learningRate, float momentumCoef, int hiddenLayers, ...);
  *	@brief	Create a neural network configuration with function arguments. For more detail and example, please visit the wiki on git website.
  *	@param	configPtr:		Pointer of ann_config_t type variable.
  *	@param	inputs:			Inputs of neural network.
@@ -188,18 +188,18 @@ int ann_config_set_transfer_func_of_layer(ann_config_t config, int layerIndex, i
  *	@since	0.1.0
  */
 
-void ann_config_set_learning_rate(ann_config_t config, double learningRate);
+void ann_config_set_learning_rate(ann_config_t config, float learningRate);
 /**
- *	@fn		void ann_config_set_learning_rate(ann_config_t config, double learningRate);
+ *	@fn		void ann_config_set_learning_rate(ann_config_t config, float learningRate);
  *	@brief	Set default learning rate of target neural network configuration.
  *	@param	config:			Target ann_config_t variable.
  *	@param	learningRate:	Default learning rate of target neural network configuration.
  *	@since	0.1.0
  */
 
-void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef);
+void ann_config_set_momentum_coef(ann_config_t config, float momentumCoef);
 /**
- *	@fn		void ann_config_set_momentum_coef(ann_config_t config, double momentumCoef);
+ *	@fn		void ann_config_set_momentum_coef(ann_config_t config, float momentumCoef);
  *	@brief	Set default momentum coefficient of target neural network configuration.
  *	@param	config:			Target ann_config_t variable.
  *	@param	momentumCoef:	Default momentum coefficient of target neural network configuration.
@@ -262,18 +262,18 @@ int ann_config_get_transfer_func_of_layer(ann_config_t config, int layerIndex);
  *	@since	1.0.0
  */
 
-double ann_config_get_learning_rate(ann_config_t config);
+float ann_config_get_learning_rate(ann_config_t config);
 /**
- *	@fn		double ann_config_get_learning_rate(ann_config_t config);
+ *	@fn		float ann_config_get_learning_rate(ann_config_t config);
  *	@brief	Get default learning rate of target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return	Default learning rate of neural network configuration.
  *	@since	0.1.0
  */
 
-double ann_config_get_momentum_coef(ann_config_t config);
+float ann_config_get_momentum_coef(ann_config_t config);
 /**
- *	@fn		double ann_config_get_momentum_coef(ann_config_t config);
+ *	@fn		float ann_config_get_momentum_coef(ann_config_t config);
  *	@brief	Get default momentum coefficient of target neural network configuration.
  *	@param	config:	Target ann_config_t type variable.
  *	@return Default momentum coefficient of neural network configuration.
@@ -373,36 +373,36 @@ int ann_get_transfer_func_id(const char* tFuncName);
  *	@since	1.0.0
  */
 
-double ann_get_learning_rate(ann_t ann);
+float ann_get_learning_rate(ann_t ann);
 /**
- *	@fn		double ann_get_learning_rate(ann_t ann);
+ *	@fn		float ann_get_learning_rate(ann_t ann);
  *	@brief	Get default learning rate of target neural network.
  *	@param	ann: Target ann_t type variable.
  *	@return	Default learning rate of neural network.
  *	@since	0.1.0
  */
 
-double ann_get_momentum_coef(ann_t ann);
+float ann_get_momentum_coef(ann_t ann);
 /**
- *	@fn		double ann_get_momentum_coef(ann_t ann);
+ *	@fn		float ann_get_momentum_coef(ann_t ann);
  *	@brief	Get default momentum coefficient of target neural network.
  *	@param	ann: Target ann_t type variable.
  *	@return Default momentum coefficient of neural network.
  *	@since	0.1.0
  */
 
-void ann_set_learning_rate(ann_t ann, double learningRate);
+void ann_set_learning_rate(ann_t ann, float learningRate);
 /**
- *	@fn		void ann_set_learning_rate(ann_t ann, double learningRate);
+ *	@fn		void ann_set_learning_rate(ann_t ann, float learningRate);
  *	@brief	Set default learning rate of target neural network.
  *	@param	ann:			Target ann_t variable.
  *	@param	learningRate:	Default learning rate of target neural network configuration.
  *	@since	0.2.5
  */
 
-void ann_set_momentum_coef(ann_t ann, double momentumCoef);
+void ann_set_momentum_coef(ann_t ann, float momentumCoef);
 /**
- *	@fn		void ann_set_momentum_coef(ann_t ann, double momentumCoef);
+ *	@fn		void ann_set_momentum_coef(ann_t ann, float momentumCoef);
  *	@brief	Set default momentum coefficient of target neural network.
  *	@param	ann:			Target ann_t variable.
  *	@param	momentumCoef:	Default momentum coefficient of target neural network configuration.
@@ -425,9 +425,9 @@ void ann_set_momentum_coef(ann_t ann, double momentumCoef);
  *@{
  */
 
-int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
+int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, float learningRate, float momentumCoef, int hiddenLayers, ...);
 /**
- *	@fn		int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, double learningRate, double momentumCoef, int hiddenLayers, ...);
+ *	@fn		int ann_create_args(ann_t* annPtr, int inputs, int outputs, int tFuncIndex, float learningRate, float momentumCoef, int hiddenLayers, ...);
  *	@brief	Create neural network with function arguments. For more detail and example, please visit the wiki on git website.
  *	@param	annPtr:			Pointer of ann_t type variable.
  *	@param	inputs:			Inputs of neural network.
@@ -469,9 +469,9 @@ void ann_delete(ann_t ann);
  *	@since	0.1.0
  */
 
-double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
+float ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
 /**
- *	@fn		double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
+ *	@fn		float ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
  *	@brief	Get threshold value with given information.
  *	@param	ann:		Target ann_t type variable.
  *	@param	layerIndex: Layer index of target neural network node.
@@ -480,9 +480,9 @@ double ann_get_threshold(ann_t ann, int layerIndex, int nodeIndex);
  *	@since	0.1.0
  */
 
-double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
+float ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
 /**
- *	@fn		double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
+ *	@fn		float ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex);
  *	@brief	Get weight value with given information.
  *	@param	ann:			Target ann_t type variable.
  *	@param	layerIndex:		Layer index of target neural network node.
@@ -492,9 +492,9 @@ double ann_get_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex
  *	@since	0.1.0
  */
 
-double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
+float rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
 /**
- *	@fn		double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
+ *	@fn		float rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
  *	@brief	Get target recurrent weight of neural network.
  *	@param	ann:			Target ann_t type variable.
  *	@param	nodeIndex:		Start node index of recurrent weight.
@@ -503,9 +503,9 @@ double rnn_get_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex);
  *	@since	1.0.0
  */
 
-int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
+int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, float value);
 /**
- *	@fn		int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
+ *	@fn		int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, float value);
  *	@brief	Set target threshold of neural network.
  *	@param	ann:			Target ann_t type variable.
  *	@param	layerIndex:		Layer index of target threshold.
@@ -515,9 +515,9 @@ int ann_set_threshold(ann_t ann, int layerIndex, int nodeIndex, double value);
  *	@since	0.1.0
  */
 
-int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
+int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, float value);
 /**
- *	@fn		int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, double value);
+ *	@fn		int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, float value);
  *	@brief	Set target weight of neural network.
  *	@param	ann:			Target ann_t type variable.
  *	@param	layerIndex:		Layer index of target weight.
@@ -528,9 +528,9 @@ int ann_set_weight(ann_t ann, int layerIndex, int preNodeIndex, int nodeIndex, d
  *	@since	0.1.0
  */
 
-int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, double value);
+int rnn_set_recurrent_weight(ann_t ann, int preNodeIndex, int nodeIndex, float value);
 /**
- *	@fn		int rnn_set_recurrent_weight(ann_t ann, int nodeIndex, int preNodeIndex, double value);
+ *	@fn		int rnn_set_recurrent_weight(ann_t ann, int nodeIndex, int preNodeIndex, float value);
  *	@brief	Set target recurrent weight of neural network.
  *	@param	ann:			Target ann_t type variable.
  *	@param	nodeIndex:		Start node index of recurrent weight.
@@ -665,9 +665,9 @@ void ann_print(ann_t ann);
  *	@since	0.1.0
  */
 
-int ann_training_gradient(ann_t ann, double* input, double* desire, double* output, double* err);
+int ann_training_gradient(ann_t ann, float* input, float* desire, float* output, float* err);
 /**
- *	@fn		int ann_training_gradient(ann_t ann, double* input, double* desire, double* output, double* err);
+ *	@fn		int ann_training_gradient(ann_t ann, float* input, float* desire, float* output, float* err);
  *	@brief	Processing neural network training.
  *	@param	ann:	Target ann_t type variable.
  *	@param	input:	Input array.
@@ -678,9 +678,9 @@ int ann_training_gradient(ann_t ann, double* input, double* desire, double* outp
  *	@since	0.1.0
  */
 
-int ann_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double* input, double* desire, double* output, double* err);
+int ann_training_gradient_custom(ann_t ann, float learningRate, float momentumCoef, float* input, float* desire, float* output, float* err);
 /**
- *	@fn		int ann_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double* input, double* desire, double* output, double* err);
+ *	@fn		int ann_training_gradient_custom(ann_t ann, float learningRate, float momentumCoef, float* input, float* desire, float* output, float* err);
  *	@brief	Processing neural network training with custom training settings.
  *	@param	ann:			Target ann_t type variable.
  *	@param	learningRate:	Custom learning rate.
@@ -693,9 +693,9 @@ int ann_training_gradient_custom(ann_t ann, double learningRate, double momentum
  *	@since	0.1.4
  */
 
-void ann_forward_computation(ann_t ann, double* input, double* output);
+void ann_forward_computation(ann_t ann, float* input, float* output);
 /**
- *	@fn		void ann_forward_computation(ann_t ann, double* input, double* output);
+ *	@fn		void ann_forward_computation(ann_t ann, float* input, float* output);
  *	@brief	Processing neural network forward computation.
  *	@param	ann:	Target ann_t type variable.
  *	@param	input:	Input array.
@@ -703,9 +703,9 @@ void ann_forward_computation(ann_t ann, double* input, double* output);
  *	@since	0.1.0
  */
 
-void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError);
+void ann_backpropagation(ann_t ann, float learningRate, float momentumCoef, float* dError);
 /**
- *	@fn		void ann_backpropagation(ann_t ann, double learningRate, double momentumCoef, double* dError);
+ *	@fn		void ann_backpropagation(ann_t ann, float learningRate, float momentumCoef, float* dError);
  *	@brief	Processing neural network backpropagation.
  *	@param	ann:			Target ann_t type variable.
  *	@param	learningRate:	Custom learning rate in backpropagation.
@@ -758,9 +758,9 @@ void rnn_print(ann_t ann);
  *	@since	1.0.0
  */
 
-void rnn_forward_computation(ann_t ann, double* input, double* output);
+void rnn_forward_computation(ann_t ann, float* input, float* output);
 /**
- *	@fn		void rnn_forward_computation(ann_t ann, double* input, double* output);
+ *	@fn		void rnn_forward_computation(ann_t ann, float* input, float* output);
  *	@brief	Processing recurrent neural network forward computation.
  *	@param	ann:	Target ann_t type variable.
  *	@param	input:	Input array.
@@ -794,9 +794,9 @@ void rnn_bptt_erase(ann_t ann);
  *	@since	1.0.0
  */
 
-void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double gradLimit);
+void rnn_bptt_adjust_network(ann_t ann, float learningRate, float momentumCoef, float gradLimit);
 /**
- *	@fn		void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef, double gradLimit);
+ *	@fn		void rnn_bptt_adjust_network(ann_t ann, float learningRate, float momentumCoef, float gradLimit);
  *	@brief	Adjust recurrent neural netwrok by the gradients store in nodes.
  *	@param	ann:	Target ann_t type variable.
  *	@param	learningRate:	Custom learning rate.
@@ -805,18 +805,18 @@ void rnn_bptt_adjust_network(ann_t ann, double learningRate, double momentumCoef
  *	@since	1.0.0
  */
 
-void rnn_bptt_sum_gradient(ann_t ann, double* dError);
+void rnn_bptt_sum_gradient(ann_t ann, float* dError);
 /**
- *	@fn		void rnn_bptt_sum_gradient(ann_t ann, double* dError);
+ *	@fn		void rnn_bptt_sum_gradient(ann_t ann, float* dError);
  *	@brief	Summation gradients into neural nodes.
  *	@param	ann:	Target ann_t type variable.
  *	@param	dError:	Differential value of error value in cost function.
  *	@since	1.0.0
  */
 
-int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
+int rnn_training_gradient(ann_t ann, float** inputList, float** desireList, float** outputList, float** errList, int timeStep, float gradLimit);
 /**
- *	@fn		int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
+ *	@fn		int rnn_training_gradient(ann_t ann, float** inputList, float** desireList, float** outputList, float** errList, int timeStep, float gradLimit);
  *	@brief	Processing recurrent neural network training.
  *	@param	ann:		Target ann_t type variable.
  *	@param	inputList:	Array of Input array.
@@ -829,9 +829,9 @@ int rnn_training_gradient(ann_t ann, double** inputList, double** desireList, do
  *	@since	1.0.0
  */
 
-int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
+int rnn_training_gradient_custom(ann_t ann, float learningRate, float momentumCoef, float** inputList, float** desireList, float** outputList, float** errList, int timeStep, float gradLimit);
 /**
- *	@fn		int rnn_training_gradient_custom(ann_t ann, double learningRate, double momentumCoef, double** inputList, double** desireList, double** outputList, double** errList, int timeStep, double gradLimit);
+ *	@fn		int rnn_training_gradient_custom(ann_t ann, float learningRate, float momentumCoef, float** inputList, float** desireList, float** outputList, float** errList, int timeStep, float gradLimit);
  *	@brief	Processing recurrent neural network training.
  *	@param	ann:		Target ann_t type variable.
  *	@param	learningRate:	Custom learning rate.

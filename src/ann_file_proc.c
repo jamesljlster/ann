@@ -3,8 +3,8 @@
 #include <string.h>
 
 #include "ann.h"
-#include "ann_file_proc.h"
 #include "ann_file_header.h"
+#include "ann_file_proc.h"
 
 #ifdef DEBUG
 #undef DEBUG
@@ -14,523 +14,521 @@
 
 int ann_str_extract(char*** strListPtr, int* strCountPtr, char* src, char sepCh)
 {
-	int procIndex;
-	int finish;
-	int iResult;
-	int retValue = ANN_NO_ERROR;
+    int procIndex;
+    int finish;
+    int iResult;
+    int retValue = ANN_NO_ERROR;
 
-	char** strList = NULL;
-	int strCount = 0;
+    char** strList = NULL;
+    int strCount = 0;
 
-	void* allocTmp = NULL;
+    void* allocTmp = NULL;
 
-	struct ANN_STR tmpStr;
+    struct ANN_STR tmpStr;
 
-	LOG("enter");
+    LOG("enter");
 
-	// Zero memory
-	ann_str_zeromem(&tmpStr);
+    // Zero memory
+    ann_str_zeromem(&tmpStr);
 
-	// Assign values
-	*strListPtr = strList;
-	*strCountPtr = strCount;
+    // Assign values
+    *strListPtr = strList;
+    *strCountPtr = strCount;
 
-	procIndex = 0;
-	finish = 0;
-	while(finish == 0)
-	{
-		if(src[procIndex] == sepCh || src[procIndex] == '\0')
-		{
-			if(tmpStr.str != NULL)
-			{
-				allocTmp = realloc(strList, sizeof(char**) * (strCount + 1));
-				if(allocTmp == NULL)
-				{
-					retValue = ANN_NO_ERROR;
-					goto ERR;
-				}
-				else
-				{
-					strList = allocTmp;
-					strCount += 1;
-					allocTmp = NULL;
-				}
+    procIndex = 0;
+    finish = 0;
+    while (finish == 0)
+    {
+        if (src[procIndex] == sepCh || src[procIndex] == '\0')
+        {
+            if (tmpStr.str != NULL)
+            {
+                allocTmp = realloc(strList, sizeof(char**) * (strCount + 1));
+                if (allocTmp == NULL)
+                {
+                    retValue = ANN_NO_ERROR;
+                    goto ERR;
+                }
+                else
+                {
+                    strList = allocTmp;
+                    strCount += 1;
+                    allocTmp = NULL;
+                }
 
-				strList[strCount - 1] = tmpStr.str;
-				tmpStr.str = NULL;
-				tmpStr.size = 1;
+                strList[strCount - 1] = tmpStr.str;
+                tmpStr.str = NULL;
+                tmpStr.size = 1;
 
-				if(src[procIndex] == '\0')
-				{
-					finish = 1;
-				}
-			}
-		}
-		else
-		{
-			iResult = ann_str_append(&tmpStr, src[procIndex]);
-			if(iResult != ANN_NO_ERROR)
-			{
-				retValue = iResult;
-				goto ERR;
-			}
-		}
+                if (src[procIndex] == '\0')
+                {
+                    finish = 1;
+                }
+            }
+        }
+        else
+        {
+            iResult = ann_str_append(&tmpStr, src[procIndex]);
+            if (iResult != ANN_NO_ERROR)
+            {
+                retValue = iResult;
+                goto ERR;
+            }
+        }
 
-		procIndex++;
-	}
+        procIndex++;
+    }
 
-	// Assign values
-	*strListPtr = strList;
-	*strCountPtr = strCount;
+    // Assign values
+    *strListPtr = strList;
+    *strCountPtr = strCount;
 
-	goto RET;
+    goto RET;
 
 ERR:
-	if(strList != NULL)
-	{
-		for(procIndex = 0; procIndex < strCount; procIndex++)
-		{
-			if(strList[procIndex] != NULL)
-				free(strList[procIndex]);
-		}
-		free(strList);
-	}
+    if (strList != NULL)
+    {
+        for (procIndex = 0; procIndex < strCount; procIndex++)
+        {
+            if (strList[procIndex] != NULL) free(strList[procIndex]);
+        }
+        free(strList);
+    }
 
 RET:
-	ann_str_delete(&tmpStr);
+    ann_str_delete(&tmpStr);
 
-	LOG("exit");
+    LOG("exit");
 
-	return retValue;
+    return retValue;
 }
 
-struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr, int headerID)
+struct ANN_FILE_BLOCK* ann_find_fblock(struct ANN_FILE_STRUCT* fStructPtr,
+                                       int headerID)
 {
-	int i;
-	struct ANN_FILE_BLOCK* fptr = NULL;
+    int i;
+    struct ANN_FILE_BLOCK* fptr = NULL;
 
-	LOG("enter");
+    LOG("enter");
 
-	for(i = 0; i < fStructPtr->blockCount; i++)
-	{
-		if(ann_strcmp(fStructPtr->blockList[i].header, ann_file_header[headerID]) == 0)
-		{
-			fptr = &fStructPtr->blockList[i];
-			break;
-		}
-	}
+    for (i = 0; i < fStructPtr->blockCount; i++)
+    {
+        if (ann_strcmp(fStructPtr->blockList[i].header,
+                       ann_file_header[headerID]) == 0)
+        {
+            fptr = &fStructPtr->blockList[i];
+            break;
+        }
+    }
 
-	LOG("exit");
+    LOG("exit");
 
-	return fptr;
+    return fptr;
 }
 
 int ann_strcmp(char* src1, char* src2)
 {
-	int cmpLen;
-	int srcLen;
-	int retValue = 0;
+    int cmpLen;
+    int srcLen;
+    int retValue = 0;
 
-	LOG("enter");
+    LOG("enter");
 
-	cmpLen = strlen(src1);
-	srcLen = strlen(src2);
-	if(cmpLen != srcLen)
-	{
-		retValue = -1;
-	}
-	else
-	{
-		retValue = strncmp(src1, src2, cmpLen);
-	}
+    cmpLen = strlen(src1);
+    srcLen = strlen(src2);
+    if (cmpLen != srcLen)
+    {
+        retValue = -1;
+    }
+    else
+    {
+        retValue = strncmp(src1, src2, cmpLen);
+    }
 
-	LOG("exit");
+    LOG("exit");
 
-	return retValue;
+    return retValue;
 }
 
 int ann_fstruct_create(struct ANN_FILE_STRUCT* fStructPtr, const char* filePath)
 {
-	int retValue = ANN_NO_ERROR;
-	int iResult;
-	int headerReading = 0;
-	int fBlockIndex;
-	int tmpRead;
+    int retValue = ANN_NO_ERROR;
+    int iResult;
+    int headerReading = 0;
+    int fBlockIndex;
+    int tmpRead;
 
-	struct ANN_STR tmpStr;
-	struct ANN_FILE_BLOCK tmpBlock;
-	struct ANN_FILE_STRUCT tmpStruct;
+    struct ANN_STR tmpStr;
+    struct ANN_FILE_BLOCK tmpBlock;
+    struct ANN_FILE_STRUCT tmpStruct;
 
-	struct ANN_FILE_BLOCK* tmpBlockPtr = NULL;
+    struct ANN_FILE_BLOCK* tmpBlockPtr = NULL;
 
-	FILE* fileRead = NULL;
+    FILE* fileRead = NULL;
 
-	LOG("enter");
+    LOG("enter");
 
-	// Zero memory
-	ann_str_zeromem(&tmpStr);
-	ann_fstruct_zeromem(&tmpStruct);
-	ann_fblock_zeromem(&tmpBlock);
+    // Zero memory
+    ann_str_zeromem(&tmpStr);
+    ann_fstruct_zeromem(&tmpStruct);
+    ann_fblock_zeromem(&tmpBlock);
 
-	// Open file
-	fileRead = fopen(filePath, "rb");
-	if(fileRead == NULL)
-	{
-		retValue = ANN_FILE_FAILED;
-		goto RET;
-	}
+    // Open file
+    fileRead = fopen(filePath, "rb");
+    if (fileRead == NULL)
+    {
+        retValue = ANN_FILE_FAILED;
+        goto RET;
+    }
 
-	// Read file
-	fBlockIndex = -1;
-	while(!feof(fileRead))
-	{
-		tmpRead = ann_get_char(fileRead, READ_ALL);
-		if(ann_is_sigchar(tmpRead))
-		{
-			switch(tmpRead)
-			{
-				case ']':
-					if(headerReading == 1)
-					{
-						headerReading = 0;
-					}
-					else
-					{
-						retValue = ANN_SYNTAX_ERROR;
-						goto ERR;
-					}
+    // Read file
+    fBlockIndex = -1;
+    while (!feof(fileRead))
+    {
+        tmpRead = ann_get_char(fileRead, READ_ALL);
+        if (ann_is_sigchar(tmpRead))
+        {
+            switch (tmpRead)
+            {
+                case ']':
+                    if (headerReading == 1)
+                    {
+                        headerReading = 0;
+                    }
+                    else
+                    {
+                        retValue = ANN_SYNTAX_ERROR;
+                        goto ERR;
+                    }
 
-					if(tmpBlockPtr != NULL)
-					{
-						tmpBlockPtr->header = tmpStr.str;
-					}
-					else
-					{
-						retValue = ANN_SYNTAX_ERROR;
-						goto ERR;
-					}
+                    if (tmpBlockPtr != NULL)
+                    {
+                        tmpBlockPtr->header = tmpStr.str;
+                    }
+                    else
+                    {
+                        retValue = ANN_SYNTAX_ERROR;
+                        goto ERR;
+                    }
 
-					tmpStr.str = NULL;
-					tmpStr.size = 1;
-					break;
+                    tmpStr.str = NULL;
+                    tmpStr.size = 1;
+                    break;
 
-				case '[':
-					if(headerReading == 1)
-					{
-						retValue = ANN_SYNTAX_ERROR;
-						goto ERR;
-					}
-					else
-					{
-						headerReading = 1;
-					}
+                case '[':
+                    if (headerReading == 1)
+                    {
+                        retValue = ANN_SYNTAX_ERROR;
+                        goto ERR;
+                    }
+                    else
+                    {
+                        headerReading = 1;
+                    }
 
-					iResult = ann_fstruct_append(&tmpStruct, &tmpBlock);
-					if(iResult != ANN_NO_ERROR)
-					{
-						retValue = iResult;
-						goto ERR;
-					}
+                    iResult = ann_fstruct_append(&tmpStruct, &tmpBlock);
+                    if (iResult != ANN_NO_ERROR)
+                    {
+                        retValue = iResult;
+                        goto ERR;
+                    }
 
-					fBlockIndex++;
-					tmpBlockPtr = &tmpStruct.blockList[fBlockIndex];
-					break;
+                    fBlockIndex++;
+                    tmpBlockPtr = &tmpStruct.blockList[fBlockIndex];
+                    break;
 
-				default:
-					iResult = ann_str_append(&tmpStr, tmpRead);
-					if(iResult != ANN_NO_ERROR)
-					{
-						retValue = iResult;
-						goto ERR;
-					}
-			}
-		}
-		else
-		{
-			if(tmpStr.size > 1 && tmpBlockPtr != NULL)
-			{
-				iResult = ann_fblock_append(tmpBlockPtr, &tmpStr.str);
-				if(iResult != ANN_NO_ERROR)
-				{
-					retValue = iResult;
-					goto ERR;
-				}
+                default:
+                    iResult = ann_str_append(&tmpStr, tmpRead);
+                    if (iResult != ANN_NO_ERROR)
+                    {
+                        retValue = iResult;
+                        goto ERR;
+                    }
+            }
+        }
+        else
+        {
+            if (tmpStr.size > 1 && tmpBlockPtr != NULL)
+            {
+                iResult = ann_fblock_append(tmpBlockPtr, &tmpStr.str);
+                if (iResult != ANN_NO_ERROR)
+                {
+                    retValue = iResult;
+                    goto ERR;
+                }
 
-				tmpStr.size = 1;
-			}
-		}
-	}
+                tmpStr.size = 1;
+            }
+        }
+    }
 
-	// Checking
-	if(headerReading == 1)
-	{
-		retValue = ANN_SYNTAX_ERROR;
-		goto ERR;
-	}
+    // Checking
+    if (headerReading == 1)
+    {
+        retValue = ANN_SYNTAX_ERROR;
+        goto ERR;
+    }
 
-	// Assign value
-	*fStructPtr = tmpStruct;
+    // Assign value
+    *fStructPtr = tmpStruct;
 
-	goto RET;
+    goto RET;
 
 ERR:
-	ann_fstruct_delete(&tmpStruct);
+    ann_fstruct_delete(&tmpStruct);
 
 RET:
-	ann_fblock_delete(&tmpBlock);
-	ann_str_delete(&tmpStr);
+    ann_fblock_delete(&tmpBlock);
+    ann_str_delete(&tmpStr);
 
-	if(fileRead != NULL)
-		fclose(fileRead);
+    if (fileRead != NULL) fclose(fileRead);
 
-	LOG("exit");
-	return retValue;
+    LOG("exit");
+    return retValue;
 }
 
 void ann_fstruct_print(struct ANN_FILE_STRUCT* fStructPtr)
 {
-	int i;
+    int i;
 
-	LOG("enter");
+    LOG("enter");
 
-	for(i = 0; i < fStructPtr->blockCount; i++)
-	{
-		ann_fblock_print(&fStructPtr->blockList[i]);
-	}
+    for (i = 0; i < fStructPtr->blockCount; i++)
+    {
+        ann_fblock_print(&fStructPtr->blockList[i]);
+    }
 
-	LOG("exit");
+    LOG("exit");
 }
 
 void ann_fblock_print(struct ANN_FILE_BLOCK* fBlockPtr)
 {
-	int i;
+    int i;
 
-	LOG("enter");
+    LOG("enter");
 
-	printf("[ %s ]\n", fBlockPtr->header);
-	for(i = 0; i < fBlockPtr->strCount; i++)
-	{
-		printf("%s\n", fBlockPtr->strList[i]);
-	}
-	printf("\n");
+    printf("[ %s ]\n", fBlockPtr->header);
+    for (i = 0; i < fBlockPtr->strCount; i++)
+    {
+        printf("%s\n", fBlockPtr->strList[i]);
+    }
+    printf("\n");
 
-	LOG("exit");
+    LOG("exit");
 }
 
 void ann_fblock_zeromem(struct ANN_FILE_BLOCK* fBlockPtr)
 {
-	LOG("enter");
+    LOG("enter");
 
-	fBlockPtr->header = NULL;
-	fBlockPtr->strCount = 0;
-	fBlockPtr->strList = NULL;
+    fBlockPtr->header = NULL;
+    fBlockPtr->strCount = 0;
+    fBlockPtr->strList = NULL;
 
-	LOG("exit");
+    LOG("exit");
 }
 
 void ann_fblock_delete(struct ANN_FILE_BLOCK* fBlockPtr)
 {
-	int i;
+    int i;
 
-	LOG("enter");
+    LOG("enter");
 
-	if(fBlockPtr->strList != NULL)
-	{
-		for(i = 0; i < fBlockPtr->strCount; i++)
-		{
-			free(fBlockPtr->strList[i]);
-		}
-		free(fBlockPtr->strList);
+    if (fBlockPtr->strList != NULL)
+    {
+        for (i = 0; i < fBlockPtr->strCount; i++)
+        {
+            free(fBlockPtr->strList[i]);
+        }
+        free(fBlockPtr->strList);
 
-		fBlockPtr->strList = NULL;
-	}
-	fBlockPtr->strCount = 0;
+        fBlockPtr->strList = NULL;
+    }
+    fBlockPtr->strCount = 0;
 
-	if(fBlockPtr->header != NULL)
-	{
-		free(fBlockPtr->header);
-		fBlockPtr->header = NULL;
-	}
+    if (fBlockPtr->header != NULL)
+    {
+        free(fBlockPtr->header);
+        fBlockPtr->header = NULL;
+    }
 
-	LOG("exit");
+    LOG("exit");
 }
 
 int ann_fblock_append(struct ANN_FILE_BLOCK* dst, char** srcPtr)
 {
-	void* allocTmp = NULL;
+    void* allocTmp = NULL;
 
-	allocTmp = realloc(dst->strList, sizeof(char*) * (dst->strCount + 1));
-	if(allocTmp == NULL)
-	{
-		LOG("exit");
-		return ANN_MEM_FAILED;
-	}
-	else
-	{
-		dst->strList = allocTmp;
-		dst->strCount++;
+    allocTmp = realloc(dst->strList, sizeof(char*) * (dst->strCount + 1));
+    if (allocTmp == NULL)
+    {
+        LOG("exit");
+        return ANN_MEM_FAILED;
+    }
+    else
+    {
+        dst->strList = allocTmp;
+        dst->strCount++;
 
-		dst->strList[dst->strCount - 1] = *srcPtr;
-		*srcPtr = NULL;
-	}
+        dst->strList[dst->strCount - 1] = *srcPtr;
+        *srcPtr = NULL;
+    }
 
-	return ANN_NO_ERROR;
+    return ANN_NO_ERROR;
 }
 
 void ann_fstruct_zeromem(struct ANN_FILE_STRUCT* fStructPtr)
 {
-	fStructPtr->blockCount = 0;
-	fStructPtr->blockList = NULL;
+    fStructPtr->blockCount = 0;
+    fStructPtr->blockList = NULL;
 }
 
 int ann_fstruct_append(struct ANN_FILE_STRUCT* dst, struct ANN_FILE_BLOCK* src)
 {
-	void* allocTmp = NULL;
+    void* allocTmp = NULL;
 
-	LOG("enter");
+    LOG("enter");
 
-	allocTmp = realloc(dst->blockList, sizeof(struct ANN_FILE_BLOCK) * (dst->blockCount + 1));
-	if(allocTmp == NULL)
-	{
-		LOG("exit");
-		return ANN_MEM_FAILED;
-	}
-	else
-	{
-		dst->blockList = allocTmp;
-		dst->blockCount++;
+    allocTmp = realloc(dst->blockList,
+                       sizeof(struct ANN_FILE_BLOCK) * (dst->blockCount + 1));
+    if (allocTmp == NULL)
+    {
+        LOG("exit");
+        return ANN_MEM_FAILED;
+    }
+    else
+    {
+        dst->blockList = allocTmp;
+        dst->blockCount++;
 
-		dst->blockList[dst->blockCount - 1].header = src->header;
-		dst->blockList[dst->blockCount - 1].strCount = src->strCount;
-		dst->blockList[dst->blockCount - 1].strList = src->strList;
+        dst->blockList[dst->blockCount - 1].header = src->header;
+        dst->blockList[dst->blockCount - 1].strCount = src->strCount;
+        dst->blockList[dst->blockCount - 1].strList = src->strList;
 
-		src->header = NULL;
-		src->strCount = 0;
-		src->strList = NULL;
-	}
+        src->header = NULL;
+        src->strCount = 0;
+        src->strList = NULL;
+    }
 
-	LOG("exit");
-	return ANN_NO_ERROR;
+    LOG("exit");
+    return ANN_NO_ERROR;
 }
 
 void ann_fstruct_delete(struct ANN_FILE_STRUCT* fStructPtr)
 {
-	int i;
+    int i;
 
-	LOG("enter");
+    LOG("enter");
 
-	if(fStructPtr->blockList != NULL)
-	{
-		for(i = 0; i < fStructPtr->blockCount; i++)
-		{
-			ann_fblock_delete(&(fStructPtr->blockList[i]));
-		}
-		free(fStructPtr->blockList);
+    if (fStructPtr->blockList != NULL)
+    {
+        for (i = 0; i < fStructPtr->blockCount; i++)
+        {
+            ann_fblock_delete(&(fStructPtr->blockList[i]));
+        }
+        free(fStructPtr->blockList);
 
-		fStructPtr->blockList = NULL;
-	}
+        fStructPtr->blockList = NULL;
+    }
 
-	fStructPtr->blockCount = 0;
+    fStructPtr->blockCount = 0;
 
-	LOG("exit");
+    LOG("exit");
 }
 
 int ann_is_sigchar(char ch)
 {
-	int retValue = 0;
+    int retValue = 0;
 
-	LOG("enter");
+    LOG("enter");
 
-	if(ch >= ASCII_MIN_SIG && ch <= ASCII_MAX_SIG)
-		retValue = 1;
+    if (ch >= ASCII_MIN_SIG && ch <= ASCII_MAX_SIG) retValue = 1;
 
-	LOG("exit");
+    LOG("exit");
 
-	return retValue;
+    return retValue;
 }
 
 int ann_get_char(FILE* fileRead, int readAction)
 {
-	int iResult;
-	int readCount;
-	char tmpRead;
+    int iResult;
+    int readCount;
+    char tmpRead;
 
-	LOG("enter");
+    LOG("enter");
 
-	// Read a character
-	readCount = 1;
-	iResult = fread(&tmpRead, sizeof(char), readCount, fileRead);
-	if(iResult != readCount)
-	{
-		goto ERR;
-	}
+    // Read a character
+    readCount = 1;
+    iResult = fread(&tmpRead, sizeof(char), readCount, fileRead);
+    if (iResult != readCount)
+    {
+        goto ERR;
+    }
 
-	if(readAction == READ_ALL)
-	{
-		goto RET;
-	}
+    if (readAction == READ_ALL)
+    {
+        goto RET;
+    }
 
-	// Determint if character is signaficant
-	if(ann_is_sigchar(tmpRead))
-		goto RET;
+    // Determint if character is signaficant
+    if (ann_is_sigchar(tmpRead)) goto RET;
 
 ERR:
-	LOG("exit");
-	return -1;
+    LOG("exit");
+    return -1;
 
 RET:
-	LOG("exit");
-	return tmpRead;
+    LOG("exit");
+    return tmpRead;
 }
 
 void ann_str_zeromem(struct ANN_STR* strPtr)
 {
-	LOG("enter");
+    LOG("enter");
 
-	strPtr->size = 1;
-	strPtr->str = NULL;
+    strPtr->size = 1;
+    strPtr->str = NULL;
 
-	LOG("exit");
+    LOG("exit");
 }
 
 int ann_str_append(struct ANN_STR* strPtr, char ch)
 {
-	void* allocTmp = NULL;
+    void* allocTmp = NULL;
 
-	LOG("enter");
+    LOG("enter");
 
-	allocTmp = realloc(strPtr->str, sizeof(char) * (strPtr->size + 1));
-	if(allocTmp == NULL)
-	{
-		LOG("exit");
-		return ANN_MEM_FAILED;
-	}
-	else
-	{
-		strPtr->str = allocTmp;
-		strPtr->size++;
+    allocTmp = realloc(strPtr->str, sizeof(char) * (strPtr->size + 1));
+    if (allocTmp == NULL)
+    {
+        LOG("exit");
+        return ANN_MEM_FAILED;
+    }
+    else
+    {
+        strPtr->str = allocTmp;
+        strPtr->size++;
 
-		strPtr->str[strPtr->size - 1] = '\0';
-		strPtr->str[strPtr->size - 2] = ch;
-	}
+        strPtr->str[strPtr->size - 1] = '\0';
+        strPtr->str[strPtr->size - 2] = ch;
+    }
 
-	LOG("exit");
+    LOG("exit");
 
-	return ANN_NO_ERROR;
+    return ANN_NO_ERROR;
 }
 
 void ann_str_delete(struct ANN_STR* strPtr)
 {
-	LOG("enter");
+    LOG("enter");
 
-	if(strPtr->str != NULL)
-	{
-		free(strPtr->str);
-		strPtr->str = NULL;
-	}
+    if (strPtr->str != NULL)
+    {
+        free(strPtr->str);
+        strPtr->str = NULL;
+    }
 
-	strPtr->size = 0;
+    strPtr->size = 0;
 
-	LOG("exit");
+    LOG("exit");
 }
-
